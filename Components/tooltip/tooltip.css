@@ -1,0 +1,108 @@
+/* ============================================================
+   Grep UI — Tooltip
+   Source: Figma "Tooltip Base" (6035:109682) — type × arrow placement,
+   all 21 combinations read.
+
+   Figma's note on every variant: "Tail position: adjust top/bottom padding",
+   and on No Arrow: "Use the No Arrow variant when there isn't enough vertical
+   spacing to use a Top or Bottom variant."
+   ============================================================ */
+
+.grep-tooltip {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  padding: var(--space-6) var(--space-8);
+  border-radius: var(--space-8);        /* Figma binds the radius to Spacing/space-8 */
+  background: var(--background-component);
+  /* Hairline as an inset ring, as everywhere else — an inset shadow doesn't
+     change the silhouette, so the filter below is unaffected, and a real
+     0.5px border would round to 1px and push the tail off by a pixel. */
+  box-shadow: inset 0 0 0 var(--border-width-0-5) var(--border-base);
+  /* Elevation as a drop-shadow FILTER, not box-shadow: it has to trace the
+     silhouette INCLUDING the tail, which sticks out of the box. Read as
+     Grep UI/Card/base, expressed the way Figma expresses it here. */
+  filter:
+    drop-shadow(0 1px 1px var(--shadow-ink-8))
+    drop-shadow(0 2px 2px var(--shadow-ink-4));
+
+  font-family: var(--text-style-body), system-ui, sans-serif;
+}
+
+/* ---------- content: a sentence ---------- */
+
+.grep-tooltip__text {
+  margin: 0;
+  font-size: var(--text-sm);                /* 12 — para-sm-reg */
+  font-weight: var(--text-weight-regular);
+  line-height: 1.4;
+  color: var(--foreground-text-subtle);
+}
+
+/* ---------- content: a keyboard shortcut ---------- */
+/* Label on the left, keys on the right. */
+
+.grep-tooltip__shortcut {
+  display: flex;
+  align-items: center;
+  gap: var(--space-8);
+}
+
+.grep-tooltip__shortcut-label {
+  font-size: var(--text-sm);                /* 12 */
+  font-weight: var(--text-weight-regular);
+  line-height: var(--space-16);
+  color: var(--foreground-text-subtle);
+  white-space: nowrap;
+}
+
+/* Keys sit 3 apart here. The Item Row reads 4 for the same group — see
+   CONTRADICTIONS. */
+.grep-tooltip__keys {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+/* ---------- content: breadcrumbs ---------- */
+/* The trail is Breadcrumbs in its Simplified type, which Figma says is
+   "only used in tooltip applications". Nothing to restyle. */
+
+/* ---------- tail ---------- */
+/* A 28 × 7.672 box holding the 7.672 × 28 tail, rotated. The shape is
+   symmetric, so one asset serves every placement. */
+
+.grep-tooltip__tail {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--space-28);
+  height: 7.672px;
+  pointer-events: none;
+}
+
+.grep-tooltip__tail-svg {
+  width: 7.672px;
+  height: var(--space-28);
+  display: block;
+}
+
+.grep-tooltip__tail-edge { fill: var(--border-base); }
+.grep-tooltip__tail-fill { fill: var(--background-component); }
+
+/* ---------- tail placement ---------- */
+/* Two axes: which edge it leaves from, and where along that edge. The side
+   offsets are NOT symmetric — 12 from the left, 8 from the right. */
+
+.grep-tooltip--top    .grep-tooltip__tail { top: -7.672px; }
+.grep-tooltip--bottom .grep-tooltip__tail { bottom: -7.672px; }
+
+.grep-tooltip--top    .grep-tooltip__tail-svg { transform: rotate(-90deg); }
+.grep-tooltip--bottom .grep-tooltip__tail-svg { transform: rotate(90deg); }
+
+.grep-tooltip--left   .grep-tooltip__tail { left: var(--space-12); }
+.grep-tooltip--right  .grep-tooltip__tail { right: var(--space-8); }
+.grep-tooltip--middle .grep-tooltip__tail { left: 50%; transform: translateX(-50%); }

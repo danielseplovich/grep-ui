@@ -1,0 +1,222 @@
+/* ============================================================
+   Grep UI — Input
+   Source: Figma — eight input types, all at Size=Base (28), State=Empty:
+     text 6501:116061 · password 6626:68809 · number 4648:25118
+     checkbox 3647:154728 · rating 4485:77869 · currency 4648:24546
+     date 4648:26279 · time 6410:50104
+   Plus Size=LG (32), State=Hover (6665:41707).
+   They are ONE field with different contents, not eight components.
+   ============================================================ */
+
+.grep-input {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: var(--space-10);
+  width: 100%;
+}
+
+/* ---------- label ---------- */
+
+.grep-input__label {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--space-2);
+}
+
+.grep-input__label-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-6);
+  height: var(--space-16);
+
+  font-family: var(--text-style-body), system-ui, sans-serif;
+  font-size: var(--text-base);
+  font-weight: var(--text-weight-medium);   /* 440 — label-base-medium */
+  line-height: var(--text-base);
+  color: var(--foreground-text-base);
+}
+
+.grep-input__label-icon {
+  flex-shrink: 0;
+  width: var(--space-14);
+  height: var(--space-14);
+  color: var(--foreground-icon-base);
+}
+
+.grep-input__sublabel {
+  margin: 0;
+  font-family: var(--text-style-body), system-ui, sans-serif;
+  font-size: var(--text-base);
+  font-weight: var(--text-weight-regular);  /* 400 — para-base-reg */
+  line-height: 1.4;
+  color: var(--foreground-text-dim);
+}
+
+/* ---------- field container ---------- */
+
+.grep-input__field-container {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: var(--space-8);
+}
+
+.grep-input__field {
+  --_ring: var(--border-base);
+  --_ring-w: 0.5px;
+
+  display: flex;
+  align-items: center;
+  gap: 0;
+  box-sizing: border-box;
+  height: var(--_h, var(--space-28));
+  width: 100%;
+  overflow: clip;
+  border-radius: var(--radius-6);
+  background: var(--background-field);
+  /* Hairline as an inset ring so the 28px height and the flush addons stay
+     exact. See DESIGN.md > Borders. */
+  box-shadow: inset 0 0 0 var(--_ring-w) var(--_ring), var(--elevation-input);
+}
+
+/* ---------- sizes ---------- */
+/* Two sizes. Only the field height, its horizontal padding and the addon
+   button square change — radius, gaps and type stay put. */
+
+.grep-input                   { --_h: var(--space-28); --_pad-x: var(--space-8);  --_btn: var(--space-28); }
+.grep-input--32               { --_h: var(--space-32); --_pad-x: var(--space-10); --_btn: var(--space-32); }
+
+/* ---------- the text cell ---------- */
+
+.grep-input__control {
+  flex: 1 0 0;
+  min-width: 0;
+  align-self: stretch;
+  display: flex;
+  align-items: center;
+  padding: 0 var(--_pad-x, var(--space-8));
+  border: 0;
+  background: none;
+  outline: none;
+
+  font-family: var(--text-style-body), system-ui, sans-serif;
+  font-size: var(--text-base);
+  font-weight: var(--text-weight-medium);   /* 440 — para-base-med */
+  line-height: 1.4;
+  color: var(--foreground-text-base);
+}
+
+.grep-input__control::placeholder { color: var(--foreground-text-faint); }
+
+/* ---------- addons ---------- */
+/* A leading or trailing group flush to the field edge. Each addon is
+   separated from the field by a 1px border-subtle rule — a section divider
+   inside a component, per RULES.md > Line weights. */
+
+.grep-input__addon {
+  display: flex;
+  align-items: center;
+  align-self: stretch;
+  flex-shrink: 0;
+}
+
+.grep-input__rule {
+  align-self: stretch;
+  width: 1px;
+  flex-shrink: 0;
+  background: var(--border-subtle);
+}
+
+/* A 28-square button cell inside the field. */
+.grep-input__button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: var(--_btn, var(--space-28));
+  height: var(--_btn, var(--space-28));
+  padding: 0;
+  border: 0;
+  background: none;
+  border-radius: var(--radius-6);
+  color: var(--foreground-icon-base);
+  cursor: pointer;
+}
+
+.grep-input__button svg { width: var(--space-14); height: var(--space-14); display: block; }
+
+/* A unit label — currency code, timezone. Mono, not body. */
+.grep-input__unit {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  height: var(--_btn, var(--space-28));
+  padding: 0 var(--space-10);
+  min-width: var(--space-44);
+
+  font-family: var(--text-style-code), ui-monospace, monospace;
+  font-size: var(--text-base);
+  font-weight: var(--text-weight-regular);  /* 400 — code-label-base-reg */
+  line-height: var(--text-base);
+  color: var(--foreground-text-dim);
+}
+
+/* ---------- stacked number steppers ---------- */
+/* The number field has two button cells, each preceded by its own rule. */
+
+.grep-input__addon--steppers { display: flex; }
+
+/* ---------- control-only fields ---------- */
+/* Checkbox and rating put a control in the field instead of text. */
+
+.grep-input__inset {
+  display: flex;
+  align-items: center;
+  align-self: stretch;
+  padding: 0 var(--_pad-x, var(--space-8));
+  flex: 1 0 0;
+  min-width: 0;
+}
+
+/* ---------- help text ---------- */
+
+.grep-input__help {
+  margin: 0;
+  font-family: var(--text-style-body), system-ui, sans-serif;
+  font-size: var(--text-sm);                /* 12 — para-sm-reg */
+  font-weight: var(--text-weight-regular);
+  line-height: 1.4;
+  color: var(--foreground-text-dim);
+}
+
+/* ---------- states ---------- */
+/* Empty, hover, filled, focused and error are all read from Figma — focus
+   and error come from the named Input/focus and Input/focus-danger effect
+   styles. Only disabled is still precedent. */
+
+/* Hover thickens the hairline to 1px, same colour — the system's hover
+   border width. Read from 6665:41707. */
+.grep-input__field:hover,
+.grep-input[data-state="hover"] .grep-input__field { --_ring-w: 1px; }
+
+/* Filled is just content: the value uses text-base where the placeholder
+   uses text-faint. Nothing to set. */
+
+.grep-input__field:focus-within,
+.grep-input[data-state="focused"] .grep-input__field {
+  box-shadow: inset 0 0 0 var(--_ring-w) var(--_ring), var(--elevation-input-focus);
+}
+
+.grep-input--error .grep-input__field {
+  --_ring: var(--border-danger);
+  box-shadow: inset 0 0 0 var(--_ring-w) var(--_ring), var(--elevation-input-focus-danger);
+}
+.grep-input--error .grep-input__help  { color: var(--foreground-danger); }
+
+.grep-input--disabled {
+  opacity: var(--opacity-disabled);
+  pointer-events: none;
+}

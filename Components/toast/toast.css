@@ -1,0 +1,157 @@
+/* ============================================================
+   Grep UI — Toast
+   Source: Figma "Toast Base" (1844:50651) — type × style × 2nd button,
+   all 15 combinations read.
+   Two Figma annotations are followed here:
+     · "Top padding is 14 px and bottom padding of 16 px for all variants"
+     · "16 px sizing for this icon even though our base icons are typically 14 px"
+   ============================================================ */
+
+.grep-toast {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-16);
+  box-sizing: border-box;
+  width: 380px;
+  min-width: 380px;
+  /* 14 top, 14 sides, 16 bottom — the asymmetry is annotated in Figma. */
+  padding: var(--space-14) var(--space-14) var(--space-16);
+  border-radius: var(--radius-10);
+  background: var(--background-component);
+  /* Hairline as an inset ring so the padding box stays exact.
+     See DESIGN.md > Borders. */
+  box-shadow: inset 0 0 0 var(--border-width-0-5) var(--border-base), var(--elevation-card);
+  overflow: clip;
+
+  font-family: var(--text-style-body), system-ui, sans-serif;
+}
+
+/* ---------- message row ---------- */
+
+.grep-toast__main {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-24);
+  width: 100%;
+}
+
+.grep-toast__content {
+  display: flex;
+  flex: 1 0 0;
+  min-width: 0;
+  align-items: flex-start;
+  gap: var(--space-12);
+}
+
+/* 16, not the system's usual 14 — annotated in Figma. */
+.grep-toast__icon {
+  flex-shrink: 0;
+  width: var(--space-16);
+  height: var(--space-16);
+  display: block;
+}
+
+/* Two of the status glyphs overflow their 16 box: the triangle is wider and
+   the hexagon taller. Both keep the 16 box and let the leaf bleed. */
+.grep-toast__icon--triangle { width: 17.56px; margin: 0 -0.78px; }
+.grep-toast__icon--hexagon  { height: 17.38px; margin: -0.69px 0; }
+
+.grep-toast__text {
+  display: flex;
+  flex: 1 0 0;
+  min-width: 0;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: var(--space-2);
+  min-height: var(--space-36);
+}
+
+.grep-toast__label {
+  display: flex;
+  align-items: center;
+  gap: var(--space-6);
+  height: var(--space-16);
+  width: 100%;
+
+  font-size: var(--text-base);
+  font-weight: var(--text-weight-bold);     /* 500 — label-base-bold */
+  line-height: var(--text-base);
+  color: var(--foreground-text-base);
+}
+
+.grep-toast__message {
+  margin: 0;
+  font-size: var(--text-base);
+  font-weight: var(--text-weight-regular);  /* 400 — para-base-reg */
+  line-height: 1.4;
+  color: var(--foreground-text-subtle);
+}
+
+/* ---------- close ---------- */
+/* A ghost Icon Button at 16 — no fill, border or shadow in Figma. Its glyph
+   reads 0.36, which is a TEXT token: `foreground-icon-faint` is 0.32. Same
+   slip as the tab icon — see CONTRADICTIONS. */
+
+.grep-toast__close { color: var(--foreground-text-faint); }
+
+/* ---------- actions ---------- */
+/* Indented 28 so they line up with the label, not the icon: 16 icon + 12 gap. */
+
+.grep-toast__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-12);
+  width: 100%;
+  padding: 0 var(--space-28);
+}
+
+/* Links sit at the top of their row rather than centred. */
+.grep-toast__actions--links { align-items: flex-start; }
+
+.grep-toast__link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-6);
+  height: var(--space-16);
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+
+  font-family: inherit;
+  font-size: var(--text-base);
+  font-weight: var(--text-weight-bold);     /* 500 */
+  line-height: var(--text-base);
+  color: var(--foreground-text-dim);
+}
+
+/* ---------- spinner ---------- */
+/* The Icon type carries a 16 Loading-Circle-Dash. Its 12 segments are uniform
+   in Figma; the opacity ramp and the stepped rotation are motion, which Figma
+   doesn't specify. (inferred — matches Button's spinner) */
+
+.grep-toast__spinner {
+  color: var(--foreground-icon-subtle);
+  animation: grep-toast-spin 0.9s steps(12, end) infinite;
+}
+
+.grep-toast__spinner path:nth-child(1)  { opacity: 1.00; }
+.grep-toast__spinner path:nth-child(2)  { opacity: 0.92; }
+.grep-toast__spinner path:nth-child(3)  { opacity: 0.84; }
+.grep-toast__spinner path:nth-child(4)  { opacity: 0.76; }
+.grep-toast__spinner path:nth-child(5)  { opacity: 0.68; }
+.grep-toast__spinner path:nth-child(6)  { opacity: 0.60; }
+.grep-toast__spinner path:nth-child(7)  { opacity: 0.52; }
+.grep-toast__spinner path:nth-child(8)  { opacity: 0.44; }
+.grep-toast__spinner path:nth-child(9)  { opacity: 0.36; }
+.grep-toast__spinner path:nth-child(10) { opacity: 0.28; }
+.grep-toast__spinner path:nth-child(11) { opacity: 0.20; }
+.grep-toast__spinner path:nth-child(12) { opacity: 0.12; }
+
+@keyframes grep-toast-spin { to { transform: rotate(360deg); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .grep-toast__spinner { animation-duration: 2.7s; }
+}

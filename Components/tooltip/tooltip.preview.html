@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Grep prototype</title>
+
+<link rel="preconnect" href="https://rsms.me/">
+<link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="../../grepmd/grep-ui.css">
+
+<style>
+  html {
+    font-family: var(--text-style-body), system-ui, sans-serif;
+    font-size: var(--text-base);
+    font-weight: var(--text-weight-regular);
+    color: var(--foreground-text-base);
+    background: var(--background-canvas);
+    -webkit-font-smoothing: antialiased;
+  }
+  body { margin: 0; }
+  h1, h2, h3 {
+    font-family: var(--text-style-display), var(--text-style-body), sans-serif;
+    font-weight: var(--text-weight-bold);
+  }
+  code, kbd, pre { font-family: var(--text-style-code), ui-monospace, monospace; }
+  body { padding: var(--space-32); }
+  .modes { display:flex; flex-direction:column; gap: var(--space-24); }
+  .mode { padding: var(--space-32); border-radius: var(--radius-12);
+          border:0.5px solid var(--border-base); background: var(--background-canvas); }
+  h2 { font-size: var(--text-sm); font-weight: var(--text-weight-medium); color: var(--foreground-text-dim);
+       margin:0 0 var(--space-20); text-transform:uppercase; letter-spacing:0.04em; }
+  .grid { display:grid; grid-template-columns: repeat(3, max-content); gap: var(--space-32) var(--space-40); }
+  .cell { display:flex; flex-direction:column; gap: var(--space-12); align-items:flex-start; }
+  code { font-family: var(--text-style-code), monospace; font-size: var(--text-2xs); color: var(--foreground-text-faint); }
+</style>
+</head>
+<body>
+
+  
+  <div class="modes"><div class="mode"><h2>Light</h2><div id="l"></div></div>
+  <div class="mode" data-theme="dark"><h2>Dark</h2><div id="d"></div></div></div>
+<script>
+const A={"tail": "<svg class=\"grep-tooltip__tail-svg\" aria-hidden=\"true\" width=\"7.6716\" height=\"28\" viewBox=\"0 0 7.6716 28\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><g id=\"Tail\"><g id=\"Fill (Stroke)\"><path fill-rule=\"evenodd\" clip-rule=\"evenodd\" d=\"M0.500024 22.529C0.680261 22.0435 0.907491 21.5758 1.1789 21.1329C1.67364 20.3256 2.36544 19.6338 3.74906 18.2502L6.58581 15.4134C7.36686 14.6324 7.36686 13.366 6.58581 12.585L3.74906 9.74823C2.36544 8.36462 1.67364 7.67281 1.1789 6.86548C0.90749 6.42257 0.68026 5.95494 0.500024 5.46937C0.38898 5.17021 0.295775 4.86425 0.221064 4.55305C2.34226e-05 3.63235 2.34375e-05 2.65399 2.34375e-05 0.697266V27.3011C2.34375e-05 25.3444 2.34226e-05 24.366 0.221065 23.4453C0.295776 23.1342 0.388981 22.8282 0.500024 22.529Z\" class=\"grep-tooltip__tail-edge\"/><path d=\"M0.707249 4.43633C0.503237 3.58656 0.500024 2.67779 0.500023 0.697266H2.34375e-05C2.34375e-05 2.65399 2.34226e-05 3.63235 0.221064 4.55305C0.295775 4.86425 0.38898 5.17021 0.500024 5.46937C0.68026 5.95494 0.90749 6.42257 1.1789 6.86548C1.67364 7.67281 2.36544 8.36462 3.74906 9.74823L6.58581 12.585C7.36686 13.366 7.36686 14.6324 6.58581 15.4134L3.74906 18.2502C2.36544 19.6338 1.67364 20.3256 1.1789 21.1329C0.907491 21.5758 0.680261 22.0435 0.500024 22.529C0.388981 22.8282 0.295776 23.1342 0.221065 23.4453C2.34226e-05 24.366 2.34375e-05 25.3444 2.34375e-05 27.3011H0.500025C0.500025 25.3206 0.503238 24.4118 0.70725 23.5621C0.890976 22.7968 1.19401 22.0652 1.60522 21.3942C2.06184 20.649 2.70217 20.0042 4.10261 18.6037L6.93936 15.767C7.91567 14.7907 7.91568 13.2077 6.93937 12.2314L4.10261 9.39468C2.70217 7.99424 2.06184 7.34937 1.60522 6.60423C1.19401 5.93319 0.890975 5.2016 0.707249 4.43633Z\" class=\"grep-tooltip__tail-edge\"/></g><path id=\"Fill\" d=\"M6.58579 15.4142L3.74903 18.251C2.36542 19.6346 1.67361 20.3264 1.17888 21.1337C0.74025 21.8495 0.417016 22.6299 0.221042 23.4461C1.07288e-06 24.3668 1.10787e-06 25.3452 1.19341e-06 27.3019L3.05134e-08 0.698067C1.16045e-07 2.65479 1.49012e-07 3.63316 0.221041 4.55386C0.417015 5.37015 0.740249 6.1505 1.17888 6.86628C1.67361 7.67361 2.36542 8.36542 3.74904 9.74903L6.58579 12.5858C7.36684 13.3668 7.36684 14.6332 6.58579 15.4142Z\" class=\"grep-tooltip__tail-fill\"/></g></svg>", "cmd": "<svg class=\"grep-kbd__icon\" aria-hidden=\"true\" width=\"16\" height=\"16\" viewBox=\"0 0 16 16\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><g id=\"Keyboard Icons\"><path id=\"Icon\" d=\"M5.74148 11.7885C5.45976 11.7885 5.20171 11.72 4.96733 11.5831C4.73296 11.4438 4.54593 11.2574 4.40625 11.0237C4.26894 10.79 4.20029 10.5327 4.20029 10.2518C4.20029 9.96858 4.26894 9.71012 4.40625 9.47643C4.54593 9.24275 4.73296 9.05628 4.96733 8.91701C5.20171 8.77775 5.45976 8.70812 5.74148 8.70812H6.56534V7.28478H5.74148C5.45976 7.28478 5.20171 7.21633 4.96733 7.07942C4.73296 6.94016 4.54593 6.75486 4.40625 6.52354C4.26894 6.28986 4.20029 6.03139 4.20029 5.74814C4.20029 5.46489 4.26894 5.2076 4.40625 4.97628C4.54593 4.7426 4.73296 4.55731 4.96733 4.4204C5.20171 4.28114 5.45976 4.2115 5.74148 4.2115C6.02557 4.2115 6.2848 4.28114 6.51918 4.4204C6.75355 4.55731 6.94058 4.7426 7.08026 4.97628C7.21994 5.2076 7.28978 5.46489 7.28978 5.74814V6.56249H8.71733V5.74814C8.71733 5.46489 8.78599 5.2076 8.9233 4.97628C9.06298 4.7426 9.24882 4.55731 9.48083 4.4204C9.7152 4.28114 9.97443 4.2115 10.2585 4.2115C10.5426 4.2115 10.8007 4.28114 11.0327 4.4204C11.267 4.55731 11.4529 4.7426 11.5902 4.97628C11.7299 5.2076 11.7997 5.46489 11.7997 5.74814C11.7997 6.03139 11.7299 6.28986 11.5902 6.52354C11.4529 6.75486 11.267 6.94016 11.0327 7.07942C10.8007 7.21633 10.5426 7.28478 10.2585 7.28478H9.44176V8.70812H10.2585C10.5426 8.70812 10.8007 8.77775 11.0327 8.91701C11.267 9.05628 11.4529 9.24275 11.5902 9.47643C11.7299 9.71012 11.7997 9.96858 11.7997 10.2518C11.7997 10.5327 11.7299 10.79 11.5902 11.0237C11.4529 11.2574 11.267 11.4438 11.0327 11.5831C10.8007 11.72 10.5426 11.7885 10.2585 11.7885C9.97443 11.7885 9.7152 11.72 9.48083 11.5831C9.24882 11.4438 9.06298 11.2574 8.9233 11.0237C8.78599 10.79 8.71733 10.5327 8.71733 10.2518V9.43041H7.28978V10.2518C7.28978 10.5327 7.21994 10.79 7.08026 11.0237C6.94058 11.2574 6.75355 11.4438 6.51918 11.5831C6.2848 11.72 6.02557 11.7885 5.74148 11.7885ZM5.74148 11.0662C5.893 11.0662 6.03031 11.0296 6.15341 10.9564C6.27889 10.8832 6.37832 10.7853 6.45171 10.6625C6.52747 10.5374 6.56534 10.4005 6.56534 10.2518V9.43041H5.74148C5.59233 9.43041 5.45502 9.46817 5.32955 9.54371C5.20644 9.61688 5.10819 9.71602 5.0348 9.84112C4.96141 9.96386 4.92472 10.1008 4.92472 10.2518C4.92472 10.4005 4.96141 10.5374 5.0348 10.6625C5.10819 10.7853 5.20644 10.8832 5.32955 10.9564C5.45502 11.0296 5.59233 11.0662 5.74148 11.0662ZM5.74148 6.56249H6.56534V5.74814C6.56534 5.59707 6.52747 5.46017 6.45171 5.33743C6.37832 5.21469 6.27889 5.11673 6.15341 5.04355C6.03031 4.97038 5.893 4.93379 5.74148 4.93379C5.59233 4.93379 5.45502 4.97038 5.32955 5.04355C5.20644 5.11673 5.10819 5.21469 5.0348 5.33743C4.96141 5.46017 4.92472 5.59707 4.92472 5.74814C4.92472 5.89921 4.96141 6.03729 5.0348 6.1624C5.10819 6.28514 5.20644 6.3831 5.32955 6.45627C5.45502 6.52708 5.59233 6.56249 5.74148 6.56249ZM9.44176 6.56249H10.2585C10.41 6.56249 10.5474 6.52708 10.6705 6.45627C10.7936 6.3831 10.8918 6.28514 10.9652 6.1624C11.0386 6.03729 11.0753 5.89921 11.0753 5.74814C11.0753 5.59707 11.0386 5.46017 10.9652 5.33743C10.8918 5.21469 10.7936 5.11673 10.6705 5.04355C10.5474 4.97038 10.41 4.93379 10.2585 4.93379C10.107 4.93379 9.96852 4.97038 9.84304 5.04355C9.71994 5.11673 9.62169 5.21469 9.5483 5.33743C9.47728 5.46017 9.44176 5.59707 9.44176 5.74814V6.56249ZM10.2585 11.0662C10.41 11.0662 10.5474 11.0296 10.6705 10.9564C10.7936 10.8832 10.8918 10.7853 10.9652 10.6625C11.0386 10.5374 11.0753 10.4005 11.0753 10.2518C11.0753 10.1008 11.0386 9.96386 10.9652 9.84112C10.8918 9.71602 10.7936 9.61688 10.6705 9.54371C10.5474 9.46817 10.41 9.43041 10.2585 9.43041H9.44176V10.2518C9.44176 10.4005 9.47728 10.5374 9.5483 10.6625C9.62169 10.7853 9.71994 10.8832 9.84304 10.9564C9.96852 11.0296 10.107 11.0662 10.2585 11.0662ZM7.28978 8.70812H8.71733V7.28478H7.28978V8.70812Z\" fill=\"currentColor\"/></g></svg>", "chev": "<svg class=\"grep-breadcrumbs__sep\" aria-hidden=\"true\" width=\"12\" height=\"12\" viewBox=\"0 0 12 12\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><g id=\"Arrow-Chevron-Right\"><path id=\"Icon\" d=\"M4.14733 9.35267C3.95256 9.1579 3.95256 8.8421 4.14733 8.64733L6.79466 6L4.14733 3.35267C3.95256 3.15789 3.95256 2.8421 4.14733 2.64733C4.3421 2.45256 4.6579 2.45256 4.85267 2.64733L7.85267 5.64733C8.04744 5.8421 8.04744 6.1579 7.85267 6.35267L4.85267 9.35267C4.6579 9.54744 4.3421 9.54744 4.14733 9.35267Z\" fill=\"currentColor\"/></g></svg>"};
+const TAIL=`<span class="grep-tooltip__tail">${A.tail}</span>`;
+const sentence=`<p class="grep-tooltip__text">This is some tooltip that spans two or more lines<br>and contains information that helps the user.</p>`;
+const shortcut=`<span class="grep-tooltip__shortcut">
+  <span class="grep-tooltip__shortcut-label">Label</span>
+  <span class="grep-tooltip__keys"><span class="grep-kbd grep-kbd--icon">${A.cmd}</span></span></span>`;
+const crumb=t=>`<span class="grep-crumb grep-crumb--simplified">${t}</span>`;
+const crumbs=`<span class="grep-breadcrumbs grep-breadcrumbs--simplified">
+  ${crumb("Breadcrumb")}${A.chev}${crumb("Breadcrumb")}${A.chev}${crumb("Breadcrumb")}${A.chev}${crumb("Breadcrumb")}</span>`;
+const body={sentence,shortcut,crumbs};
+const tip=(type,place)=>`<div class="grep-tooltip${place?" grep-tooltip--"+place.split(" ").join(" grep-tooltip--"):""}" role="tooltip">
+  ${body[type]}${place?TAIL:""}</div>`;
+const cell=(t,el)=>`<div class="cell"><code>${t}</code>${el}</div>`;
+const places=[["top left","top left"],["bottom left","bottom left"],["top right","top right"],
+              ["bottom right","bottom right"],["top middle","top middle"],["bottom middle","bottom middle"],["no arrow",""]];
+const content=()=>`<div class="grid">${places.map(([n,p])=>
+  ["sentence","shortcut","crumbs"].map(t=>cell(`${t} — ${n}`,tip(t,p))).join("")).join("")}</div>`;
+l.innerHTML=content(); d.innerHTML=content();
+</script>
+</body>
+</html>

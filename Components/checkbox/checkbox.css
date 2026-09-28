@@ -1,0 +1,167 @@
+/* ---------- control ---------- */
+/* 16px hit area holding a 14px box, so rows align on 16 while the mark
+   stays 14. Border is 1px here, not the system default 0.5 — checkboxes,
+   radios and toggles boost it for visibility. */
+
+.grep-checkbox {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: var(--space-16);
+  height: var(--space-16);
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+
+.grep-checkbox__box {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  width: var(--space-14);
+  height: var(--space-14);
+  border-radius: var(--radius-3);
+  border: 1px solid var(--border-base);
+  background: var(--background-component);
+  box-shadow: var(--elevation-interactive);
+}
+
+.grep-checkbox__mark {
+  display: none;
+  color: var(--foreground-icon-on-color);
+}
+
+/* ---------- checked / indeterminate ---------- */
+
+.grep-checkbox--checked .grep-checkbox__box,
+.grep-checkbox--indeterminate .grep-checkbox__box {
+  background: var(--foreground-brand);
+  border-color: var(--border-brand);
+}
+
+.grep-checkbox--checked .grep-checkbox__mark--check,
+.grep-checkbox--indeterminate .grep-checkbox__mark--minus { display: block; }
+
+/* ---------- hover ---------- */
+/* Unchecked picks up the brand border and a very light overlay; checked and
+   indeterminate deepen the fill instead. */
+
+.grep-checkbox:hover .grep-checkbox__box,
+.grep-checkbox[data-state="hover"] .grep-checkbox__box {
+  border-color: var(--border-brand);
+  background-image:
+    linear-gradient(var(--background-overlay-hover-subtle), var(--background-overlay-hover-subtle));
+}
+
+.grep-checkbox--checked:hover .grep-checkbox__box,
+.grep-checkbox--checked[data-state="hover"] .grep-checkbox__box,
+.grep-checkbox--indeterminate:hover .grep-checkbox__box,
+.grep-checkbox--indeterminate[data-state="hover"] .grep-checkbox__box {
+  background-color: var(--foreground-brand-hover);
+  background-image: none;
+}
+
+/* ---------- focus ---------- */
+
+.grep-checkbox:focus-visible { outline: none; }
+
+.grep-checkbox:focus-visible .grep-checkbox__box,
+.grep-checkbox[data-state="focused"] .grep-checkbox__box {
+  box-shadow: var(--elevation-interactive-focus);
+}
+
+/* ---------- disabled ---------- */
+
+.grep-checkbox:disabled,
+.grep-checkbox[data-state="disabled"] {
+  opacity: var(--opacity-disabled);
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* ============================================================
+   Checkbox Group — control + label, optionally in a card
+   ============================================================ */
+
+.grep-checkbox-group {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-12);
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  text-align: left;
+  cursor: pointer;
+}
+
+.grep-checkbox-group__label {
+  display: flex;
+  flex: 1 0 0;
+  min-width: 0;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--space-2);
+}
+
+.grep-checkbox-group__title {
+  font-family: var(--text-style-body), system-ui, sans-serif;
+  font-size: var(--text-base);
+  font-weight: var(--text-weight-medium);   /* 440 */
+  line-height: var(--text-base);
+  color: var(--foreground-text-base);
+}
+
+.grep-checkbox-group__sublabel {
+  font-family: var(--text-style-body), system-ui, sans-serif;
+  font-size: var(--text-base);
+  font-weight: var(--text-weight-regular);  /* 400 */
+  line-height: 1.4;
+  color: var(--foreground-text-dim);
+  margin: 0;
+}
+
+.grep-checkbox-group__badge {
+  display: flex;
+  align-items: center;
+  align-self: stretch;
+  flex-shrink: 0;
+}
+
+/* ---------- card ---------- */
+
+.grep-checkbox-group--card {
+  box-sizing: border-box;
+  padding: var(--space-12);
+  border-radius: var(--radius-8);
+  background: var(--background-component);
+  overflow: clip;
+  /* Hairline as an inset ring so the 12px padding stays exact against the
+     fixed 16px control. See DESIGN.md > Borders. */
+  --_ring: 0.5px;
+  box-shadow: inset 0 0 0 var(--_ring) var(--border-base), var(--elevation-card);
+}
+
+/* Hover thickens the hairline to 1px — the system's hover border width. */
+.grep-checkbox-group--card:hover,
+.grep-checkbox-group--card[data-state="hover"] { --_ring: 1px; }
+
+/* The card takes the larger focus ring, not the control's tight one. */
+.grep-checkbox-group--card:focus-visible,
+.grep-checkbox-group--card[data-state="focused"] {
+  outline: none;
+  box-shadow: inset 0 0 0 var(--_ring) var(--border-base), var(--elevation-card-focus);
+}
+
+/* ---------- disabled ---------- */
+
+.grep-checkbox-group:disabled,
+.grep-checkbox-group[data-state="disabled"] {
+  opacity: var(--opacity-disabled);
+  cursor: not-allowed;
+  pointer-events: none;
+}

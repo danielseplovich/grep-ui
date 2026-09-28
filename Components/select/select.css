@@ -1,0 +1,91 @@
+/* ============================================================
+   Grep UI — Select / Multi Select
+   Source: Figma "Select Input" (4576:17709) — size × state, 7 states —
+   and "Multi Select Input" (4533:74514) — size × state, 5 states.
+
+   The field shell is the SAME component as Input: same fill, hairline,
+   radius, shadow, hover and focus. So a select reuses `.grep-input`'s
+   wrapper, label, field, help text and sizing, and this file only adds
+   what sits inside the field.
+   ============================================================ */
+
+.grep-select {
+  display: flex;
+  align-items: center;
+  gap: var(--space-16);
+  padding: 0 var(--_pad-x, var(--space-8));
+  border: 0;
+  text-align: left;
+  cursor: pointer;
+
+  font-family: var(--text-style-body), system-ui, sans-serif;
+  font-size: var(--text-base);
+}
+
+/* ---------- value ---------- */
+
+.grep-select__value {
+  flex: 1 0 0;
+  min-width: 0;
+  font-weight: var(--text-weight-medium);   /* 440 — para-base-med */
+  line-height: 1.4;
+  color: var(--foreground-text-base);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.grep-select__value--placeholder { color: var(--foreground-text-faint); }
+
+/* ---------- chevron ---------- */
+
+.grep-select__chevron {
+  flex-shrink: 0;
+  width: var(--space-14);
+  height: var(--space-14);
+  display: block;
+  color: var(--foreground-icon-dim);
+}
+
+/* ---------- fills ---------- */
+/* Anything richer than text — a badge, a multi-select's badge group, an
+   object reference — goes in this frame. It takes the same 1-0-0 slot the
+   text value takes, so the chevron never moves. */
+
+.grep-select__fill {
+  display: flex;
+  flex: 1 0 0;
+  min-width: 0;
+  align-items: center;
+  gap: var(--space-6);
+}
+
+/* Multi select's badge group opens up at the larger size. */
+.grep-input--32 .grep-select__fill { gap: var(--space-8); }
+
+/* ---------- object fill ---------- */
+/* A reference to a thing: a 14 avatar in a 1px frame, then its name. */
+
+.grep-select__object {
+  display: flex;
+  align-items: center;
+  gap: var(--space-5);
+  min-width: 0;
+}
+
+.grep-select__object-visual {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-1);
+  flex-shrink: 0;
+}
+
+.grep-select__object-label {
+  font-weight: var(--text-weight-medium);   /* 440 — label-base-medium */
+  line-height: var(--text-base);
+  color: var(--foreground-text-base);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

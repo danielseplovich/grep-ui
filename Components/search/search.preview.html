@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Grep prototype</title>
+
+<link rel="preconnect" href="https://rsms.me/">
+<link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="../../grepmd/grep-ui.css">
+
+<style>
+  html {
+    font-family: var(--text-style-body), system-ui, sans-serif;
+    font-size: var(--text-base);
+    font-weight: var(--text-weight-regular);
+    color: var(--foreground-text-base);
+    background: var(--background-canvas);
+    -webkit-font-smoothing: antialiased;
+  }
+  body { margin: 0; }
+  h1, h2, h3 {
+    font-family: var(--text-style-display), var(--text-style-body), sans-serif;
+    font-weight: var(--text-weight-bold);
+  }
+  code, kbd, pre { font-family: var(--text-style-code), ui-monospace, monospace; }
+  body { padding: var(--space-32); }
+  .modes { display:flex; flex-direction:column; gap: var(--space-24); }
+  .mode { padding: var(--space-24); border-radius: var(--radius-12);
+          border:0.5px solid var(--border-base); background: var(--background-canvas); }
+  h2 { font-size: var(--text-sm); font-weight: var(--text-weight-medium); color: var(--foreground-text-dim);
+       margin:0 0 var(--space-20); text-transform:uppercase; letter-spacing:0.04em; }
+  .grid { display:grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-24); }
+  .cell { display:flex; flex-direction:column; gap: var(--space-8); }
+  code { font-family: var(--text-style-code), monospace; font-size: var(--text-2xs); color: var(--foreground-text-faint); }
+</style>
+</head>
+<body>
+
+
+  <div class="modes"><div class="mode"><h2>Light</h2><div id="l"></div></div>
+  <div class="mode" data-theme="dark"><h2>Dark</h2><div id="d"></div></div></div>
+<script>
+const SRCH=`<svg class="grep-search__icon" aria-hidden="true" width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><g><path d="M12.8239 11.3845L10.236 8.79667C10.9434 7.73487 11.231 6.44814 11.0431 5.18622C10.8551 3.9243 10.205 2.77722 9.21895 1.96765C8.23287 1.15807 6.98117 0.74374 5.70681 0.805089C4.43245 0.866437 3.22634 1.39908 2.32259 2.29964C1.41884 3.20019 0.881926 4.40441 0.816067 5.67855C0.750208 6.95269 1.1601 8.20585 1.96618 9.19478C2.77227 10.1837 3.91703 10.8379 5.17828 11.0303C6.43952 11.2227 7.72727 10.9396 8.79156 10.236L11.3845 12.829C11.5757 13.0191 11.8345 13.1258 12.1042 13.1258C12.3739 13.1258 12.6326 13.0191 12.8239 12.829C12.9188 12.7342 12.9941 12.6216 13.0454 12.4976C13.0968 12.3737 13.1233 12.2409 13.1233 12.1067C13.1233 11.9726 13.0968 11.8397 13.0454 11.7158C12.9941 11.5919 12.9188 11.4793 12.8239 11.3845ZM5.97917 10.0625C5.17156 10.0625 4.38209 9.82302 3.71059 9.37433C3.03909 8.92565 2.51572 8.28792 2.20666 7.54179C1.8976 6.79566 1.81674 5.97464 1.97429 5.18255C2.13185 4.39046 2.52075 3.66288 3.09181 3.09181C3.66288 2.52075 4.39046 2.13185 5.18255 1.97429C5.97464 1.81674 6.79566 1.8976 7.54179 2.20666C8.28792 2.51572 8.92565 3.03909 9.37433 3.71059C9.82302 4.38209 10.0625 5.17156 10.0625 5.97917C10.0625 6.5154 9.95688 7.04638 9.75167 7.54179C9.54647 8.0372 9.24569 8.48735 8.86652 8.86652C8.48735 9.24569 8.0372 9.54647 7.54179 9.75168C7.04638 9.95688 6.5154 10.0625 5.97917 10.0625Z" fill="currentColor" fill-opacity="0.56"/></g></svg>`;
+const KBD=`<svg class="grep-kbd__icon" aria-hidden="true" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><g><path d="M5.74148 11.7885C5.45976 11.7885 5.20171 11.72 4.96733 11.5831C4.73296 11.4438 4.54593 11.2574 4.40625 11.0237C4.26894 10.79 4.20029 10.5327 4.20029 10.2518C4.20029 9.96858 4.26894 9.71012 4.40625 9.47643C4.54593 9.24275 4.73296 9.05628 4.96733 8.91701C5.20171 8.77775 5.45976 8.70812 5.74148 8.70812H6.56534V7.28478H5.74148C5.45976 7.28478 5.20171 7.21633 4.96733 7.07942C4.73296 6.94016 4.54593 6.75486 4.40625 6.52354C4.26894 6.28986 4.20029 6.03139 4.20029 5.74814C4.20029 5.46489 4.26894 5.2076 4.40625 4.97628C4.54593 4.7426 4.73296 4.55731 4.96733 4.4204C5.20171 4.28114 5.45976 4.2115 5.74148 4.2115C6.02557 4.2115 6.2848 4.28114 6.51918 4.4204C6.75355 4.55731 6.94058 4.7426 7.08026 4.97628C7.21994 5.2076 7.28978 5.46489 7.28978 5.74814V6.56249H8.71733V5.74814C8.71733 5.46489 8.78599 5.2076 8.9233 4.97628C9.06298 4.7426 9.24882 4.55731 9.48083 4.4204C9.7152 4.28114 9.97443 4.2115 10.2585 4.2115C10.5426 4.2115 10.8007 4.28114 11.0327 4.4204C11.267 4.55731 11.4529 4.7426 11.5902 4.97628C11.7299 5.2076 11.7997 5.46489 11.7997 5.74814C11.7997 6.03139 11.7299 6.28986 11.5902 6.52354C11.4529 6.75486 11.267 6.94016 11.0327 7.07942C10.8007 7.21633 10.5426 7.28478 10.2585 7.28478H9.44176V8.70812H10.2585C10.5426 8.70812 10.8007 8.77775 11.0327 8.91701C11.267 9.05628 11.4529 9.24275 11.5902 9.47643C11.7299 9.71012 11.7997 9.96858 11.7997 10.2518C11.7997 10.5327 11.7299 10.79 11.5902 11.0237C11.4529 11.2574 11.267 11.4438 11.0327 11.5831C10.8007 11.72 10.5426 11.7885 10.2585 11.7885C9.97443 11.7885 9.7152 11.72 9.48083 11.5831C9.24882 11.4438 9.06298 11.2574 8.9233 11.0237C8.78599 10.79 8.71733 10.5327 8.71733 10.2518V9.43041H7.28978V10.2518C7.28978 10.5327 7.21994 10.79 7.08026 11.0237C6.94058 11.2574 6.75355 11.4438 6.51918 11.5831C6.2848 11.72 6.02557 11.7885 5.74148 11.7885ZM5.74148 11.0662C5.893 11.0662 6.03031 11.0296 6.15341 10.9564C6.27889 10.8832 6.37832 10.7853 6.45171 10.6625C6.52747 10.5374 6.56534 10.4005 6.56534 10.2518V9.43041H5.74148C5.59233 9.43041 5.45502 9.46817 5.32955 9.54371C5.20644 9.61688 5.10819 9.71602 5.0348 9.84112C4.96141 9.96386 4.92472 10.1008 4.92472 10.2518C4.92472 10.4005 4.96141 10.5374 5.0348 10.6625C5.10819 10.7853 5.20644 10.8832 5.32955 10.9564C5.45502 11.0296 5.59233 11.0662 5.74148 11.0662ZM5.74148 6.56249H6.56534V5.74814C6.56534 5.59707 6.52747 5.46017 6.45171 5.33743C6.37832 5.21469 6.27889 5.11673 6.15341 5.04355C6.03031 4.97038 5.893 4.93379 5.74148 4.93379C5.59233 4.93379 5.45502 4.97038 5.32955 5.04355C5.20644 5.11673 5.10819 5.21469 5.0348 5.33743C4.96141 5.46017 4.92472 5.59707 4.92472 5.74814C4.92472 5.89921 4.96141 6.03729 5.0348 6.1624C5.10819 6.28514 5.20644 6.3831 5.32955 6.45627C5.45502 6.52708 5.59233 6.56249 5.74148 6.56249ZM9.44176 6.56249H10.2585C10.41 6.56249 10.5474 6.52708 10.6705 6.45627C10.7936 6.3831 10.8918 6.28514 10.9652 6.1624C11.0386 6.03729 11.0753 5.89921 11.0753 5.74814C11.0753 5.59707 11.0386 5.46017 10.9652 5.33743C10.8918 5.21469 10.7936 5.11673 10.6705 5.04355C10.5474 4.97038 10.41 4.93379 10.2585 4.93379C10.107 4.93379 9.96852 4.97038 9.84304 5.04355C9.71994 5.11673 9.62169 5.21469 9.5483 5.33743C9.47728 5.46017 9.44176 5.59707 9.44176 5.74814V6.56249ZM10.2585 11.0662C10.41 11.0662 10.5474 11.0296 10.6705 10.9564C10.7936 10.8832 10.8918 10.7853 10.9652 10.6625C11.0386 10.5374 11.0753 10.4005 11.0753 10.2518C11.0753 10.1008 11.0386 9.96386 10.9652 9.84112C10.8918 9.71602 10.7936 9.61688 10.6705 9.54371C10.5474 9.46817 10.41 9.43041 10.2585 9.43041H9.44176V10.2518C9.44176 10.4005 9.47728 10.5374 9.5483 10.6625C9.62169 10.7853 9.71994 10.8832 9.84304 10.9564C9.96852 11.0296 10.107 11.0662 10.2585 11.0662ZM7.28978 8.70812H8.71733V7.28478H7.28978V8.70812Z" fill="currentColor" fill-opacity="0.56"/></g></svg>`;
+const SC=`<span class="grep-search__shortcut">
+  <span class="grep-kbd grep-kbd--icon">${KBD}</span>
+  <span class="grep-kbd grep-kbd--letter"><span>F</span></span></span>`;
+const s=({mods="",state="",val="",ph="Search...",sc=true})=>
+ `<div class="grep-search ${mods}"${state?` data-state="${state}"`:""}>
+    <span class="grep-search__label">${SRCH}
+      <input class="grep-search__input" placeholder="${ph}"${val?` value="${val}"`:""}></span>
+    ${sc?SC:""}</div>`;
+const cell=(t,el)=>`<div class="cell"><code>${t}</code>${el}</div>`;
+const content=()=>`<div class="grid">
+  ${cell("Field 28 — empty", s({}))}
+  ${cell("Field 28 — hover", s({state:"hover"}))}
+  ${cell("Field 28 — focused", s({state:"focused"}))}
+  ${cell("Field 28 — filled", s({val:"This is the search"}))}
+  ${cell("Field 28 — danger", s({mods:"grep-search--danger", val:"This is the search"}))}
+  ${cell("Ghost 28", s({mods:"grep-search--ghost", sc:false}))}
+  ${cell("Field 32", s({mods:"grep-search--32"}))}
+  ${cell("Field 32 — focused", s({mods:"grep-search--32", state:"focused"}))}
+  ${cell("Ghost 32", s({mods:"grep-search--ghost grep-search--32", sc:false}))}
+</div>`;
+document.getElementById("l").innerHTML=content();
+document.getElementById("d").innerHTML=content();
+</script>
+
+<script>
+  // Follow the OS theme. Remove if the prototype needs a fixed mode.
+  const dark = matchMedia("(prefers-color-scheme: dark)");
+  const apply = () => (document.documentElement.dataset.theme = dark.matches ? "dark" : "light");
+  document.documentElement.dataset.theme = "light";
+</script>
+</body>
+</html>

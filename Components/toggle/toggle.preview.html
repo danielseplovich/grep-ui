@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Grep prototype</title>
+
+<link rel="preconnect" href="https://rsms.me/">
+<link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="../../grepmd/grep-ui.css">
+
+<style>
+  html {
+    font-family: var(--text-style-body), system-ui, sans-serif;
+    font-size: var(--text-base);
+    font-weight: var(--text-weight-regular);
+    color: var(--foreground-text-base);
+    background: var(--background-canvas);
+    -webkit-font-smoothing: antialiased;
+  }
+  body { margin: 0; }
+  h1, h2, h3 {
+    font-family: var(--text-style-display), var(--text-style-body), sans-serif;
+    font-weight: var(--text-weight-bold);
+  }
+  code, kbd, pre { font-family: var(--text-style-code), ui-monospace, monospace; }
+  body { padding: var(--space-32); }
+  .modes { display:flex; flex-direction:column; gap: var(--space-24); }
+  .mode { padding: var(--space-24); border-radius: var(--radius-12);
+          border:0.5px solid var(--border-base); background: var(--background-canvas); }
+  h2 { font-size: var(--text-sm); font-weight: var(--text-weight-medium); color: var(--foreground-text-dim);
+       margin:0 0 var(--space-20); text-transform:uppercase; letter-spacing:0.04em; }
+  .grid { display:grid; grid-template-columns: repeat(2, 360px); gap: var(--space-24) var(--space-40); }
+  .cell { display:flex; flex-direction:column; gap: var(--space-8); align-items:flex-start; }
+  .row { display:flex; align-items:center; gap: var(--space-24); }
+  code { font-family: var(--text-style-code), monospace; font-size: var(--text-2xs); color: var(--foreground-text-faint); }
+</style>
+</head>
+<body>
+
+  
+  <div class="modes"><div class="mode"><h2>Light</h2><div id="l"></div></div>
+  <div class="mode" data-theme="dark"><h2>Dark</h2><div id="d"></div></div></div>
+<script>
+const tg=({on=false,md=false,state="",tag="button"})=>
+ `<${tag} class="grep-toggle${md?" grep-toggle--md":""}${on?" grep-toggle--on":""}"${state?` data-state="${state}"`:""} role="switch" aria-checked="${on}">
+    <span class="grep-toggle__track"><span class="grep-toggle__thumb"></span></span></${tag}>`;
+const group=({on=false,card=false,state="",badge=false})=>
+ `<button class="grep-toggle-group${card?" grep-toggle-group--card":""}"${state?` data-state="${state}"`:""} role="switch" aria-checked="${on}">
+   ${tg({on,state:card?"":state,tag:"span"})}
+   <span class="grep-toggle-group__label">
+     <span class="grep-toggle-group__title">Label</span>
+     <span class="grep-toggle-group__sublabel">This is some sublabel.</span></span>
+   ${badge?`<span class="grep-toggle-group__badge"><span class="grep-badge grep-badge--neutral-base grep-badge--full"><span class="grep-badge__label">Label</span></span></span>`:""}
+  </button>`;
+const cell=(t,el)=>`<div class="cell"><code>${t}</code>${el}</div>`;
+const row=(...els)=>`<div class="row">${els.join("")}</div>`;
+const content=()=>`<div class="grid">
+  ${cell("small — off / on", row(tg({}),tg({on:true})))}
+  ${cell("medium — off / on", row(tg({md:true}),tg({md:true,on:true})))}
+  ${cell("small — hover off / hover on", row(tg({state:"hover"}),tg({on:true,state:"hover"})))}
+  ${cell("medium — hover off / hover on", row(tg({md:true,state:"hover"}),tg({md:true,on:true,state:"hover"})))}
+  ${cell("small — focused off / on", row(tg({state:"focused"}),tg({on:true,state:"focused"})))}
+  ${cell("medium — focused off / on", row(tg({md:true,state:"focused"}),tg({md:true,on:true,state:"focused"})))}
+  ${cell("small — disabled off / on", row(tg({state:"disabled"}),tg({on:true,state:"disabled"})))}
+  ${cell("medium — disabled off / on", row(tg({md:true,state:"disabled"}),tg({md:true,on:true,state:"disabled"})))}
+  ${cell("group — off", group({}))}
+  ${cell("group — on", group({on:true}))}
+  ${cell("group — focused", group({state:"focused"}))}
+  ${cell("group — disabled", group({on:true,state:"disabled"}))}
+  ${cell("card — off", group({card:true}))}
+  ${cell("card — on", group({on:true,card:true}))}
+  ${cell("card — hover", group({card:true,state:"hover"}))}
+  ${cell("card — focused", group({on:true,card:true,state:"focused"}))}
+  ${cell("card — disabled", group({card:true,state:"disabled"}))}
+  ${cell("card — with badge", group({on:true,card:true,badge:true}))}
+</div>`;
+l.innerHTML=content(); d.innerHTML=content();
+</script>
+</body>
+</html>

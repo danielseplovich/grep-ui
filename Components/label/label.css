@@ -1,0 +1,158 @@
+/* ============================================================
+   Grep UI — Label
+   Source: Figma "Grep UI / Label" (1491:47479), read in full across
+   size × type × labelWeight × sublabelColor and all five booleans.
+
+   This is the label block already embedded in Input, Checkbox Group,
+   Item Row and Banner. Figma couples its variants (Bold always pairs
+   with Subtle, for instance); the CSS keeps the axes independent and
+   documents the pairings in label.md.
+   ============================================================ */
+
+.grep-label {
+  --_gap: var(--space-2);
+  --_row-h: var(--space-16);
+  --_font: var(--text-base);
+  --_weight: var(--text-weight-medium);   /* 440 */
+  --_sub-color: var(--foreground-text-dim);
+
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: var(--_gap);
+
+  font-family: var(--text-style-body), system-ui, sans-serif;
+}
+
+/* ---------- the label row ---------- */
+/* Outer gap 6; the inner group gap 4. Figma's annotation: "All of these
+   internal frames have a gap of 4px even though the rest of the container
+   has 6px — because the main label, optional, and info icon should be
+   closer together if they are visible." */
+
+.grep-label__row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-6);
+  height: var(--_row-h);
+  width: 100%;
+}
+
+.grep-label__group {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  flex-shrink: 0;
+}
+
+.grep-label__text {
+  flex-shrink: 0;
+  font-size: var(--_font);
+  font-weight: var(--_weight);
+  line-height: var(--_font);
+  color: var(--foreground-text-base);
+  white-space: nowrap;
+}
+
+.grep-label__optional {
+  flex-shrink: 0;
+  font-size: var(--_font);
+  font-weight: var(--text-weight-regular);  /* 400 */
+  line-height: var(--_font);
+  color: var(--foreground-text-dim);
+  white-space: nowrap;
+}
+
+.grep-label__icon,
+.grep-label__info {
+  flex-shrink: 0;
+  width: var(--space-14);
+  height: var(--space-14);
+  display: block;
+  color: var(--foreground-icon-base);
+}
+
+.grep-label__info { color: var(--foreground-icon-subtle); }
+
+/* ---------- mini badge ---------- */
+/* A 16-high Badge Base — smaller than the standalone Badge component's 22.
+   See badge.md > Not covered. */
+
+.grep-label__badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-sizing: border-box;
+  height: var(--space-16);
+  min-width: var(--space-16);
+  padding: 0 var(--space-6);
+  gap: var(--space-3);
+  border-radius: var(--radius-full);
+  background: var(--button-neutral-background);
+  box-shadow: inset 0 0 0 var(--border-width-0-5) var(--border-base);
+  overflow: clip;
+
+  font-size: var(--text-2xs);               /* 10 */
+  font-weight: var(--text-weight-bold);     /* 500 */
+  line-height: var(--text-2xs);
+  color: var(--foreground-text-base);
+  text-align: center;
+  white-space: nowrap;
+}
+
+.grep-label__badge svg { width: var(--space-8); height: var(--space-8); display: block; }
+
+/* ---------- sublabel ---------- */
+
+.grep-label__sublabel {
+  margin: 0;
+  font-size: var(--_font);
+  font-weight: var(--text-weight-regular);  /* 400 */
+  line-height: 1.4;
+  color: var(--_sub-color);
+}
+
+/* ---------- size ---------- */
+
+.grep-label--lg {
+  --_row-h: 18px;
+  --_font: var(--text-lg);                  /* 14 */
+}
+
+/* ---------- weight ---------- */
+
+.grep-label--bold { --_weight: var(--text-weight-bold); }   /* 500 */
+
+/* ---------- sublabel colour ---------- */
+
+.grep-label--sub-subtle { --_sub-color: var(--foreground-text-subtle); }
+
+/* ---------- smaller sublabels ---------- */
+/* These drop the row gap to 0 — the sublabel's 1.4 leading supplies it. */
+
+.grep-label--sub-sm {
+  --_gap: var(--space-0);
+}
+.grep-label--sub-sm .grep-label__sublabel { font-size: var(--text-sm); }   /* 12 */
+
+/* ---------- type: path ---------- */
+/* The sublabel becomes a mono file path on a fixed-height line. */
+
+.grep-label--path { --_gap: var(--space-0); }
+
+.grep-label--path .grep-label__sublabel {
+  display: flex;
+  align-items: center;
+  height: 18px;
+  font-family: var(--text-style-code), ui-monospace, monospace;
+  font-size: var(--text-sm);                /* 12 — code-label-sm-reg */
+  line-height: var(--text-sm);
+}
+
+.grep-label--path.grep-label--sub-xs .grep-label__sublabel {
+  height: 17px;
+  font-size: var(--text-xs);                /* 11 — code-label-xs-reg */
+  line-height: var(--text-xs);
+}

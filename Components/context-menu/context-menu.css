@@ -1,0 +1,176 @@
+/* ============================================================
+   Grep UI — Context Menu
+   Source: Figma "Grep UI / Context Menu" (7774:318231), type
+   "Folders and Files" (7774:318226) read in full; the other four types
+   are the same shell with different item lists.
+
+   Shares its shell, search block and header with File Tree Menu —
+   see CONTRADICTIONS #25.
+   ============================================================ */
+
+.grep-menu {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  position: relative;
+  box-sizing: border-box;
+  width: var(--space-256);          /* 300 in Figma; set a width in use */
+  overflow: clip;
+  border-radius: var(--radius-8);
+  background: var(--background-component);
+  box-shadow: inset 0 0 0 0.5px var(--border-base), var(--elevation-flyout);
+}
+
+/* ---------- section ---------- */
+/* Each group of items is its own 6px-padded block. Sections are separated
+   by a 1px border-subtle rule — a divider inside a component. */
+
+.grep-menu__section {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  padding: var(--space-6);
+}
+
+.grep-menu__rule {
+  flex-shrink: 0;
+  width: 100%;
+  height: 1px;
+  margin: 0;
+  border: 0;
+  background: var(--border-subtle);
+}
+
+/* ---------- search ---------- */
+
+.grep-menu__search {
+  display: flex;
+  align-items: center;
+  gap: var(--space-12);
+  box-sizing: border-box;
+  height: var(--space-28);
+  margin: var(--space-6);
+  padding: 0 var(--space-8);
+  border: 0;
+  border-radius: var(--radius-6);
+  background: none;
+  overflow: clip;
+
+  font-family: var(--text-style-body), system-ui, sans-serif;
+  font-size: var(--text-base);
+  font-weight: var(--text-weight-medium);   /* 440 */
+  line-height: 1.4;
+  color: var(--foreground-text-base);
+}
+
+.grep-menu__search::placeholder { color: var(--foreground-text-faint); }
+
+.grep-menu__search-icon {
+  flex-shrink: 0;
+  width: var(--space-14);
+  height: var(--space-14);
+  color: var(--foreground-icon-subtle);
+}
+
+/* ---------- header ---------- */
+
+.grep-menu__header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-8);
+  height: var(--space-28);
+  padding: 0 var(--space-8);
+  border-radius: var(--radius-6);
+
+  font-family: var(--text-style-body), system-ui, sans-serif;
+  font-size: var(--text-sm);                /* 12 — label-sm-bold */
+  font-weight: var(--text-weight-bold);     /* 500 */
+  line-height: var(--text-sm);
+  color: var(--foreground-text-dim);
+}
+
+/* ---------- item ---------- */
+
+.grep-menu__item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-12);
+  height: var(--space-28);
+  width: 100%;
+  padding: 0 var(--space-8);
+  border: 0;
+  border-radius: var(--radius-6);
+  background: none;
+  text-align: left;
+  cursor: pointer;
+}
+
+.grep-menu__item-left {
+  flex: 1 0 0;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--space-10);
+
+  font-family: var(--text-style-body), system-ui, sans-serif;
+  font-size: var(--text-base);
+  font-weight: var(--text-weight-medium);   /* 440 — label-base-medium */
+  line-height: var(--text-base);
+  color: var(--foreground-text-base);
+  white-space: nowrap;
+}
+
+.grep-menu__item-icon {
+  flex-shrink: 0;
+  width: var(--space-16);
+  height: var(--space-16);
+  display: block;
+  color: var(--foreground-icon-base);
+}
+
+.grep-menu__item-right {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  color: var(--foreground-icon-subtle);
+}
+
+/* A 12px chevron marks a submenu. */
+.grep-menu__item-chevron { width: var(--space-12); height: var(--space-12); display: block; }
+
+/* ---------- states (inferred — see CONTRADICTIONS #26) ---------- */
+
+.grep-menu__item:hover,
+.grep-menu__item[data-state="hover"] { background: var(--background-overlay-hover); }
+
+.grep-menu__item--danger { color: var(--foreground-danger); }
+.grep-menu__item--danger .grep-menu__item-left,
+.grep-menu__item--danger .grep-menu__item-icon { color: var(--foreground-danger); }
+
+.grep-menu__item:disabled,
+.grep-menu__item[data-state="disabled"] {
+  opacity: var(--opacity-disabled);
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* ---------- scroll bar ---------- */
+
+.grep-menu__scrollbar {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 6px;
+  display: flex;
+  align-items: center;
+  padding: var(--space-12) var(--space-2) var(--space-12) 0;
+  pointer-events: none;
+}
+
+.grep-menu__scrollbar > * {
+  width: 4px;
+  height: 100%;
+  border-radius: var(--radius-8);
+  background: var(--border-base);
+}

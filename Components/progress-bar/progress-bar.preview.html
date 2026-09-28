@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Grep prototype</title>
+
+<link rel="preconnect" href="https://rsms.me/">
+<link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="../../grepmd/grep-ui.css">
+
+<style>
+  html {
+    font-family: var(--text-style-body), system-ui, sans-serif;
+    font-size: var(--text-base);
+    font-weight: var(--text-weight-regular);
+    color: var(--foreground-text-base);
+    background: var(--background-canvas);
+    -webkit-font-smoothing: antialiased;
+  }
+  body { margin: 0; }
+  h1, h2, h3 {
+    font-family: var(--text-style-display), var(--text-style-body), sans-serif;
+    font-weight: var(--text-weight-bold);
+  }
+  code, kbd, pre { font-family: var(--text-style-code), ui-monospace, monospace; }
+  body { padding: var(--space-32); }
+  .modes { display:flex; flex-direction:column; gap: var(--space-24); }
+  .mode { padding: var(--space-24); border-radius: var(--radius-12);
+          border:0.5px solid var(--border-base); background: var(--background-canvas); }
+  h2 { font-size: var(--text-sm); font-weight: var(--text-weight-medium); color: var(--foreground-text-dim);
+       margin:0 0 var(--space-20); text-transform:uppercase; letter-spacing:0.04em; }
+  h3 { font-size: var(--text-xs); color: var(--foreground-text-dim); margin: var(--space-24) 0 var(--space-12); }
+  table { border-collapse:collapse; }
+  th { font-size: var(--text-xs); color: var(--foreground-text-dim); text-align:left; padding:0 var(--space-16) var(--space-8) 0; }
+  td { padding: 0 var(--space-16) var(--space-16) 0; width: 140px; }
+  .rowlab { font-size: var(--text-xs); color: var(--foreground-text-dim); width: var(--space-64); }
+  .wide { display:flex; flex-direction:column; gap: var(--space-12); max-width: 480px; }
+</style>
+</head>
+<body>
+
+
+  <div class="modes"><div class="mode"><h2>Light</h2><div id="l"></div></div>
+  <div class="mode" data-theme="dark"><h2>Dark</h2><div id="d"></div></div></div>
+<script>
+const T=[["brand","Brand"],["success","Success"],["warning","Warning"],["danger","Danger"]];
+const F=[0,25,50,75,100];
+const bar=(t,f)=>`<div class="grep-progress grep-progress--${t}" role="progressbar" aria-valuenow="${f}">
+  <div class="grep-progress__fill" style="--_fill:${f}%"></div></div>`;
+const content=()=>`<table><tr><th></th>${F.map(f=>`<th>${f}%</th>`).join("")}</tr>` +
+  T.map(([t,l])=>`<tr><td class="rowlab">${l}</td>${F.map(f=>`<td>${bar(t,f)}</td>`).join("")}</tr>`).join("") +
+  `</table><h3>Arbitrary fill</h3><div class="wide">${bar("brand",37)}${bar("success",62)}${bar("warning",88)}</div>`;
+document.getElementById("l").innerHTML=content();
+document.getElementById("d").innerHTML=content();
+</script>
+
+<script>
+  // Follow the OS theme. Remove if the prototype needs a fixed mode.
+  const dark = matchMedia("(prefers-color-scheme: dark)");
+  const apply = () => (document.documentElement.dataset.theme = dark.matches ? "dark" : "light");
+  document.documentElement.dataset.theme = "light";
+</script>
+</body>
+</html>

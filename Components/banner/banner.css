@@ -1,0 +1,103 @@
+.grep-banner {
+  --_accent: var(--background-accent-brand);
+
+  position: relative;
+  display: flex;
+  overflow: clip;
+  border-radius: var(--radius-8);
+  background: var(--background-component);
+  box-shadow: inset 0 0 0 0.5px var(--border-base), var(--elevation-card);
+}
+
+/* ---------- pixel graphic ---------- */
+/* A 36-wide strip of 4px squares behind the card's left edge. The card
+   overlaps it by 16, so 20 stays visible. The tile repeats vertically so
+   squares stay 4px at any banner height and sit flush top and bottom. */
+
+.grep-banner__pixels {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: var(--space-36);
+  background-color: var(--_accent);
+  /* Inlined as a data URI, not url("banner-pixels.svg"): an external SVG mask
+     is same-origin restricted, so it silently fails when a prototype is opened
+     straight off disk. banner-pixels.svg is kept as the editable source. */
+  -webkit-mask-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="36" height="72" viewBox="0 0 36 72"><rect x="0" y="0" width="4" height="4" fill="%23fff" opacity="0.4"/><rect x="8" y="0" width="4" height="4" fill="%23fff" opacity="0.4"/><rect x="16" y="0" width="4" height="4" fill="%23fff" opacity="0.4"/><rect x="24" y="0" width="4" height="4" fill="%23fff" opacity="0.2"/><rect x="32" y="0" width="4" height="4" fill="%23fff" opacity="0.4"/><rect x="0" y="8" width="4" height="4" fill="%23fff" opacity="0.4"/><rect x="8" y="8" width="4" height="4" fill="%23fff" opacity="0.2"/><rect x="16" y="8" width="4" height="4" fill="%23fff"/><rect x="24" y="8" width="4" height="4" fill="%23fff" opacity="0.4"/><rect x="32" y="8" width="4" height="4" fill="%23fff" opacity="0.8"/><rect x="0" y="16" width="4" height="4" fill="%23fff"/><rect x="8" y="16" width="4" height="4" fill="%23fff"/><rect x="16" y="16" width="4" height="4" fill="%23fff" opacity="0.2"/><rect x="24" y="16" width="4" height="4" fill="%23fff"/><rect x="32" y="16" width="4" height="4" fill="%23fff" opacity="0.8"/><rect x="0" y="24" width="4" height="4" fill="%23fff" opacity="0.4"/><rect x="8" y="24" width="4" height="4" fill="%23fff"/><rect x="16" y="24" width="4" height="4" fill="%23fff" opacity="0.8"/><rect x="24" y="24" width="4" height="4" fill="%23fff" opacity="0.2"/><rect x="32" y="24" width="4" height="4" fill="%23fff" opacity="0.2"/><rect x="0" y="32" width="4" height="4" fill="%23fff" opacity="0.8"/><rect x="8" y="32" width="4" height="4" fill="%23fff" opacity="0.8"/><rect x="16" y="32" width="4" height="4" fill="%23fff"/><rect x="24" y="32" width="4" height="4" fill="%23fff"/><rect x="32" y="32" width="4" height="4" fill="%23fff" opacity="0.4"/><rect x="0" y="40" width="4" height="4" fill="%23fff"/><rect x="8" y="40" width="4" height="4" fill="%23fff"/><rect x="16" y="40" width="4" height="4" fill="%23fff" opacity="0.2"/><rect x="24" y="40" width="4" height="4" fill="%23fff" opacity="0.8"/><rect x="32" y="40" width="4" height="4" fill="%23fff" opacity="0.4"/><rect x="0" y="48" width="4" height="4" fill="%23fff" opacity="0.8"/><rect x="8" y="48" width="4" height="4" fill="%23fff" opacity="0.8"/><rect x="16" y="48" width="4" height="4" fill="%23fff" opacity="0.8"/><rect x="24" y="48" width="4" height="4" fill="%23fff" opacity="0.8"/><rect x="32" y="48" width="4" height="4" fill="%23fff"/><rect x="0" y="56" width="4" height="4" fill="%23fff" opacity="0.8"/><rect x="8" y="56" width="4" height="4" fill="%23fff" opacity="0.8"/><rect x="16" y="56" width="4" height="4" fill="%23fff" opacity="0.2"/><rect x="24" y="56" width="4" height="4" fill="%23fff" opacity="0.4"/><rect x="32" y="56" width="4" height="4" fill="%23fff" opacity="0.8"/><rect x="0" y="64" width="4" height="4" fill="%23fff" opacity="0.4"/><rect x="8" y="64" width="4" height="4" fill="%23fff"/><rect x="16" y="64" width="4" height="4" fill="%23fff" opacity="0.4"/><rect x="24" y="64" width="4" height="4" fill="%23fff" opacity="0.2"/><rect x="32" y="64" width="4" height="4" fill="%23fff" opacity="0.8"/></svg>');
+          mask-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="36" height="72" viewBox="0 0 36 72"><rect x="0" y="0" width="4" height="4" fill="%23fff" opacity="0.4"/><rect x="8" y="0" width="4" height="4" fill="%23fff" opacity="0.4"/><rect x="16" y="0" width="4" height="4" fill="%23fff" opacity="0.4"/><rect x="24" y="0" width="4" height="4" fill="%23fff" opacity="0.2"/><rect x="32" y="0" width="4" height="4" fill="%23fff" opacity="0.4"/><rect x="0" y="8" width="4" height="4" fill="%23fff" opacity="0.4"/><rect x="8" y="8" width="4" height="4" fill="%23fff" opacity="0.2"/><rect x="16" y="8" width="4" height="4" fill="%23fff"/><rect x="24" y="8" width="4" height="4" fill="%23fff" opacity="0.4"/><rect x="32" y="8" width="4" height="4" fill="%23fff" opacity="0.8"/><rect x="0" y="16" width="4" height="4" fill="%23fff"/><rect x="8" y="16" width="4" height="4" fill="%23fff"/><rect x="16" y="16" width="4" height="4" fill="%23fff" opacity="0.2"/><rect x="24" y="16" width="4" height="4" fill="%23fff"/><rect x="32" y="16" width="4" height="4" fill="%23fff" opacity="0.8"/><rect x="0" y="24" width="4" height="4" fill="%23fff" opacity="0.4"/><rect x="8" y="24" width="4" height="4" fill="%23fff"/><rect x="16" y="24" width="4" height="4" fill="%23fff" opacity="0.8"/><rect x="24" y="24" width="4" height="4" fill="%23fff" opacity="0.2"/><rect x="32" y="24" width="4" height="4" fill="%23fff" opacity="0.2"/><rect x="0" y="32" width="4" height="4" fill="%23fff" opacity="0.8"/><rect x="8" y="32" width="4" height="4" fill="%23fff" opacity="0.8"/><rect x="16" y="32" width="4" height="4" fill="%23fff"/><rect x="24" y="32" width="4" height="4" fill="%23fff"/><rect x="32" y="32" width="4" height="4" fill="%23fff" opacity="0.4"/><rect x="0" y="40" width="4" height="4" fill="%23fff"/><rect x="8" y="40" width="4" height="4" fill="%23fff"/><rect x="16" y="40" width="4" height="4" fill="%23fff" opacity="0.2"/><rect x="24" y="40" width="4" height="4" fill="%23fff" opacity="0.8"/><rect x="32" y="40" width="4" height="4" fill="%23fff" opacity="0.4"/><rect x="0" y="48" width="4" height="4" fill="%23fff" opacity="0.8"/><rect x="8" y="48" width="4" height="4" fill="%23fff" opacity="0.8"/><rect x="16" y="48" width="4" height="4" fill="%23fff" opacity="0.8"/><rect x="24" y="48" width="4" height="4" fill="%23fff" opacity="0.8"/><rect x="32" y="48" width="4" height="4" fill="%23fff"/><rect x="0" y="56" width="4" height="4" fill="%23fff" opacity="0.8"/><rect x="8" y="56" width="4" height="4" fill="%23fff" opacity="0.8"/><rect x="16" y="56" width="4" height="4" fill="%23fff" opacity="0.2"/><rect x="24" y="56" width="4" height="4" fill="%23fff" opacity="0.4"/><rect x="32" y="56" width="4" height="4" fill="%23fff" opacity="0.8"/><rect x="0" y="64" width="4" height="4" fill="%23fff" opacity="0.4"/><rect x="8" y="64" width="4" height="4" fill="%23fff"/><rect x="16" y="64" width="4" height="4" fill="%23fff" opacity="0.4"/><rect x="24" y="64" width="4" height="4" fill="%23fff" opacity="0.2"/><rect x="32" y="64" width="4" height="4" fill="%23fff" opacity="0.8"/></svg>');
+  -webkit-mask-repeat: repeat-y;
+          mask-repeat: repeat-y;
+  -webkit-mask-position: top left;
+          mask-position: top left;
+  pointer-events: none;
+}
+
+/* ---------- card ---------- */
+
+.grep-banner__card {
+  position: relative;
+  flex: 1 0 0;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--space-16);
+  padding: var(--space-16);
+  margin-left: var(--space-20);      /* 36 strip − 16 overlap */
+  border-radius: var(--radius-8);
+  background: var(--background-component);
+  box-shadow: inset 0 0 0 0.5px var(--border-base), var(--elevation-card);
+}
+
+.grep-banner__body {
+  display: flex;
+  flex: 1 0 0;
+  min-width: 0;
+  align-items: center;
+  gap: var(--space-16);
+}
+
+/* ---------- label ---------- */
+
+.grep-banner__label {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--space-2);
+  min-width: 0;
+}
+
+.grep-banner__title {
+  font-family: var(--text-style-body), system-ui, sans-serif;
+  font-size: var(--text-base);
+  font-weight: var(--text-weight-bold);   /* 500 — label-base-bold */
+  line-height: var(--text-base);
+  color: var(--foreground-text-base);
+}
+
+.grep-banner__message {
+  font-family: var(--text-style-body), system-ui, sans-serif;
+  font-size: var(--text-base);
+  font-weight: var(--text-weight-regular); /* 400 — para-base-reg */
+  line-height: 1.4;
+  color: var(--foreground-text-subtle);
+  margin: 0;
+}
+
+/* ---------- actions ---------- */
+
+.grep-banner__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-12);
+  flex-shrink: 0;
+}
+
+/* ---------- types ---------- */
+/* Only the accent changes. The leading avatar and the action button are
+   slots — see banner.md for which button each type takes. */
+
+.grep-banner--info    { --_accent: var(--background-accent-brand); }
+.grep-banner--success { --_accent: var(--background-accent-success); }
+.grep-banner--warning { --_accent: var(--background-accent-warning); }
+.grep-banner--danger  { --_accent: var(--background-accent-danger); }

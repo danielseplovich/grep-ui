@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Grep prototype</title>
+
+<link rel="preconnect" href="https://rsms.me/">
+<link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="../../grepmd/grep-ui.css">
+
+<style>
+  html {
+    font-family: var(--text-style-body), system-ui, sans-serif;
+    font-size: var(--text-base);
+    font-weight: var(--text-weight-regular);
+    color: var(--foreground-text-base);
+    background: var(--background-canvas);
+    -webkit-font-smoothing: antialiased;
+  }
+  body { margin: 0; }
+  h1, h2, h3 {
+    font-family: var(--text-style-display), var(--text-style-body), sans-serif;
+    font-weight: var(--text-weight-bold);
+  }
+  code, kbd, pre { font-family: var(--text-style-code), ui-monospace, monospace; }
+  body { padding: var(--space-32); }
+  .modes { display:flex; flex-direction:column; gap: var(--space-24); }
+  .mode { padding: var(--space-24); border-radius: var(--radius-12);
+          border:0.5px solid var(--border-base); background: var(--background-canvas); }
+  h2 { font-size: var(--text-sm); font-weight: var(--text-weight-medium); color: var(--foreground-text-dim);
+       margin:0 0 var(--space-20); text-transform:uppercase; letter-spacing:0.04em; }
+  .grid { display:grid; grid-template-columns: repeat(2, max-content); gap: var(--space-24) var(--space-32); }
+  .cell { display:flex; flex-direction:column; gap: var(--space-8); align-items:flex-start; }
+  code { font-family: var(--text-style-code), monospace; font-size: var(--text-2xs); color: var(--foreground-text-faint); }
+</style>
+</head>
+<body>
+
+  
+  <div class="modes"><div class="mode"><h2>Light</h2><div id="l"></div></div>
+  <div class="mode" data-theme="dark"><h2>Dark</h2><div id="d"></div></div></div>
+<script>
+const ICON=`<svg class="grep-segment__icon" aria-hidden="true" width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" ><g><path d="M1.09375 7C1.09375 7.1958 1.17153 7.38359 1.30999 7.52204C1.44844 7.6605 1.63623 7.73828 1.83203 7.73828H6.13867C6.17131 7.73828 6.2026 7.75124 6.22568 7.77432C6.24875 7.7974 6.26172 7.82869 6.26172 7.86133V12.168C6.26172 12.3638 6.3395 12.5516 6.47796 12.69C6.61641 12.8285 6.8042 12.9062 7 12.9062C7.1958 12.9062 7.38359 12.8285 7.52204 12.69C7.6605 12.5516 7.73828 12.3638 7.73828 12.168V7.86133C7.73828 7.82869 7.75124 7.7974 7.77432 7.77432C7.7974 7.75124 7.82869 7.73828 7.86133 7.73828H12.168C12.3638 7.73828 12.5516 7.6605 12.69 7.52204C12.8285 7.38359 12.9062 7.1958 12.9062 7C12.9062 6.8042 12.8285 6.61641 12.69 6.47796C12.5516 6.3395 12.3638 6.26172 12.168 6.26172H7.86133C7.82869 6.26172 7.7974 6.24875 7.77432 6.22568C7.75124 6.2026 7.73828 6.17131 7.73828 6.13867V1.83203C7.73828 1.63623 7.6605 1.44844 7.52204 1.30999C7.38359 1.17153 7.1958 1.09375 7 1.09375C6.8042 1.09375 6.61641 1.17153 6.47796 1.30999C6.3395 1.44844 6.26172 1.63623 6.26172 1.83203V6.13867C6.26172 6.17131 6.24875 6.2026 6.22568 6.22568C6.2026 6.24875 6.17131 6.26172 6.13867 6.26172H1.83203C1.63623 6.26172 1.44844 6.3395 1.30999 6.47796C1.17153 6.61641 1.09375 6.8042 1.09375 7Z" fill="currentColor"/></g></svg>`;
+const seg=({sel=false,state="",icon=false,iconOnly=false,badge="",label="Label"})=>
+ iconOnly
+ ? `<button class="grep-segment grep-segment--icon${sel?" grep-segment--selected":""}"${state?` data-state="${state}"`:""}>${ICON}</button>`
+ : `<button class="grep-segment${sel?" grep-segment--selected":""}"${state?` data-state="${state}"`:""}>${icon?ICON:""}${label}${badge?`<span class="grep-segment__badge">${badge}</span>`:""}</button>`;
+const track=(mods,segs)=>`<div class="grep-segmented ${mods}" role="tablist">${segs.map(seg).join("")}</div>`;
+const cell=(t,el)=>`<div class="cell"><code>${t}</code>${el}</div>`;
+const content=()=>`<div class="grid">
+  ${cell("Base (28) — text, 2 options", track("",[{sel:true},{}]))}
+  ${cell("LG (32) — text, 2 options", track("grep-segmented--32",[{sel:true},{}]))}
+  ${cell("Base — hover on 2nd", track("",[{sel:true},{state:"hover"}]))}
+  ${cell("LG — hover on 2nd", track("grep-segmented--32",[{sel:true},{state:"hover"}]))}
+  ${cell("Base — 3 options", track("",[{sel:true},{},{}]))}
+  ${cell("Base — 4 options", track("",[{sel:true},{},{},{}]))}
+  ${cell("Base — leading icons", track("",[{sel:true,icon:true},{icon:true},{icon:true}]))}
+  ${cell("LG — leading icons", track("grep-segmented--32",[{sel:true,icon:true},{icon:true}]))}
+  ${cell("Base — icon only", track("",[{sel:true,iconOnly:true},{iconOnly:true},{iconOnly:true}]))}
+  ${cell("LG — icon only", track("grep-segmented--32",[{sel:true,iconOnly:true},{iconOnly:true}]))}
+  ${cell("Base — with badge", track("",[{sel:true,badge:"12"},{badge:"3"}]))}
+  ${cell("LG — icon + badge", track("grep-segmented--32",[{sel:true,icon:true,badge:"12"},{icon:true,badge:"3"}]))}
+</div>`;
+l.innerHTML=content(); d.innerHTML=content();
+</script>
+</body>
+</html>

@@ -1,0 +1,127 @@
+/* ============================================================
+   Grep UI — Breadcrumbs
+   Source: Figma "Grep UI / Nav Breadcrumbs Base" (item, 1163:49935)
+           and "Grep UI / Nav Breadcrumbs" (trail, 4694:43793)
+   Read: all four item types × active × Default/Hover,
+         and all three trail types.
+   ============================================================ */
+
+/* ---------- trail ---------- */
+
+.grep-breadcrumbs {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);        /* 1px — the crumbs carry their own padding */
+}
+
+.grep-breadcrumbs__sep {
+  flex-shrink: 0;
+  width: var(--space-12);
+  height: var(--space-12);
+  color: var(--foreground-icon-dim);
+}
+
+/* ---------- crumb ---------- */
+
+.grep-crumb {
+  --_h: var(--space-24);
+  --_pad-x: var(--space-4);
+  --_pad-y: var(--space-2);
+  --_radius: var(--radius-6);
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  flex-shrink: 0;
+  height: var(--_h);
+  padding: var(--_pad-y) var(--_pad-x);
+  gap: var(--space-4);
+  border-radius: var(--_radius);
+  background: none;
+  border: 0;
+
+  font-family: var(--text-style-body), system-ui, sans-serif;
+  font-size: var(--text-sm);
+  font-weight: var(--text-weight-bold);   /* 500 — label-sm-bold */
+  line-height: var(--text-sm);
+  color: var(--foreground-text-subtle);
+  white-space: nowrap;
+  cursor: pointer;
+  -webkit-font-smoothing: antialiased;
+
+  /* Inactive crumbs are dimmed as a whole, not recolored. */
+  opacity: var(--opacity-subtle);
+}
+
+/* ---------- parts ---------- */
+/* Both visual types resolve to a 16px slot holding a 14px glyph: the icon
+   types inset the glyph by 6.25%, the folder pads its 14px frame by 1. */
+
+.grep-crumb__visual {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--space-16);
+  height: var(--space-16);
+  color: var(--foreground-icon-subtle);
+}
+
+.grep-crumb__icon {
+  width: var(--space-14);
+  height: var(--space-14);
+  display: block;
+}
+
+/* The folder glyph is a multicolor asset — it keeps its own fills, and it is
+   drawn wider than tall. Figma draws it at 13.991 x 11.824 centred in the
+   14px frame inside the 16px slot, so pin those dimensions rather than
+   letting the asset render at its intrinsic size. */
+.grep-crumb__icon--folder { width: 13.991px; height: 11.824px; }
+
+.grep-crumb__label { flex-shrink: 0; }
+
+/* ---------- state: active ---------- */
+/* The last crumb. Full opacity and stronger ink; still no background. */
+
+.grep-crumb--active {
+  opacity: 1;
+  color: var(--foreground-text-base);
+  cursor: default;
+}
+
+/* ---------- state: hover ---------- */
+/* Hover adds the overlay AND clears the dimming — an inactive crumb reads
+   at full strength under the pointer. */
+
+.grep-crumb:hover:not(.grep-crumb--active),
+.grep-crumb[data-state="hover"] {
+  background: var(--background-overlay-hover);
+  opacity: 1;
+}
+
+.grep-crumb--active:hover,
+.grep-crumb--active[data-state="hover"] {
+  background: var(--background-overlay-hover);
+}
+
+/* ---------- type: simplified ---------- */
+/* Tooltip use only — a text-only path, smaller box, never a background. */
+
+.grep-crumb--simplified {
+  --_h: var(--space-16);
+  --_pad-x: var(--space-2);
+  --_pad-y: var(--space-0);
+  --_radius: var(--radius-4);
+  font-weight: var(--text-weight-medium);   /* 440 — label-sm-med */
+}
+
+.grep-crumb--simplified:hover,
+.grep-crumb--simplified[data-state="hover"] {
+  background: none;
+  opacity: 1;
+  color: var(--foreground-text-base);
+}
+
+.grep-breadcrumbs--simplified .grep-breadcrumbs__sep { color: var(--foreground-icon-dim); }

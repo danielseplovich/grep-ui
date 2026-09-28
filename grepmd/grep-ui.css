@@ -1,0 +1,30 @@
+/* Grep UI — single entry point.
+   Link this one file in a prototype; everything else follows from it.
+   Add one @import per component as the library grows. */
+
+@import url("./tokens.css");
+@import url("./effects.css");
+@import url("../Components/button/button.css");
+@import url("../Components/icon-button/icon-button.css");
+@import url("../Components/avatar/avatar.css");
+@import url("../Components/badge/badge.css");
+@import url("../Components/breadcrumbs/breadcrumbs.css");
+@import url("../Components/banner/banner.css");
+@import url("../Components/progress-bar/progress-bar.css");
+@import url("../Components/checkbox/checkbox.css");
+@import url("../Components/radio/radio.css");
+@import url("../Components/label/label.css");
+@import url("../Components/input/input.css");
+@import url("../Components/search/search.css");
+@import url("../Components/segmented-control/segmented-control.css");
+@import url("../Components/select/select.css");
+@import url("../Components/tabs/tabs.css");
+@import url("../Components/toast/toast.css");
+@import url("../Components/toggle/toggle.css");
+@import url("../Components/tooltip/tooltip.css");
+@import url("../Components/modal/modal.css");
+@import url("../Components/item-block/item-block.css");
+@import url("../Components/keyboard-shortcut/keyboard-shortcut.css");
+@import url("../Components/divider/divider.css");
+@import url("../Components/context-menu/context-menu.css");
+@import url("../Components/file-tree-menu/file-tree-menu.css");

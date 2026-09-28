@@ -1,0 +1,168 @@
+/* ============================================================
+   Grep UI — Button
+   Source: Figma "Grep UI / Button" component set
+   Read states: Loading (743:409), Focused (157:1373)
+   Tokens: DESIGN.md. No literal values except where noted.
+   ============================================================ */
+
+.grep-btn {
+  /* geometry — read from Figma node */
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-6);
+  height: var(--space-28);
+  padding: var(--space-0) var(--space-8);
+  border-radius: var(--radius-6);
+  overflow: clip;
+
+  /* type — read from Figma node */
+  font-family: var(--text-style-body), system-ui, sans-serif;
+  font-size: var(--text-base);
+  font-weight: var(--text-weight-bold);   /* 500 — the node binds label-base-bold, not medium */
+  line-height: var(--text-base);
+  white-space: nowrap;
+
+  /* chrome */
+  border: 0.5px solid transparent;
+  box-shadow: var(--elevation-button);    /* Grep UI/Button/base */
+  cursor: pointer;
+  user-select: none;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ---------- parts ---------- */
+
+.grep-btn__icon {
+  flex-shrink: 0;
+  width: var(--space-14);
+  height: var(--space-14);
+}
+
+.grep-btn__label { flex-shrink: 0; }
+
+/* Hover/pressed overlay layer. Neutral and contrast add an overlay on top of
+   their fill; brand and danger swap the fill instead. */
+.grep-btn::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: transparent;
+  pointer-events: none;
+}
+
+/* ---------- type: brand ---------- */
+
+.grep-btn--brand {
+  background: var(--button-brand-background);
+  border-color: var(--border-brand);       /* the node HAS a 0.5px brand border */
+  color: var(--foreground-text-on-color);
+}
+.grep-btn--brand .grep-btn__icon { color: var(--foreground-icon-on-color); }
+.grep-btn--brand:hover:not(:disabled):not([data-state="loading"]) {
+  background: var(--button-brand-background-hover);
+}
+
+/* ---------- type: neutral ---------- */
+
+.grep-btn--neutral {
+  background: var(--button-neutral-background);
+  border-color: var(--border-base);
+  color: var(--foreground-text-base);
+}
+.grep-btn--neutral .grep-btn__icon { color: var(--foreground-icon-base); }
+.grep-btn--neutral:hover:not(:disabled):not([data-state="loading"])::before {
+  background: var(--button-neutral-background-overlay-hover);
+}
+
+/* ---------- type: inverted (token name: contrast) ---------- */
+
+.grep-btn--inverted {
+  background: var(--button-contrast-background);
+  border-color: var(--button-contrast-border);
+  color: var(--button-contrast-text);
+}
+.grep-btn--inverted .grep-btn__icon { color: var(--button-contrast-icon); }
+.grep-btn--inverted:hover:not(:disabled):not([data-state="loading"])::before {
+  background: var(--button-contrast-background-overlay-hover);
+}
+
+/* ---------- type: danger ---------- */
+
+.grep-btn--danger {
+  background: var(--button-danger-background);
+  border-color: var(--border-danger);
+  color: var(--foreground-text-on-color);
+}
+.grep-btn--danger .grep-btn__icon { color: var(--foreground-icon-on-color); }
+.grep-btn--danger:hover:not(:disabled):not([data-state="loading"]) {
+  background: var(--button-danger-background-hover);
+}
+
+/* ---------- state: focused ---------- */
+
+.grep-btn:focus-visible,
+.grep-btn[data-state="focused"] {
+  outline: none;
+  box-shadow: var(--elevation-button-focus);
+}
+
+/* ---------- state: loading ---------- */
+/* Content goes to opacity 0 and the spinner centers over it, so the button
+   keeps its exact width. Read from node 743:409. */
+
+.grep-btn[data-state="loading"] {
+  cursor: default;
+  pointer-events: none;
+}
+.grep-btn[data-state="loading"] .grep-btn__icon,
+.grep-btn[data-state="loading"] .grep-btn__label {
+  opacity: var(--opacity-hidden);
+}
+
+/* Spinner is the real Loading-Circle-Dash asset, inlined (see button-spinner.svg).
+   Its 12 segments are uniform in Figma; the opacity ramp and the stepped
+   rotation below are motion, which Figma doesn't specify. (inferred) */
+
+.grep-btn__spinner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: var(--space-14);
+  height: var(--space-14);
+  margin: calc(var(--space-14) / -2) 0 0 calc(var(--space-14) / -2);
+  color: currentColor;
+  opacity: var(--opacity-hidden);
+  animation: grep-btn-spin 0.9s steps(12, end) infinite;
+}
+.grep-btn[data-state="loading"] .grep-btn__spinner { opacity: 1; }
+
+.grep-btn__spinner path:nth-child(1)  { opacity: 1.00; }
+.grep-btn__spinner path:nth-child(2)  { opacity: 0.92; }
+.grep-btn__spinner path:nth-child(3)  { opacity: 0.84; }
+.grep-btn__spinner path:nth-child(4)  { opacity: 0.76; }
+.grep-btn__spinner path:nth-child(5)  { opacity: 0.68; }
+.grep-btn__spinner path:nth-child(6)  { opacity: 0.60; }
+.grep-btn__spinner path:nth-child(7)  { opacity: 0.52; }
+.grep-btn__spinner path:nth-child(8)  { opacity: 0.44; }
+.grep-btn__spinner path:nth-child(9)  { opacity: 0.36; }
+.grep-btn__spinner path:nth-child(10) { opacity: 0.28; }
+.grep-btn__spinner path:nth-child(11) { opacity: 0.20; }
+.grep-btn__spinner path:nth-child(12) { opacity: 0.12; }
+
+@keyframes grep-btn-spin { to { transform: rotate(360deg); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .grep-btn__spinner { animation-duration: 2.7s; }
+}
+
+/* ---------- state: disabled ---------- */
+/* Opacity only. Never recolor a disabled control. */
+
+.grep-btn:disabled,
+.grep-btn[data-state="disabled"] {
+  opacity: var(--opacity-disabled);
+  cursor: not-allowed;
+  pointer-events: none;
+}

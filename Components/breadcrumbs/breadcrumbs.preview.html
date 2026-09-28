@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Grep prototype</title>
+
+<link rel="preconnect" href="https://rsms.me/">
+<link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="../../grepmd/grep-ui.css">
+
+<style>
+  html {
+    font-family: var(--text-style-body), system-ui, sans-serif;
+    font-size: var(--text-base);
+    font-weight: var(--text-weight-regular);
+    color: var(--foreground-text-base);
+    background: var(--background-canvas);
+    -webkit-font-smoothing: antialiased;
+  }
+  body { margin: 0; }
+  h1, h2, h3 {
+    font-family: var(--text-style-display), var(--text-style-body), sans-serif;
+    font-weight: var(--text-weight-bold);
+  }
+  code, kbd, pre { font-family: var(--text-style-code), ui-monospace, monospace; }
+  body { padding: var(--space-32); }
+  .modes { display:flex; flex-direction:column; gap: var(--space-24); }
+  .mode { padding: var(--space-24); border-radius: var(--radius-12);
+          border:0.5px solid var(--border-base); background: var(--background-canvas); }
+  .rows { display:flex; flex-direction:column; gap: var(--space-16); }
+  .row { display:flex; align-items:center; gap: var(--space-20); }
+  .rowlab { width: var(--space-80); flex-shrink:0; font-size: var(--text-xs); color: var(--foreground-text-dim); }
+  h2 { font-size: var(--text-sm); font-weight: var(--text-weight-medium);
+       color: var(--foreground-text-dim); margin:0 0 var(--space-20);
+       text-transform:uppercase; letter-spacing:0.04em; }
+</style>
+</head>
+<body>
+
+
+  <div class="modes">
+    <div class="mode"><h2>Light</h2><div class="rows" id="l"></div></div>
+    <div class="mode" data-theme="dark"><h2>Dark</h2><div class="rows" id="d"></div></div>
+  </div>
+<script>
+const SEP    = `<svg class="grep-breadcrumbs__sep" aria-hidden="true" width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><g><path d="M4.14733 9.35267C3.95256 9.1579 3.95256 8.8421 4.14733 8.64733L6.79466 6L4.14733 3.35267C3.95256 3.15789 3.95256 2.8421 4.14733 2.64733C4.3421 2.45256 4.6579 2.45256 4.85267 2.64733L7.85267 5.64733C8.04744 5.8421 8.04744 6.1579 7.85267 6.35267L4.85267 9.35267C4.6579 9.54744 4.3421 9.54744 4.14733 9.35267Z" fill="currentColor" fill-opacity="0.44"/></g></svg>`;
+const DOTS   = `<svg class="grep-crumb__icon" aria-hidden="true" width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><g><g><path d="M2.57495 8.26161C1.87692 8.26161 1.31106 7.69575 1.31106 6.99772C1.31106 6.29969 1.87692 5.73383 2.57495 5.73383C3.27297 5.73383 3.83884 6.29969 3.83884 6.99772C3.83884 7.69575 3.27297 8.26161 2.57495 8.26161Z" fill="currentColor" fill-opacity="0.56"/><path d="M5.73467 6.99772C5.73467 7.69575 6.30053 8.26161 6.99856 8.26161C7.69658 8.26161 8.26245 7.69575 8.26245 6.99772C8.26245 6.29969 7.69658 5.73383 6.99856 5.73383C6.30053 5.73383 5.73467 6.29969 5.73467 6.99772Z" fill="currentColor" fill-opacity="0.56"/><path d="M10.1583 6.99772C10.1583 7.69575 10.7241 8.26161 11.4222 8.26161C12.1202 8.26161 12.6861 7.69575 12.6861 6.99772C12.6861 6.29969 12.1202 5.73383 11.4222 5.73383C10.7241 5.73383 10.1583 6.29969 10.1583 6.99772Z" fill="currentColor" fill-opacity="0.56"/></g></g></svg>`;
+const FOLDER = `<svg class="grep-crumb__icon grep-crumb__icon--folder" aria-hidden="true" width="14.781" height="11.8238" viewBox="0 0 14.781 11.8238" fill="none" xmlns="http://www.w3.org/2000/svg"><g><g filter="url(#filter0_ii_0_271)"><path d="M3.12911 1.14386C2.6448 1.14386 2.40264 1.14386 2.21766 1.23812C2.05495 1.32102 1.92265 1.45332 1.83975 1.61603C1.74549 1.80101 1.74549 2.04317 1.74549 2.52749V5.97213H13.0355V3.26253C13.0355 2.83203 13.0355 2.61678 12.9517 2.45235C12.878 2.30772 12.7604 2.19012 12.6158 2.11643C12.4513 2.03265 12.2361 2.03265 11.8056 2.03265H6.97611C6.71789 2.03265 6.38759 2.00863 6.06331 1.76241C5.90384 1.64133 5.88959 1.63062 5.8756 1.61959C5.86113 1.60819 5.84694 1.59644 5.67296 1.46214C5.33066 1.19791 5.1561 1.14386 4.85624 1.14386H3.12911Z" fill="url(#paint0_linear_0_271)"/></g><g><g filter="url(#filter1_di_0_271)"><path d="M11.3339 1.11863C11.3509 1.11414 11.3594 1.11189 11.3667 1.11348C11.3732 1.11488 11.3791 1.11829 11.3835 1.12322C11.3885 1.12883 11.3907 1.13732 11.3952 1.1543L13.1442 7.76462C13.1487 7.7816 13.1509 7.79009 13.1493 7.79745C13.1479 7.80393 13.1445 7.80979 13.1396 7.81421C13.134 7.81923 13.1255 7.82147 13.1085 7.82597L6.21946 9.64868C6.21516 9.64982 6.213 9.65039 6.21081 9.65065C6.20887 9.65088 6.20691 9.65093 6.20496 9.65079C6.20276 9.65064 6.20058 9.65018 6.19622 9.64926L2.50264 8.86605C2.48907 8.86317 2.48228 8.86173 2.47712 8.85817C2.47256 8.85503 2.46892 8.85073 2.46656 8.84573C2.46388 8.84006 2.46356 8.83313 2.46292 8.81927L2.22149 3.57054C2.22082 3.55611 2.22049 3.5489 2.22278 3.54284C2.2248 3.5375 2.22825 3.5328 2.23274 3.52927C2.23783 3.52527 2.24482 3.52342 2.25878 3.51973L5.93338 2.5475L11.3339 1.11863Z" fill="#FDFDFD"/></g><g filter="url(#filter2_di_0_271)"><path d="M6.10898 2.95407L11.9083 1.82396C11.9256 1.8206 11.9342 1.81892 11.9414 1.821C11.9478 1.82282 11.9534 1.82661 11.9575 1.83183C11.9621 1.83776 11.9638 1.84638 11.9672 1.86362L12.6187 5.2072C12.6196 5.21174 12.62 5.21401 12.6202 5.2163C12.6203 5.21832 12.6202 5.22035 12.6199 5.22236C12.6195 5.22462 12.6189 5.22684 12.6175 5.23127L11.4994 8.94499C11.4963 8.95553 11.4947 8.9608 11.4917 8.965C11.489 8.96871 11.4856 8.97181 11.4817 8.97406C11.4772 8.97662 11.4718 8.97767 11.461 8.97977L4.64861 10.3073C4.64224 10.3085 4.63906 10.3092 4.63589 10.3091C4.63308 10.3091 4.63029 10.3087 4.62759 10.3079C4.62454 10.3071 4.62166 10.3056 4.6159 10.3026L2.47653 9.19233C2.46864 9.18824 2.46469 9.18619 2.46157 9.18329C2.45881 9.18072 2.45653 9.17768 2.45485 9.1743C2.45295 9.17049 2.4521 9.16612 2.45039 9.15739L1.42923 3.91713C1.42587 3.89989 1.42419 3.89127 1.42626 3.88403C1.42809 3.87766 1.43188 3.87204 1.43709 3.86796C1.44303 3.86332 1.45165 3.86164 1.46888 3.85828L6.10898 2.95407Z" fill="#FDFDFD"/></g></g><g filter="url(#filter3_dii_0_271)"><path d="M1.0129 4.98363C0.940973 4.42922 0.905008 4.15201 0.991134 3.93696C1.06675 3.74814 1.20485 3.59097 1.38237 3.49169C1.58455 3.37861 1.86408 3.37861 2.42314 3.37861H7.39049H12.3578C12.9169 3.37861 13.1964 3.37861 13.3986 3.49169C13.5761 3.59097 13.7142 3.74814 13.7898 3.93696C13.876 4.15201 13.84 4.42922 13.7681 4.98363L13.1962 9.39126C13.1393 9.83013 13.1108 10.0496 13.0068 10.2148C12.9152 10.3605 12.7833 10.4764 12.6271 10.5485C12.4498 10.6304 12.2285 10.6304 11.786 10.6304H2.99498C2.55243 10.6304 2.33116 10.6304 2.15387 10.5485C1.99766 10.4764 1.86575 10.3605 1.77413 10.2148C1.67015 10.0496 1.64168 9.83013 1.58474 9.39126L1.0129 4.98363Z" fill="url(#paint1_linear_0_271)"/></g></g><defs><filter id="filter0_ii_0_271" x="1.74549" y="0.759522" width="11.29" height="5.28467" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB"><feFlood flood-opacity="0" result="BackgroundImageFix"/><feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/><feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/><feOffset dy="-0.38434"/><feGaussianBlur stdDeviation="0.768679"/><feComposite in2="hardAlpha" operator="arithmetic" k2="-1" k3="1"/><feColorMatrix type="matrix" values="0 0 0 0 0.0466319 0 0 0 0 0.440508 0 0 0 0 0.658333 0 0 0 0.15 0"/><feBlend mode="multiply" in2="shape" result="effect1_innerShadow_0_271"/><feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/><feOffset dy="0.0720637"/><feGaussianBlur stdDeviation="0.0360318"/><feComposite in2="hardAlpha" operator="arithmetic" k2="-1" k3="1"/><feColorMatrix type="matrix" values="0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.2 0"/><feBlend mode="normal" in2="effect1_innerShadow_0_271" result="effect2_innerShadow_0_271"/></filter><filter id="filter1_di_0_271" x="1.90739" y="0.752652" width="11.5561" height="9.21183" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB"><feFlood flood-opacity="0" result="BackgroundImageFix"/><feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/><feOffset/><feGaussianBlur stdDeviation="0.156805"/><feComposite in2="hardAlpha" operator="out"/><feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.15 0"/><feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_0_271"/><feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_0_271" result="shape"/><feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/><feOffset dy="-0.360318"/><feGaussianBlur stdDeviation="0.31361"/><feComposite in2="hardAlpha" operator="arithmetic" k2="-1" k3="1"/><feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.1 0"/><feBlend mode="multiply" in2="shape" result="effect2_innerShadow_0_271"/></filter><filter id="filter2_di_0_271" x="1.11175" y="1.45977" width="11.8221" height="9.16296" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB"><feFlood flood-opacity="0" result="BackgroundImageFix"/><feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/><feOffset/><feGaussianBlur stdDeviation="0.156805"/><feComposite in2="hardAlpha" operator="out"/><feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.15 0"/><feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_0_271"/><feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_0_271" result="shape"/><feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/><feOffset dy="-0.360318"/><feGaussianBlur stdDeviation="0.313611"/><feComposite in2="hardAlpha" operator="arithmetic" k2="-1" k3="1"/><feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.1 0"/><feBlend mode="multiply" in2="shape" result="effect2_innerShadow_0_271"/></filter><filter id="filter3_dii_0_271" x="0" y="2.12417" width="14.781" height="9.13341" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB"><feFlood flood-opacity="0" result="BackgroundImageFix"/><feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/><feOffset dy="-0.313611"/><feGaussianBlur stdDeviation="0.470416"/><feComposite in2="hardAlpha" operator="out"/><feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.1 0"/><feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_0_271"/><feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_0_271" result="shape"/><feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/><feOffset dy="-0.360318"/><feGaussianBlur stdDeviation="0.600531"/><feComposite in2="hardAlpha" operator="arithmetic" k2="-1" k3="1"/><feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.1 0"/><feBlend mode="multiply" in2="shape" result="effect2_innerShadow_0_271"/><feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/><feOffset dy="0.0720637"/><feGaussianBlur stdDeviation="0.0360318"/><feComposite in2="hardAlpha" operator="arithmetic" k2="-1" k3="1"/><feColorMatrix type="matrix" values="0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.2 0"/><feBlend mode="normal" in2="effect2_innerShadow_0_271" result="effect3_innerShadow_0_271"/></filter><linearGradient id="paint0_linear_0_271" x1="7.39048" y1="1.14386" x2="7.39048" y2="5.97213" gradientUnits="userSpaceOnUse"><stop stop-color="#52A7F4"/><stop offset="1" stop-color="#145794"/><stop offset="1" stop-color="#2875BC"/></linearGradient><linearGradient id="paint1_linear_0_271" x1="7.39049" y1="3.37785" x2="7.39049" y2="10.6323" gradientUnits="userSpaceOnUse"><stop stop-color="#74BBFC"/><stop offset="1" stop-color="#52A7F4"/></linearGradient></defs></svg>`;
+
+const crumb = (label, mods="", visual=FOLDER) => {
+  const tag = mods.includes("active") ? "span" : "button";
+  const vis = visual ? `<span class="grep-crumb__visual">${visual}</span>` : "";
+  const lab = label ? `<span class="grep-crumb__label">${label}</span>` : "";
+  return `<${tag} class="grep-crumb ${mods}">${vis}${lab}</${tag}>`;
+};
+const trail = (inner, mods="") =>
+  `<nav class="grep-breadcrumbs ${mods}" aria-label="Breadcrumb">${inner}</nav>`;
+
+function rows() {
+  const S = SEP;
+  return `
+  <div class="row"><span class="rowlab">String</span>${trail(
+    crumb("Breadcrumb","grep-crumb--folder") + S +
+    crumb("","grep-crumb--icon-only",DOTS) + S +
+    crumb("Breadcrumb","grep-crumb--folder") + S +
+    crumb("Breadcrumb","grep-crumb--folder") + S +
+    crumb("Breadcrumb","grep-crumb--folder grep-crumb--active"))}</div>
+
+  <div class="row"><span class="rowlab">Two Items</span>${trail(
+    crumb("Breadcrumb","grep-crumb--folder") + S +
+    crumb("Breadcrumb","grep-crumb--folder grep-crumb--active"), "grep-breadcrumbs--two-items")}</div>
+
+  <div class="row"><span class="rowlab">Hover</span>${trail(
+    crumb("Breadcrumb",'grep-crumb--folder" data-state="hover') + S +
+    crumb("","grep-crumb--icon-only",DOTS) + S +
+    crumb("Breadcrumb","grep-crumb--folder grep-crumb--active"))}</div>
+
+  <div class="row"><span class="rowlab">Icon only</span>${trail(
+    crumb("","grep-crumb--icon-only",DOTS) + S +
+    crumb("","grep-crumb--icon-only",DOTS))}</div>
+
+  <div class="row"><span class="rowlab">Simplified</span>${trail(
+    crumb("Breadcrumb","grep-crumb--simplified","") + S +
+    crumb("Breadcrumb","grep-crumb--simplified","") + S +
+    crumb("Breadcrumb",'grep-crumb--simplified" data-state="hover',"") + S +
+    crumb("Breadcrumb","grep-crumb--simplified",""), "grep-breadcrumbs--simplified")}</div>`;
+}
+document.getElementById("l").innerHTML = rows();
+document.getElementById("d").innerHTML = rows();
+</script>
+
+
+<script>
+  // Follow the OS theme. Remove if the prototype needs a fixed mode.
+  const dark = matchMedia("(prefers-color-scheme: dark)");
+  const apply = () => (document.documentElement.dataset.theme = dark.matches ? "dark" : "light");
+  document.documentElement.dataset.theme = "light";
+</script>
+</body>
+</html>

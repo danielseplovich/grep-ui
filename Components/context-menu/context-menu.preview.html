@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Grep prototype</title>
+
+<link rel="preconnect" href="https://rsms.me/">
+<link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="../../grepmd/grep-ui.css">
+
+<style>
+  html {
+    font-family: var(--text-style-body), system-ui, sans-serif;
+    font-size: var(--text-base);
+    font-weight: var(--text-weight-regular);
+    color: var(--foreground-text-base);
+    background: var(--background-canvas);
+    -webkit-font-smoothing: antialiased;
+  }
+  body { margin: 0; }
+  h1, h2, h3 {
+    font-family: var(--text-style-display), var(--text-style-body), sans-serif;
+    font-weight: var(--text-weight-bold);
+  }
+  code, kbd, pre { font-family: var(--text-style-code), ui-monospace, monospace; }
+  body { padding: var(--space-32); }
+  .modes { display:flex; gap: var(--space-24); align-items:flex-start; }
+  .mode { flex:1; padding: var(--space-24); border-radius: var(--radius-12);
+          border:0.5px solid var(--border-base); background: var(--background-canvas); }
+  h2 { font-size: var(--text-sm); font-weight: var(--text-weight-medium);
+       color: var(--foreground-text-dim); margin:0 0 var(--space-20);
+       text-transform:uppercase; letter-spacing:0.04em; }
+  .menus { display:flex; gap: var(--space-24); align-items:flex-start; }
+  .grep-menu { width: 300px; }
+</style>
+</head>
+<body>
+
+
+  <div class="modes">
+    <div class="mode"><h2>Light</h2><div id="l"></div></div>
+    <div class="mode" data-theme="dark"><h2>Dark</h2><div id="d"></div></div>
+  </div>
+<script>
+const SEARCH=`<svg class="grep-menu__search-icon" aria-hidden="true" width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><g><path d="M12.8239 11.3845L10.236 8.79667C10.9434 7.73487 11.231 6.44814 11.0431 5.18622C10.8551 3.9243 10.205 2.77722 9.21895 1.96765C8.23287 1.15807 6.98117 0.74374 5.70681 0.805089C4.43245 0.866437 3.22634 1.39908 2.32259 2.29964C1.41884 3.20019 0.881926 4.40441 0.816067 5.67855C0.750208 6.95269 1.1601 8.20585 1.96618 9.19478C2.77227 10.1837 3.91703 10.8379 5.17828 11.0303C6.43952 11.2227 7.72727 10.9396 8.79156 10.236L11.3845 12.829C11.5757 13.0191 11.8345 13.1258 12.1042 13.1258C12.3739 13.1258 12.6326 13.0191 12.8239 12.829C12.9188 12.7342 12.9941 12.6216 13.0454 12.4976C13.0968 12.3737 13.1233 12.2409 13.1233 12.1067C13.1233 11.9726 13.0968 11.8397 13.0454 11.7158C12.9941 11.5919 12.9188 11.4793 12.8239 11.3845ZM5.97917 10.0625C5.17156 10.0625 4.38209 9.82302 3.71059 9.37433C3.03909 8.92565 2.51572 8.28792 2.20666 7.54179C1.8976 6.79566 1.81674 5.97464 1.97429 5.18255C2.13185 4.39046 2.52075 3.66288 3.09181 3.09181C3.66288 2.52075 4.39046 2.13185 5.18255 1.97429C5.97464 1.81674 6.79566 1.8976 7.54179 2.20666C8.28792 2.51572 8.92565 3.03909 9.37433 3.71059C9.82302 4.38209 10.0625 5.17156 10.0625 5.97917C10.0625 6.5154 9.95688 7.04638 9.75167 7.54179C9.54647 8.0372 9.24569 8.48735 8.86652 8.86652C8.48735 9.24569 8.0372 9.54647 7.54179 9.75168C7.04638 9.95688 6.5154 10.0625 5.97917 10.0625Z" fill="currentColor" fill-opacity="0.56"/></g></svg>`;
+const CHEV=`<svg class="grep-menu__item-chevron" aria-hidden="true" width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><g><path d="M4.14733 9.35267C3.95256 9.1579 3.95256 8.8421 4.14733 8.64733L6.79466 6L4.14733 3.35267C3.95256 3.15789 3.95256 2.8421 4.14733 2.64733C4.3421 2.45256 4.6579 2.45256 4.85267 2.64733L7.85267 5.64733C8.04744 5.8421 8.04744 6.1579 7.85267 6.35267L4.85267 9.35267C4.6579 9.54744 4.3421 9.54744 4.14733 9.35267Z" fill="currentColor" fill-opacity="0.44"/></g></svg>`;
+const ICON=`<svg class="grep-menu__item-icon" aria-hidden="true" width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><g><g><path d="M2.57495 8.26161C1.87692 8.26161 1.31106 7.69575 1.31106 6.99772C1.31106 6.29969 1.87692 5.73383 2.57495 5.73383C3.27297 5.73383 3.83884 6.29969 3.83884 6.99772C3.83884 7.69575 3.27297 8.26161 2.57495 8.26161Z" fill="currentColor" fill-opacity="0.56"/><path d="M5.73467 6.99772C5.73467 7.69575 6.30053 8.26161 6.99856 8.26161C7.69658 8.26161 8.26245 7.69575 8.26245 6.99772C8.26245 6.29969 7.69658 5.73383 6.99856 5.73383C6.30053 5.73383 5.73467 6.29969 5.73467 6.99772Z" fill="currentColor" fill-opacity="0.56"/><path d="M10.1583 6.99772C10.1583 7.69575 10.7241 8.26161 11.4222 8.26161C12.1202 8.26161 12.6861 7.69575 12.6861 6.99772C12.6861 6.29969 12.1202 5.73383 11.4222 5.73383C10.7241 5.73383 10.1583 6.29969 10.1583 6.99772Z" fill="currentColor" fill-opacity="0.56"/></g></g></svg>`;
+
+const item = (label, {sub=false, mods="", state=""}={}) =>
+  `<button class="grep-menu__item ${mods}"${state?` data-state="${state}"`:""}>
+     <span class="grep-menu__item-left">${ICON}${label}</span>
+     <span class="grep-menu__item-right">${sub?CHEV:""}</span></button>`;
+const section = inner => `<div class="grep-menu__section">${inner}</div>`;
+const header = t => `<div class="grep-menu__header">${t}</div>`;
+const rule = `<hr class="grep-menu__rule">`;
+
+const menu = ({searchable=false, scrollable=false}={}) => `<div class="grep-menu">
+  ${searchable?`<div style="display:flex;align-items:center;padding-left:14px">${SEARCH}<input class="grep-menu__search" style="flex:1;margin-left:0" placeholder="Search..."></div>${rule}`:""}
+  ${section(header("4 assets") + item("Add to collection",{sub:true}) + item("Pin to cache"))}
+  ${rule}
+  ${section(header("General") + item("Rename",{state:"hover"}) + item("Move") + item("Copy") + item("Download",{sub:true}) + item("Duplicate",{state:"disabled"}))}
+  ${rule}
+  ${section(item("Move to trash",{mods:"grep-menu__item--danger"}))}
+  ${scrollable?`<div class="grep-menu__scrollbar"><span></span></div>`:""}
+</div>`;
+
+const content = () => `<div class="menus">${menu()}${menu({searchable:true, scrollable:true})}</div>`;
+document.getElementById("l").innerHTML = content();
+document.getElementById("d").innerHTML = content();
+</script>
+
+
+<script>
+  // Follow the OS theme. Remove if the prototype needs a fixed mode.
+  const dark = matchMedia("(prefers-color-scheme: dark)");
+  const apply = () => (document.documentElement.dataset.theme = dark.matches ? "dark" : "light");
+  document.documentElement.dataset.theme = "light";
+</script>
+</body>
+</html>

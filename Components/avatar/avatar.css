@@ -1,0 +1,84 @@
+.grep-avatar {
+  /* defaults to size 40; a size class overrides these three */
+  --_size: var(--space-40);
+  --_pad: var(--space-8);
+  --_radius: var(--radius-8);
+
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-sizing: border-box;
+  width: var(--_size);
+  height: var(--_size);
+  padding: var(--_pad);
+  border-radius: var(--_radius);
+
+  background-color: var(--background-tile);
+  /* Hairline as an inset ring, not a border — a border would consume the
+     padding box and render the icon undersized. See DESIGN.md > Borders. */
+  box-shadow: inset 0 0 0 0.5px var(--border-base), var(--elevation-avatar);
+}
+
+/* ---------- sizes ---------- */
+/* The icon is always size − 2×padding, so it falls out of the padding box.
+   Padding and radius do NOT scale proportionally — both are read per size. */
+
+.grep-avatar--12 { --_size: var(--space-12); --_pad: var(--space-2); --_radius: var(--radius-4); }
+.grep-avatar--14 { --_size: var(--space-14); --_pad: var(--space-3); --_radius: var(--radius-4); }
+.grep-avatar--16 { --_size: var(--space-16); --_pad: var(--space-3); --_radius: var(--radius-4); }
+.grep-avatar--20 { --_size: var(--space-20); --_pad: var(--space-4); --_radius: var(--radius-4); }
+.grep-avatar--24 { --_size: var(--space-24); --_pad: var(--space-5); --_radius: var(--radius-6); }
+.grep-avatar--28 { --_size: var(--space-28); --_pad: var(--space-6); --_radius: var(--radius-6); }
+.grep-avatar--32 { --_size: var(--space-32); --_pad: var(--space-6); --_radius: var(--radius-6); }
+.grep-avatar--36 { --_size: var(--space-36); --_pad: var(--space-8); --_radius: var(--radius-8); }
+.grep-avatar--40 { --_size: var(--space-40); --_pad: var(--space-8); --_radius: var(--radius-8); }
+
+/* ---------- radius: full ---------- */
+/* Overrides the per-size radius. */
+
+.grep-avatar--full { --_radius: var(--radius-full); }
+
+/* ---------- type: icon tile ---------- */
+
+.grep-avatar--icon-tile { color: var(--foreground-icon-subtle); }
+
+.grep-avatar__icon {
+  width: 100%;
+  height: 100%;
+  display: block;
+  color: inherit;
+}
+
+/* ---------- state: hover ---------- */
+/* Figma layers background-overlay-hover on top of background-tile and keeps
+   the hairline. Only avatars that are themselves controls should react to
+   the pointer, so the hover is gated behind --interactive. (gating inferred) */
+
+.grep-avatar--interactive { cursor: pointer; }
+
+.grep-avatar--interactive:hover,
+.grep-avatar[data-state="hover"] {
+  background-image:
+    linear-gradient(var(--background-overlay-hover), var(--background-overlay-hover));
+}
+
+/* ---------- badge slot ---------- */
+/* 14px at every size, overhanging the bottom-right corner by 2px.
+   Only exists on sizes 24 and up. */
+
+.grep-avatar__badge {
+  position: absolute;
+  right: calc(var(--space-2) * -1);
+  bottom: calc(var(--space-2) * -1);
+  width: var(--space-14);
+  height: var(--space-14);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+}
+
+.grep-avatar--12 .grep-avatar__badge,
+.grep-avatar--14 .grep-avatar__badge,
+.grep-avatar--16 .grep-avatar__badge,
+.grep-avatar--20 .grep-avatar__badge { display: none; }

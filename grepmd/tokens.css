@@ -1,0 +1,411 @@
+/* ---------- LIGHT (default) ---------- */
+:root,
+[data-theme="light"] {
+  color-scheme: light;
+  --background-canvas: #FCFCFC;
+  --background-left-sidebar: #F4F4F4;
+  --background-left-sidebar-shell: #E7E7E8;
+  --background-panel: #FDFDFD;
+  --background-component: #FEFEFE;
+  --background-component-shell: #F4F4F4;
+  --background-transparent: rgb(254 254 254 / 0);
+  --background-field: #FFFFFF;
+  --background-tile: #FDFDFD;
+  --background-contrast: rgb(19 19 21 / 0.04);
+  --background-contrast-subtle: rgb(19 19 21 / 0.02);
+  --background-contrast-strong: rgb(19 19 21 / 0.08);
+  --background-toggle-off: #EDEDED;
+
+  --background-accent-brand: #C0ABFF;
+  --background-accent-brand-subtle: rgb(133 92 248 / 0.25);
+  --background-accent-success: #97D7B0;
+  --background-accent-action: #93BCFC;
+  --background-accent-warning: #FFD06D;
+  --background-accent-danger: #FF9FA2;
+  --background-accent-favorite: #FEAD07;
+  --background-accent-scrub-line: #F03E3E;
+
+  --background-overlay-hover: rgb(19 19 21 / 0.06);
+  --background-overlay-hover-subtle: rgb(19 19 21 / 0.02);
+  --background-overlay-hover-strong: rgb(19 19 21 / 0.2);
+  --background-overlay-pressed: rgb(19 19 21 / 0.12);
+  --background-overlay-selected: rgb(19 19 21 / 0.1);
+  --background-overlay-scrim: rgb(19 19 21 / 0.2);
+
+  --foreground-brand: #855CF8;
+  --foreground-brand-hover: #7149E0;
+  --foreground-danger: #F03E3E;
+  --foreground-danger-hover: #D92D33;
+  --foreground-text-base: rgb(19 19 21 / 0.96);
+  --foreground-text-subtle: rgb(19 19 21 / 0.72);
+  --foreground-text-dim: rgb(19 19 21 / 0.56);
+  --foreground-text-faint: rgb(19 19 21 / 0.36);
+  --foreground-text-on-color: #FFFFFF;
+  --foreground-icon-base: rgb(19 19 21 / 0.88);
+  --foreground-icon-subtle: rgb(19 19 21 / 0.56);
+  --foreground-icon-dim: rgb(19 19 21 / 0.44);
+  --foreground-icon-faint: rgb(19 19 21 / 0.32);
+  --foreground-icon-on-color: #FFFFFF;
+
+  --border-base: #DFE1E4;
+  --border-subtle: #EDEDED;
+  --border-brand: #7149E0;
+  --border-brand-subtle: rgb(133 92 248 / 0.5);
+  --border-danger: #F03E3E;
+
+  --button-brand-background: #855CF8;
+  --button-brand-background-hover: #7149E0;
+  --button-neutral-background: #FFFFFF;
+  --button-neutral-background-overlay-hover: rgb(19 19 21 / 0.04);
+  --button-contrast-background: #2C2F35;
+  --button-contrast-background-overlay-hover: rgb(240 240 240 / 0.08);
+  --button-contrast-border: #2C2F35;
+  --button-contrast-icon: var(--foreground-icon-on-color);
+  --button-contrast-text: #F0F0F0;
+  --button-ghost-background-hover: rgb(19 19 21 / 0.06);
+  --button-danger-background: #F03E3E;
+  --button-danger-background-hover: #D92D33;
+
+  --badge-brand-background: #EEE9FF;
+  --badge-brand-border: #DDD2FF;
+  --badge-brand-foreground: #44307F;
+  --badge-success-background: #DDF5E7;
+  --badge-success-border: #BEE8CF;
+  --badge-success-foreground: #0B4D31;
+  --badge-warning-background: #FFF4DE;
+  --badge-warning-border: #FFE2A4;
+  --badge-warning-foreground: #7A520B;
+  --badge-destructive-background: #FFE0E1;
+  --badge-destructive-border: #FFC6C8;
+  --badge-destructive-foreground: #8F1D1D;
+  --badge-indigo-background: #E8EAFF;
+  --badge-indigo-border: #CDD2FF;
+  --badge-indigo-foreground: #373B88;
+  --badge-fuschia-background: #F8E1F0;
+  --badge-fuschia-border: #F0BFE0;
+  --badge-fuschia-foreground: #552240;
+  --badge-orange-background: #FFE8C9;
+  --badge-orange-border: #FFC98F;
+  --badge-orange-foreground: #985012;
+  --badge-blue-background: #DFECFF;
+  --badge-blue-border: #BDD8FE;
+  --badge-blue-foreground: #284886;
+  --badge-cyan-background: #DDF7FE;
+  --badge-cyan-border: #AFEFFF;
+  --badge-cyan-foreground: #005A73;
+  --badge-teal-background: #DCF7F4;
+  --badge-teal-border: #AFEAE3;
+  --badge-teal-foreground: #0A524D;
+}
+
+/* ---------- DARK ---------- */
+[data-theme="dark"] {
+  color-scheme: dark;
+  --background-canvas: #131315;
+  --background-left-sidebar: #151619;
+  --background-left-sidebar-shell: #0E0E0F;
+  --background-panel: #151618;
+  --background-component: #16171A;
+  --background-component-shell: #151619;
+  --background-transparent: rgb(22 23 26 / 0);
+  --background-field: #1F2023;
+  --background-tile: #1F2023;
+  --background-contrast: rgb(240 240 240 / 0.06);
+  --background-contrast-subtle: rgb(240 240 240 / 0.04);
+  --background-contrast-strong: rgb(240 240 240 / 0.1);
+  --background-toggle-off: #1F2023;
+
+  --background-accent-brand: #7149E0;
+  --background-accent-brand-subtle: rgb(133 92 248 / 0.18);
+  --background-accent-success: #129253;
+  --background-accent-action: #4176DA;
+  --background-accent-warning: #D99205;
+  --background-accent-danger: #D92D33;
+  --background-accent-favorite: #FEAD07;
+  --background-accent-scrub-line: #F03E3E;
+
+  --background-overlay-hover: rgb(240 240 240 / 0.06);
+  --background-overlay-hover-subtle: rgb(240 240 240 / 0.02);
+  --background-overlay-hover-strong: rgb(19 19 21 / 0.36);
+  --background-overlay-pressed: rgb(240 240 240 / 0.1);
+  --background-overlay-selected: rgb(240 240 240 / 0.08);
+  --background-overlay-scrim: rgb(19 19 21 / 0.72);
+
+  --foreground-brand: #7149E0;
+  --foreground-brand-hover: #855CF8;
+  --foreground-danger: #D92D33;
+  --foreground-danger-hover: #F03E3E;
+  --foreground-text-base: rgb(240 240 240 / 0.96);
+  --foreground-text-subtle: rgb(240 240 240 / 0.72);
+  --foreground-text-dim: rgb(240 240 240 / 0.56);
+  --foreground-text-faint: rgb(240 240 240 / 0.36);
+  --foreground-text-on-color: #FFFFFF;
+  --foreground-icon-base: rgb(240 240 240 / 0.88);
+  --foreground-icon-subtle: rgb(240 240 240 / 0.56);
+  --foreground-icon-dim: rgb(240 240 240 / 0.44);
+  --foreground-icon-faint: rgb(240 240 240 / 0.32);
+  --foreground-icon-on-color: #FFFFFF;
+
+  --border-base: #2C2F35;
+  --border-subtle: #212124;
+  --border-brand: #855CF8;
+  --border-brand-subtle: rgb(133 92 248 / 0.5);
+  --border-danger: #8F1D1D;
+
+  --button-brand-background: #7149E0;
+  --button-brand-background-hover: #855CF8;
+  --button-neutral-background: #1F2023;
+  --button-neutral-background-overlay-hover: rgb(240 240 240 / 0.06);
+  --button-contrast-background: rgb(240 240 240 / 0.2);
+  --button-contrast-background-overlay-hover: rgb(240 240 240 / 0.08);
+  --button-contrast-border: rgb(240 240 240 / 0.32);
+  --button-contrast-icon: var(--foreground-icon-on-color);
+  --button-contrast-text: var(--foreground-text-on-color);
+  --button-ghost-background-hover: rgb(240 240 240 / 0.08);
+  --button-danger-background: #8F1D1D;
+  --button-danger-background-hover: #B42328;
+
+  --badge-brand-background: #382572;
+  --badge-brand-border: #44307F;
+  --badge-brand-foreground: #DDD2FF;
+  --badge-success-background: #0B3F2D;
+  --badge-success-border: #0B4D31;
+  --badge-success-foreground: #BEE8CF;
+  --badge-warning-background: #63420D;
+  --badge-warning-border: #7A520B;
+  --badge-warning-foreground: #FFE2A4;
+  --badge-destructive-background: #661414;
+  --badge-destructive-border: #8F1D1D;
+  --badge-destructive-foreground: #FFC6C8;
+  --badge-indigo-background: #2A2E66;
+  --badge-indigo-border: #373B88;
+  --badge-indigo-foreground: #CDD2FF;
+  --badge-fuschia-background: #401A30;
+  --badge-fuschia-border: #552240;
+  --badge-fuschia-foreground: #F0BFE0;
+  --badge-orange-background: #763D11;
+  --badge-orange-border: #985012;
+  --badge-orange-foreground: #FFC98F;
+  --badge-blue-background: #213967;
+  --badge-blue-border: #284886;
+  --badge-blue-foreground: #BDD8FE;
+  --badge-cyan-background: #104A5D;
+  --badge-cyan-border: #005A73;
+  --badge-cyan-foreground: #AFEFFF;
+  --badge-teal-background: #0B4541;
+  --badge-teal-border: #0A524D;
+  --badge-teal-foreground: #DCF7F4;
+}
+
+/* ---------- MODE-INDEPENDENT: primitives, scale, type, opacity ---------- */
+:root {
+
+  --white: #FFFFFF;
+
+  --purple-50: #F7F5FF;
+  --purple-100: #EEE9FF;
+  --purple-200: #DDD2FF;
+  --purple-300: #C0ABFF;
+  --purple-400: #A07EF9;
+  --purple-500: #855CF8;
+  --purple-600: #7149E0;
+  --purple-700: #5E3DC0;
+  --purple-800: #44307F;
+  --purple-900: #382572;
+  --purple-950: #24184B;
+  --purple-ink-18: rgb(133 92 248 / 0.18);
+  --purple-ink-25: rgb(133 92 248 / 0.25);
+  --purple-ink-50: rgb(133 92 248 / 0.5);
+
+  --red-50: #FFF0F0;
+  --red-100: #FFE0E1;
+  --red-200: #FFC6C8;
+  --red-300: #FF9FA2;
+  --red-400: #FF6B6F;
+  --red-500: #F03E3E;
+  --red-600: #D92D33;
+  --red-700: #B42328;
+  --red-800: #8F1D1D;
+  --red-900: #661414;
+  --red-950: #430C0C;
+
+  --green-50: #F1FAF5;
+  --green-100: #DDF5E7;
+  --green-200: #BEE8CF;
+  --green-300: #97D7B0;
+  --green-400: #5DBB82;
+  --green-500: #16B364;
+  --green-600: #129253;
+  --green-700: #0F7443;
+  --green-800: #0B4D31;
+  --green-900: #0B3F2D;
+  --green-950: #072A1E;
+
+  --yellow-50: #FFF9EC;
+  --yellow-100: #FFF4DE;
+  --yellow-200: #FFE2A4;
+  --yellow-300: #FFD06D;
+  --yellow-400: #FFBC33;
+  --yellow-500: #FEAD07;
+  --yellow-600: #D99205;
+  --yellow-700: #AF7607;
+  --yellow-800: #7A520B;
+  --yellow-900: #63420D;
+  --yellow-950: #412A09;
+
+  --teal-50: #F0FBFA;
+  --teal-100: #DCF7F4;
+  --teal-200: #AFEAE3;
+  --teal-300: #7ED9D0;
+  --teal-400: #42C4B7;
+  --teal-500: #0BC2B1;
+  --teal-600: #099D90;
+  --teal-700: #0A7D73;
+  --teal-800: #0A524D;
+  --teal-900: #0B4541;
+  --teal-950: #072F2D;
+
+  --indigo-50: #F5F6FF;
+  --indigo-100: #E8EAFF;
+  --indigo-200: #CDD2FF;
+  --indigo-300: #A3ADFF;
+  --indigo-400: #7B85F5;
+  --indigo-500: #6067E7;
+  --indigo-600: #5056CB;
+  --indigo-700: #4348AD;
+  --indigo-800: #373B88;
+  --indigo-900: #2A2E66;
+  --indigo-950: #1B1E44;
+
+  --cyan-50: #F2FCFF;
+  --cyan-100: #DDF7FE;
+  --cyan-200: #AFEFFF;
+  --cyan-300: #5FD1EE;
+  --cyan-400: #16BCE2;
+  --cyan-500: #00A9D6;
+  --cyan-600: #008DB4;
+  --cyan-700: #007191;
+  --cyan-800: #005A73;
+  --cyan-900: #104A5D;
+  --cyan-950: #062F3D;
+
+  --blue-50: #F1F7FF;
+  --blue-100: #DFECFF;
+  --blue-200: #BDD8FE;
+  --blue-300: #93BCFC;
+  --blue-400: #6B9FF8;
+  --blue-500: #558FFD;
+  --blue-600: #4176DA;
+  --blue-700: #355FB0;
+  --blue-800: #284886;
+  --blue-900: #213967;
+  --blue-950: #162645;
+
+  --fuschia-50: #FDF4FA;
+  --fuschia-100: #F8E1F0;
+  --fuschia-200: #F0BFE0;
+  --fuschia-300: #DE90C3;
+  --fuschia-400: #C865A4;
+  --fuschia-500: #A2417B;
+  --fuschia-600: #883666;
+  --fuschia-700: #6F2D53;
+  --fuschia-800: #552240;
+  --fuschia-900: #401A30;
+  --fuschia-950: #2A101F;
+
+  --orange-50: #FFF6EC;
+  --orange-100: #FFE8C9;
+  --orange-200: #FFC98F;
+  --orange-300: #FFAE57;
+  --orange-400: #F89425;
+  --orange-500: #EF860F;
+  --orange-600: #D9770C;
+  --orange-700: #BB630D;
+  --orange-800: #985012;
+  --orange-900: #763D11;
+  --orange-950: #4F280B;
+
+  --avatar-dark-purple: #412D7A;
+  --avatar-dark-blue: #6067E7;
+  --avatar-light-blue: #558FFD;
+  --avatar-teal: #0BC2B1;
+  --avatar-dark-green: #519E4B;
+  --avatar-light-green: #85C727;
+  --avatar-yellow: #FEAD07;
+  --avatar-orange: #F47752;
+  --avatar-red: #F94F43;
+  --avatar-pink: #E6499A;
+  --avatar-magenta: #A2417B;
+
+  --shadow-ink-4: rgb(19 19 21 / 0.04);
+  --shadow-ink-8: rgb(19 19 21 / 0.08);
+  --shadow-ink-12: rgb(19 19 21 / 0.12);
+
+  --space-0: 0px;
+  --space-1: 1px;
+  --space-2: 2px;
+  --space-3: 3px;
+  --space-4: 4px;
+  --space-5: 5px;
+  --space-6: 6px;
+  --space-7: 7px;
+  --space-8: 8px;
+  --space-9: 9px;
+  --space-10: 10px;
+  --space-12: 12px;
+  --space-14: 14px;
+  --space-16: 16px;
+  --space-18: 18px;
+  --space-20: 20px;
+  --space-22: 22px;
+  --space-24: 24px;
+  --space-28: 28px;
+  --space-32: 32px;
+  --space-36: 36px;
+  --space-40: 40px;
+  --space-42: 42px;
+  --space-44: 44px;
+  --space-48: 48px;
+  --space-52: 52px;
+  --space-56: 56px;
+  --space-64: 64px;
+  --space-72: 72px;
+  --space-80: 80px;
+  --space-96: 96px;
+  --space-112: 112px;
+  --space-128: 128px;
+  --space-256: 256px;
+  --radius-0: 0px;
+  --radius-2: 2px;
+  --radius-3: 3px;
+  --radius-4: 4px;
+  --radius-5: 5px;
+  --radius-6: 6px;
+  --radius-8: 8px;
+  --radius-10: 10px;
+  --radius-12: 12px;
+  --radius-16: 16px;
+  --radius-24: 24px;
+  --radius-full: 9999px;
+  --border-width-0-5: 0.5px;
+  --border-width-1: 1px;
+
+  --text-2xl: 20px;
+  --text-xl: 16px;
+  --text-lg: 14px;
+  --text-base: 13px;
+  --text-sm: 12px;
+  --text-xs: 11px;
+  --text-2xs: 10px;
+  --text-style-display: "Inter Display";
+  --text-style-body: "Inter";
+  --text-style-code: "Roboto Mono";
+  --text-weight-regular: 400;
+  --text-weight-medium: 440;
+  --text-weight-bold: 500;
+
+  --opacity-subtle: 0.88;
+  --opacity-dim: 0.56;
+  --opacity-disabled: 0.5;
+  --opacity-hidden: 0;
+}

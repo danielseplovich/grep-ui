@@ -1,0 +1,98 @@
+/* ============================================================
+   Grep UI — Search
+   Source: Figma "Grep UI / Search" (6669:82681) — type × size × 6 states,
+   read in full.
+   ============================================================ */
+
+.grep-search {
+  --_ring: 0.5px;
+
+  display: flex;
+  align-items: center;
+  gap: var(--space-12);
+  box-sizing: border-box;
+  width: 100%;
+  height: var(--_h, var(--space-28));
+  padding: 0 var(--_pad-x, var(--space-8));
+  border-radius: var(--radius-6);
+  overflow: clip;
+
+  background: var(--background-field);
+  box-shadow: inset 0 0 0 var(--_ring) var(--border-base), var(--elevation-input);
+}
+
+/* ---------- size ---------- */
+
+.grep-search--32 { --_h: var(--space-32); --_pad-x: var(--space-10); }
+
+/* ---------- type: ghost ---------- */
+/* No fill, no hairline. The LG ghost keeps a faint drop shadow. */
+
+.grep-search--ghost {
+  background: none;
+  box-shadow: none;
+}
+
+.grep-search--ghost.grep-search--32 {
+  filter: drop-shadow(0 1px 1px var(--shadow-ink-4)) drop-shadow(0 1px 0.5px var(--shadow-ink-4));
+}
+
+/* ---------- parts ---------- */
+
+.grep-search__label {
+  flex: 1 0 0;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--space-8);
+  height: var(--space-16);
+}
+
+.grep-search__icon {
+  flex-shrink: 0;
+  width: var(--space-14);
+  height: var(--space-14);
+  display: block;
+  color: var(--foreground-icon-subtle);
+}
+
+.grep-search__input {
+  flex: 1 0 0;
+  min-width: 0;
+  border: 0;
+  background: none;
+  outline: none;
+  padding: 0;
+
+  font-family: var(--text-style-body), system-ui, sans-serif;
+  font-size: var(--text-base);
+  font-weight: var(--text-weight-medium);   /* 440 — para-base-med */
+  line-height: 1.4;
+  color: var(--foreground-text-base);
+}
+
+.grep-search__input::placeholder { color: var(--foreground-text-faint); }
+
+/* The keyboard shortcut group here uses gap 3, not the 4 used elsewhere —
+   see CONTRADICTIONS #28. */
+.grep-search__shortcut {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  flex-shrink: 0;
+}
+
+/* ---------- states ---------- */
+/* Hover thickens the hairline; focus and danger use the named Input styles. */
+
+.grep-search:hover:not(.grep-search--ghost),
+.grep-search[data-state="hover"] { --_ring: 1px; }
+
+.grep-search:focus-within:not(.grep-search--ghost),
+.grep-search[data-state="focused"]:not(.grep-search--ghost) {
+  box-shadow: inset 0 0 0 var(--_ring) var(--border-base), var(--elevation-input-focus);
+}
+
+.grep-search--danger {
+  box-shadow: inset 0 0 0 var(--_ring) var(--border-base), var(--elevation-input-focus-danger);
+}

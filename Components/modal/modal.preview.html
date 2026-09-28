@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Grep prototype</title>
+
+<link rel="preconnect" href="https://rsms.me/">
+<link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="../../grepmd/grep-ui.css">
+
+<style>
+  html {
+    font-family: var(--text-style-body), system-ui, sans-serif;
+    font-size: var(--text-base);
+    font-weight: var(--text-weight-regular);
+    color: var(--foreground-text-base);
+    background: var(--background-canvas);
+    -webkit-font-smoothing: antialiased;
+  }
+  body { margin: 0; }
+  h1, h2, h3 {
+    font-family: var(--text-style-display), var(--text-style-body), sans-serif;
+    font-weight: var(--text-weight-bold);
+  }
+  code, kbd, pre { font-family: var(--text-style-code), ui-monospace, monospace; }
+  body { padding: var(--space-32); }
+  .modes { display:flex; flex-direction:column; gap: var(--space-24); }
+  .mode { padding: var(--space-32); border-radius: var(--radius-12);
+          border:0.5px solid var(--border-base); background: var(--background-canvas); }
+  .mode > h2 { font-size: var(--text-sm); font-weight: var(--text-weight-medium); color: var(--foreground-text-dim);
+       margin:0 0 var(--space-20); text-transform:uppercase; letter-spacing:0.04em; }
+  .grid { display:grid; grid-template-columns: repeat(2, max-content); gap: var(--space-32) var(--space-40); }
+  .cell { display:flex; flex-direction:column; gap: var(--space-12); align-items:flex-start; }
+  code { font-family: var(--text-style-code), monospace; font-size: var(--text-2xs); color: var(--foreground-text-faint); }
+  /* the preview shows the modal in place rather than fixed over the page */
+  .stage .grep-modal-overlay { position: static; inset:auto; padding: var(--space-24);
+                               border-radius: var(--radius-12); }
+</style>
+</head>
+<body>
+
+  
+  <div class="modes"><div class="mode"><h2>Light</h2><div id="l"></div></div>
+  <div class="mode" data-theme="dark"><h2>Dark</h2><div id="d"></div></div></div>
+<script>
+const CLOSE=`<svg class="grep-icon-btn__icon" aria-hidden="true" width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="Close-X-Symbol"><path id="Icon" d="M2.82365 11.1763C2.96211 11.3148 3.14989 11.3926 3.34569 11.3926C3.5415 11.3926 3.72928 11.3148 3.86774 11.1763L6.91299 8.13109C6.93607 8.10802 6.96737 8.09506 7 8.09506C7.03263 8.09506 7.06393 8.10802 7.08701 8.13109L10.1323 11.1763C10.2707 11.3148 10.4585 11.3926 10.6543 11.3926C10.8501 11.3926 11.0379 11.3148 11.1763 11.1763C11.3148 11.0379 11.3926 10.8501 11.3926 10.6543C11.3926 10.4585 11.3148 10.2707 11.1763 10.1323L8.13109 7.08701C8.10802 7.06393 8.09506 7.03263 8.09506 7C8.09506 6.96737 8.10802 6.93607 8.13109 6.91299L11.1763 3.86774C11.3148 3.72928 11.3926 3.5415 11.3926 3.34569C11.3926 3.14989 11.3148 2.96211 11.1763 2.82365C11.0379 2.6852 10.8501 2.60741 10.6543 2.60741C10.4585 2.60741 10.2707 2.6852 10.1323 2.82365L7.08701 5.86891C7.06393 5.89198 7.03263 5.90494 7 5.90494C6.96737 5.90494 6.93607 5.89198 6.91299 5.86891L3.86774 2.82365C3.72928 2.6852 3.5415 2.60741 3.34569 2.60741C3.14989 2.60741 2.96211 2.6852 2.82365 2.82365C2.6852 2.96211 2.60741 3.14989 2.60741 3.34569C2.60741 3.5415 2.6852 3.72928 2.82365 3.86774L5.86891 6.91299C5.89198 6.93607 5.90494 6.96737 5.90494 7C5.90494 7.03263 5.89198 7.06393 5.86891 7.08701L2.82365 10.1323C2.6852 10.2707 2.60741 10.4585 2.60741 10.6543C2.60741 10.8501 2.6852 11.0379 2.82365 11.1763Z" fill="currentColor"/></g></svg>`;
+const filler=n=>Array.from({length:n},(_,i)=>`<p style="margin:0 0 12px">Row ${i+1} — the body is a slot. Whatever goes in owns its own layout; the modal only sets the padding and handles the scrolling.</p>`).join("");
+const modal=({size="",sub=true,body="",foot="",danger=false,lead=""})=>
+`<div class="stage"><div class="grep-modal-overlay"><div class="grep-modal${size?" grep-modal--"+size:""}" role="dialog" aria-modal="true">
+  <div class="grep-modal__header">
+    <div class="grep-modal__heading">
+      <h2 class="grep-modal__title">Title</h2>
+      ${sub?`<p class="grep-modal__subtitle">An optional line of context.</p>`:""}
+    </div>
+    <button class="grep-icon-btn grep-icon-btn--24 grep-icon-btn--ghost" aria-label="Close">${CLOSE}</button>
+  </div>
+  <div class="grep-modal__body">${body}</div>
+  <div class="grep-modal__footer">
+    ${lead?`<span class="grep-modal__footer-lead">${lead}</span>`:""}
+    <button class="grep-btn grep-btn--neutral"><span class="grep-btn__label">Cancel</span></button>
+    <button class="grep-btn grep-btn--${danger?"danger":"brand"}"><span class="grep-btn__label">${foot||"Confirm"}</span></button>
+  </div></div></div></div>`;
+const cell=(t,el)=>`<div class="cell"><code>${t}</code>${el}</div>`;
+const content=()=>`<div class="grid">
+  ${cell("400 — confirm", modal({body:"This will remove the collection and everything in it. This can't be undone."}))}
+  ${cell("520 — form slot", modal({size:"520",body:filler(2)}))}
+  ${cell("400 — no subtitle, danger", modal({sub:false,danger:true,foot:"Delete",body:"This will remove the collection and everything in it."}))}
+  ${cell("520 — scrolling body + footer lead", modal({size:"520",body:filler(8),lead:`<span class="grep-badge grep-badge--18 grep-badge--neutral-dim grep-badge--full"><span class="grep-badge__label">8 items</span></span>`}))}
+</div>`;
+l.innerHTML=content(); d.innerHTML=content();
+</script>
+</body>
+</html>

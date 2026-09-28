@@ -1,0 +1,147 @@
+/* ============================================================
+   Grep UI — Badge
+   Source: Figma "Grep UI / Badge Base" component set
+   Read: Neutral Base  Full (589:601)   Rounded (589:605)
+         Neutral Dim   Full (704:2931)  Rounded (704:2935)
+         Size ramp XS (16) / SM (18) / Base (22) — read off the Badge Base
+         instances inside Select and Multi Select Input (4533:74514).
+   Accent tones are composed from the badge-* Figma variables —
+   see badge.md > Inferred.
+   ============================================================ */
+
+.grep-badge {
+  --_pad-x: var(--space-8);
+  --_radius: var(--radius-full);
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  height: var(--_size, var(--space-22));
+  min-width: var(--_size, var(--space-22));
+  padding: var(--space-0) var(--_pad-x);
+  gap: var(--_gap, var(--space-4));
+  border-radius: var(--_radius);
+  overflow: clip;
+
+  /* Hairline as an inset ring, not a border — keeps height 22 and padding
+     exact against the 12px icons. See DESIGN.md > Borders. */
+  box-shadow: inset 0 0 0 var(--border-width-0-5) var(--_border, var(--border-base));
+
+  font-family: var(--text-style-body), system-ui, sans-serif;
+  font-size: var(--_text, var(--text-base));
+  font-weight: var(--text-weight-bold);   /* 500 — label-base-bold */
+  line-height: var(--_text, var(--text-base));
+  text-align: center;
+  white-space: nowrap;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ---------- radius ---------- */
+/* Radius also changes the horizontal padding — they are one axis, not two. */
+
+.grep-badge--full    { --_radius: var(--radius-full); --_pad-x: var(--space-8); }
+.grep-badge--rounded { --_radius: var(--radius-6);    --_pad-x: var(--space-6); }
+
+/* ---------- sizes ---------- */
+/* Three heights. Padding, gap, type and icon all step with the height —
+   don't mix one size's padding with another's height. */
+
+.grep-badge--16 { --_size: var(--space-16); --_pad-x: var(--space-6); --_gap: var(--space-3); --_text: var(--text-2xs); --_icon-size: var(--space-8);  }
+.grep-badge--18 { --_size: var(--space-18); --_pad-x: var(--space-6); --_gap: var(--space-4); --_text: var(--text-xs);  --_icon-size: var(--space-10); }
+.grep-badge--22 { --_size: var(--space-22); --_gap: var(--space-4); --_text: var(--text-base); --_icon-size: var(--space-12); }  /* padding stays on the radius axis */
+
+/* Below Base the close mark stays 10 — it doesn't follow the leading icon. */
+.grep-badge--16 .grep-badge__close,
+.grep-badge--18 .grep-badge__close { width: var(--space-10); height: var(--space-10); }
+
+/* ---------- parts ---------- */
+
+.grep-badge__icon {
+  flex-shrink: 0;
+  width: var(--_icon-size, var(--space-12));
+  height: var(--_icon-size, var(--space-12));
+  color: var(--_icon, currentColor);
+}
+
+.grep-badge__label { flex-shrink: 0; }
+
+.grep-badge__close {
+  flex-shrink: 0;
+  width: var(--space-12);
+  height: var(--space-12);
+  opacity: var(--opacity-dim);
+  cursor: pointer;
+}
+
+/* ---------- neutral tones (read from Figma) ---------- */
+
+.grep-badge--neutral-base {
+  background: var(--button-neutral-background);
+  --_border: var(--border-base);
+  color: var(--foreground-text-base);
+  --_icon: var(--foreground-icon-subtle);
+}
+
+.grep-badge--neutral-dim {
+  background: var(--background-contrast);
+  --_border: var(--border-base);
+  color: var(--foreground-text-dim);
+  --_icon: var(--foreground-icon-dim);
+}
+
+/* ---------- accent tones ---------- */
+/* Every tone uses all three of its own variables. Icon and label share the
+   tone's foreground. Never mix a background from one tone with a border or
+   foreground from another. */
+
+.grep-badge--brand {
+  background: var(--badge-brand-background);
+  --_border: var(--badge-brand-border);
+  color: var(--badge-brand-foreground);
+}
+.grep-badge--success {
+  background: var(--badge-success-background);
+  --_border: var(--badge-success-border);
+  color: var(--badge-success-foreground);
+}
+.grep-badge--warning {
+  background: var(--badge-warning-background);
+  --_border: var(--badge-warning-border);
+  color: var(--badge-warning-foreground);
+}
+.grep-badge--destructive {
+  background: var(--badge-destructive-background);
+  --_border: var(--badge-destructive-border);
+  color: var(--badge-destructive-foreground);
+}
+.grep-badge--indigo {
+  background: var(--badge-indigo-background);
+  --_border: var(--badge-indigo-border);
+  color: var(--badge-indigo-foreground);
+}
+.grep-badge--fuschia {
+  background: var(--badge-fuschia-background);
+  --_border: var(--badge-fuschia-border);
+  color: var(--badge-fuschia-foreground);
+}
+.grep-badge--orange {
+  background: var(--badge-orange-background);
+  --_border: var(--badge-orange-border);
+  color: var(--badge-orange-foreground);
+}
+.grep-badge--blue {
+  background: var(--badge-blue-background);
+  --_border: var(--badge-blue-border);
+  color: var(--badge-blue-foreground);
+}
+.grep-badge--cyan {
+  background: var(--badge-cyan-background);
+  --_border: var(--badge-cyan-border);
+  color: var(--badge-cyan-foreground);
+}
+.grep-badge--teal {
+  background: var(--badge-teal-background);
+  --_border: var(--badge-teal-border);
+  color: var(--badge-teal-foreground);
+}

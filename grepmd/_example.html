@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Grep prototype</title>
+
+<link rel="preconnect" href="https://rsms.me/">
+<link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="grep-ui.css">
+
+<style>
+  html {
+    font-family: var(--text-style-body), system-ui, sans-serif;
+    font-size: var(--text-base);
+    font-weight: var(--text-weight-regular);
+    color: var(--foreground-text-base);
+    background: var(--background-canvas);
+    -webkit-font-smoothing: antialiased;
+  }
+  body { margin: 0; }
+  h1, h2, h3 {
+    font-family: var(--text-style-display), var(--text-style-body), sans-serif;
+    font-weight: var(--text-weight-bold);
+  }
+  code, kbd, pre { font-family: var(--text-style-code), ui-monospace, monospace; }
+</style>
+</head>
+<body>
+
+
+  <main style="padding: var(--space-32); display:flex; flex-direction:column; gap: var(--space-24);">
+    <h1 style="font-size: var(--text-2xl); margin:0;">Entry point smoke test</h1>
+    <div style="display:flex; gap: var(--space-8);">
+      <button class="grep-btn grep-btn--neutral"><span class="grep-btn__label">Cancel</span></button>
+      <button class="grep-btn grep-btn--brand"><span class="grep-btn__label">Save changes</span></button>
+    </div>
+  </main>
+
+
+<script>
+  // Follow the OS theme. Remove if the prototype needs a fixed mode.
+  const dark = matchMedia("(prefers-color-scheme: dark)");
+  const apply = () => (document.documentElement.dataset.theme = dark.matches ? "dark" : "light");
+  apply(); dark.addEventListener("change", apply);
+</script>
+</body>
+</html>

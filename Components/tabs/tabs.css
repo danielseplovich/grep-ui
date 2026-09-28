@@ -1,0 +1,119 @@
+/* ============================================================
+   Grep UI — Tabs (Button Tab)
+   Source: Figma "Button Tab Base" (1607:5653) — corner × size × state,
+   all 24 combinations — and "Button Tab Group" (1607:8594).
+
+   Not to be confused with Segmented Control: a segmented control sits in a
+   filled track and picks a mode; tabs sit on the canvas with no track and
+   switch a view.
+   ============================================================ */
+
+.grep-tabs {
+  display: flex;
+  align-items: center;
+  gap: var(--space-6);
+}
+
+/* ---------- tab ---------- */
+
+.grep-tab {
+  --_h: var(--space-28);
+  --_pad-x: var(--space-8);
+  --_radius: var(--radius-6);
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-6);
+  flex-shrink: 0;
+  box-sizing: border-box;
+  height: var(--_h);
+  padding: 0 var(--_pad-x);
+  border: 0;
+  border-radius: var(--_radius);
+  background: none;
+  overflow: clip;
+  cursor: pointer;
+
+  font-family: var(--text-style-body), system-ui, sans-serif;
+  font-size: var(--text-base);
+  font-weight: var(--text-weight-bold);   /* 500 — label-base-bold */
+  line-height: var(--text-base);
+  color: var(--foreground-text-dim);
+  white-space: nowrap;
+}
+
+/* ---------- sizes × corner ---------- */
+/* Height, radius AND horizontal padding all step with size, and the padding
+   also depends on the corner — a pill needs more room than a rounded tab at
+   the same height. Six combinations, all read. */
+
+.grep-tab--32 { --_h: var(--space-32); --_pad-x: var(--space-10); --_radius: var(--radius-6); }
+.grep-tab--36 { --_h: var(--space-36); --_pad-x: var(--space-12); --_radius: var(--radius-8); }
+
+.grep-tab--full            { --_radius: var(--radius-full); --_pad-x: var(--space-10); }
+.grep-tab--full.grep-tab--32 { --_pad-x: var(--space-12); }
+.grep-tab--full.grep-tab--36 { --_pad-x: var(--space-14); }
+
+/* ---------- parts ---------- */
+
+.grep-tab__icon {
+  flex-shrink: 0;
+  width: var(--space-14);
+  height: var(--space-14);
+  display: block;
+  /* The icon does NOT follow the label: it sits one step behind at every
+     state. Read off the exported assets — 0.56 default, 0.72 hover and
+     selected. 0.72 is a text token, not an icon one; see CONTRADICTIONS. */
+  color: var(--_icon, var(--foreground-icon-subtle));
+}
+
+/* The count badge is a Badge SM (18) in the Neutral Base tone. */
+.grep-tab__badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-sizing: border-box;
+  height: var(--space-18);
+  min-width: var(--space-18);
+  padding: 0 var(--space-6);
+  gap: var(--space-4);
+  border-radius: var(--radius-full);
+  background: var(--button-neutral-background);
+  box-shadow: inset 0 0 0 var(--border-width-0-5) var(--border-base);
+  overflow: clip;
+
+  font-size: var(--text-xs);
+  font-weight: var(--text-weight-bold);
+  line-height: var(--text-xs);
+  color: var(--foreground-text-base);
+}
+
+.grep-tab__badge svg { width: var(--space-10); height: var(--space-10); display: block; }
+
+/* ---------- states ---------- */
+/* Default and hover draw nothing — only the label changes weight of colour.
+   Selected and focused both raise a neutral surface. */
+
+.grep-tab:hover:not(.grep-tab--selected),
+.grep-tab[data-state="hover"]:not(.grep-tab--selected) {
+  color: var(--foreground-text-base);
+  --_icon: var(--foreground-text-subtle);
+}
+
+.grep-tab--selected {
+  color: var(--foreground-text-base);
+  --_icon: var(--foreground-text-subtle);
+  background: var(--button-neutral-background);
+  box-shadow: inset 0 0 0 var(--border-width-0-5) var(--border-base), var(--elevation-button);
+}
+
+/* Focus raises the same surface and adds the large ring. An unselected tab
+   keeps its dim label while focused — focus is not selection. */
+.grep-tab:focus-visible,
+.grep-tab[data-state="focused"] {
+  outline: none;
+  background: var(--button-neutral-background);
+  box-shadow: inset 0 0 0 var(--border-width-0-5) var(--border-base), var(--elevation-button-focus);
+}

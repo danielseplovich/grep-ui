@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Grep prototype</title>
+
+<link rel="preconnect" href="https://rsms.me/">
+<link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="../../grepmd/grep-ui.css">
+
+<style>
+  html {
+    font-family: var(--text-style-body), system-ui, sans-serif;
+    font-size: var(--text-base);
+    font-weight: var(--text-weight-regular);
+    color: var(--foreground-text-base);
+    background: var(--background-canvas);
+    -webkit-font-smoothing: antialiased;
+  }
+  body { margin: 0; }
+  h1, h2, h3 {
+    font-family: var(--text-style-display), var(--text-style-body), sans-serif;
+    font-weight: var(--text-weight-bold);
+  }
+  code, kbd, pre { font-family: var(--text-style-code), ui-monospace, monospace; }
+  body { padding: var(--space-32); }
+  .modes { display:flex; gap: var(--space-24); align-items:flex-start; }
+  .mode { flex:1; padding: var(--space-24); border-radius: var(--radius-12);
+          border:0.5px solid var(--border-base); background: var(--background-canvas); }
+  h2 { font-size: var(--text-sm); font-weight: var(--text-weight-medium);
+       color: var(--foreground-text-dim); margin:0 0 var(--space-20);
+       text-transform:uppercase; letter-spacing:0.04em; }
+  h3 { font-size: var(--text-xs); font-weight: var(--text-weight-medium);
+       color: var(--foreground-text-dim); margin: var(--space-24) 0 var(--space-12); }
+  table { border-collapse:collapse; }
+  th { font-size: var(--text-xs); font-weight: var(--text-weight-medium);
+       color: var(--foreground-text-dim); text-align:left; padding:0 var(--space-20) var(--space-8) 0; }
+  td { padding: 0 var(--space-20) var(--space-12) 0; }
+  .rowlab { font-size: var(--text-xs); color: var(--foreground-text-dim); padding-right: var(--space-16); }
+  .stack { display:flex; flex-direction:column; gap: var(--space-12); }
+</style>
+</head>
+<body>
+
+
+  <div class="modes">
+    <div class="mode"><h2>Light</h2><div id="l"></div></div>
+    <div class="mode" data-theme="dark"><h2>Dark</h2><div id="d"></div></div>
+  </div>
+<script>
+const CHECK = `<svg class="grep-checkbox__mark grep-checkbox__mark--check" aria-hidden="true" width="7.72507" height="7.72507" viewBox="0 0 7.72507 7.72507" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M7.4477 0.0999263C7.73082 0.285047 7.81027 0.664635 7.62515 0.94776L3.37515 7.44776C3.27111 7.60688 3.09909 7.70866 2.90954 7.72326C2.71999 7.73786 2.53441 7.66362 2.40724 7.52231L0.157238 5.02231C-0.0690561 4.77087 -0.048673 4.3836 0.202764 4.1573C0.454202 3.93101 0.841479 3.95139 1.06777 4.20283L2.78538 6.11129L6.59986 0.27738C6.78498 -0.00574548 7.16457 -0.0851942 7.4477 0.0999263Z" fill="currentColor"/></svg>`;
+const MINUS = `<svg class="grep-checkbox__mark grep-checkbox__mark--minus" aria-hidden="true" width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><g><path d="M11.0822 6.41869C11.4036 6.41869 11.6641 6.67921 11.6641 7.00057C11.6641 7.32193 11.4036 7.58244 11.0822 7.58244H2.91553C2.59417 7.58244 2.33365 7.32193 2.33365 7.00057C2.33365 6.67921 2.59417 6.41869 2.91553 6.41869H11.0822Z" fill="currentColor"/></g></svg>`;
+const SEL = [["","Unchecked"],["grep-checkbox--checked","Checked"],["grep-checkbox--indeterminate","Indeterminate"]];
+const ST  = [["","Default"],["hover","Hover"],["focused","Focused"],["disabled","Disabled"]];
+
+const box = (sel, st) => `<span class="grep-checkbox ${sel}"${st?` data-state="${st}"`:""}>
+  <span class="grep-checkbox__box">${CHECK}${MINUS}</span></span>`;
+
+const group = (sel, st, card) => `
+<button class="grep-checkbox-group ${card?"grep-checkbox-group--card":""}"${st?` data-state="${st}"`:""}>
+  ${box(sel, st)}
+  <span class="grep-checkbox-group__label">
+    <span class="grep-checkbox-group__title">Label</span>
+    <p class="grep-checkbox-group__sublabel">This is some sublabel.</p>
+  </span>
+  <span class="grep-checkbox-group__badge">
+    <span class="grep-badge grep-badge--neutral-base grep-badge--full"><span class="grep-badge__label">Badge</span></span>
+  </span>
+</button>`;
+
+function content() {
+  let h = `<h3>Control — 3 selected × 4 states</h3><table>`;
+  h += `<tr><th></th>${ST.map(s=>`<th>${s[1]}</th>`).join("")}</tr>`;
+  for (const [c,l] of SEL)
+    h += `<tr><td class="rowlab">${l}</td>${ST.map(s=>`<td>${box(c,s[0])}</td>`).join("")}</tr>`;
+  h += `</table><h3>Group</h3><div class="stack">${group("","",false)}${group("grep-checkbox--checked","",false)}</div>`;
+  h += `<h3>Group — card</h3><div class="stack">
+    ${group("","",true)}${group("grep-checkbox--checked","hover",true)}
+    ${group("grep-checkbox--checked","focused",true)}${group("","disabled",true)}</div>`;
+  return h;
+}
+document.getElementById("l").innerHTML = content();
+document.getElementById("d").innerHTML = content();
+</script>
+
+
+<script>
+  // Follow the OS theme. Remove if the prototype needs a fixed mode.
+  const dark = matchMedia("(prefers-color-scheme: dark)");
+  const apply = () => (document.documentElement.dataset.theme = dark.matches ? "dark" : "light");
+  document.documentElement.dataset.theme = "light";
+</script>
+</body>
+</html>

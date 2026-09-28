@@ -1,0 +1,36 @@
+/* ============================================================
+   Grep UI — Dividing Line
+   Source: Figma "Grep UI / Dividing Line" (94:1080)
+   Read: all 8 variants — orientation × style × width.
+   ============================================================ */
+
+.grep-divider {
+  --_thickness: 1px;                      /* Width=Base */
+  --_color: var(--border-base);           /* Style=Base */
+
+  flex-shrink: 0;
+  border: 0;
+  margin: 0;
+  background: var(--_color);
+
+  /* Horizontal by default: spans its container, thickness on the block axis. */
+  width: 100%;
+  height: var(--_thickness);
+}
+
+/* ---------- orientation ---------- */
+
+.grep-divider--vertical {
+  width: var(--_thickness);
+  height: auto;
+  min-height: 100%;
+  align-self: stretch;
+}
+
+/* ---------- style ---------- */
+
+.grep-divider--subtle { --_color: var(--border-subtle); }
+
+/* ---------- width ---------- */
+
+.grep-divider--thin { --_thickness: 0.5px; }

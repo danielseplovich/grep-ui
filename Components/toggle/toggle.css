@@ -1,0 +1,216 @@
+/* ============================================================
+   Grep UI — Toggle
+   Source: Figma "Toggle Base" (727:415) — selected × size × 4 states, all
+   16 combinations — and "Toggle Group" (2631:12154) — card × selected ×
+   4 states × badge.
+
+   The Figma component exports as a flattened vector, so the geometry below
+   was read off the exported paths: track, thumb circle, strokes and the two
+   filters (Interactive/base on the track, Card/base on the thumb).
+   ============================================================ */
+
+.grep-toggle {
+  --_track-w: 21px;
+  --_track-h: var(--space-12);
+  --_thumb: 9.6px;
+  --_pad: 1.2px;
+  --_ring: var(--border-base);
+
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+  height: var(--space-16);
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+
+/* ---------- sizes ---------- */
+/* Two sizes, everything scaling by 4/3. The thumb and its inset land on
+   fractional pixels in Figma — kept, not rounded. */
+
+.grep-toggle--md {
+  --_track-w: var(--space-28);
+  --_track-h: var(--space-16);
+  --_thumb: 12.8px;
+  --_pad: 1.6px;
+}
+
+/* ---------- track ---------- */
+
+.grep-toggle__track {
+  position: relative;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  width: var(--_track-w);
+  height: var(--_track-h);
+  padding: var(--_pad);
+  border-radius: var(--radius-full);
+  background: var(--background-toggle-off);
+  /* The 1px border sits OUTSIDE the 21×12 box in Figma, so it's an outset
+     ring rather than the usual inset hairline — the track's own size has to
+     stay exact for the thumb to land right. 1px at rest is correct here:
+     DESIGN.md allows it for toggles, checkboxes and radios. */
+  box-shadow: 0 0 0 var(--border-width-1) var(--_ring), var(--elevation-interactive);
+}
+
+/* ---------- thumb ---------- */
+
+.grep-toggle__thumb {
+  width: var(--_thumb);
+  height: var(--_thumb);
+  border-radius: var(--radius-full);
+  background: var(--foreground-icon-on-color);
+  box-shadow: var(--elevation-card);
+  /* The travel is whatever the track has left over. */
+  transform: translateX(0);
+  /* Figma specifies no motion. (inferred) */
+  transition: transform 0.15s ease;
+}
+
+/* ---------- selected ---------- */
+
+.grep-toggle--on {
+  --_ring: var(--border-brand);
+}
+
+.grep-toggle--on .grep-toggle__track { background: var(--button-brand-background); }
+
+.grep-toggle--on .grep-toggle__thumb {
+  transform: translateX(calc(var(--_track-w) - (2 * var(--_pad)) - var(--_thumb)));
+}
+
+/* ---------- hover ---------- */
+/* Off: an overlay on the track. On: the brand fill deepens. The border
+   doesn't move in either case. */
+
+.grep-toggle:hover .grep-toggle__track,
+.grep-toggle[data-state="hover"] .grep-toggle__track {
+  background-image: linear-gradient(var(--background-overlay-hover), var(--background-overlay-hover));
+}
+
+.grep-toggle--on:hover .grep-toggle__track,
+.grep-toggle--on[data-state="hover"] .grep-toggle__track {
+  background-color: var(--button-brand-background-hover);
+  background-image: none;
+}
+
+/* ---------- focus ---------- */
+/* Grep UI/Interactive/focus is a 1px canvas gap + 2px brand. Because this
+   component's border is outset by 1px, the same two rings are drawn one
+   pixel further out — which is exactly --elevation-focus-ring, with the
+   border covering its inner pixel. */
+
+.grep-toggle:focus-visible { outline: none; }
+
+.grep-toggle:focus-visible .grep-toggle__track,
+.grep-toggle[data-state="focused"] .grep-toggle__track {
+  box-shadow: 0 0 0 var(--border-width-1) var(--_ring),
+              var(--elevation-focus-ring),
+              var(--elevation-interactive);
+}
+
+/* ---------- disabled ---------- */
+
+.grep-toggle:disabled,
+.grep-toggle[data-state="disabled"] {
+  opacity: var(--opacity-disabled);
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .grep-toggle__thumb { transition: none; }
+}
+
+/* ============================================================
+   Toggle Group — control + label, optionally in a card
+   ============================================================ */
+
+/* Same shape as Checkbox Group and Radio Group, with one difference: the
+   gap is 16, not 12. */
+
+.grep-toggle-group {
+  --_ring-w: var(--border-width-0-5);
+
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-16);
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  text-align: left;
+  cursor: pointer;
+}
+
+.grep-toggle-group__label {
+  display: flex;
+  flex: 1 0 0;
+  min-width: 0;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--space-2);
+}
+
+.grep-toggle-group__title {
+  font-family: var(--text-style-body), system-ui, sans-serif;
+  font-size: var(--text-base);
+  font-weight: var(--text-weight-medium);   /* 440 — label-base-medium */
+  line-height: var(--text-base);
+  color: var(--foreground-text-base);
+}
+
+.grep-toggle-group__sublabel {
+  margin: 0;
+  font-family: var(--text-style-body), system-ui, sans-serif;
+  font-size: var(--text-base);
+  font-weight: var(--text-weight-regular);  /* 400 — para-base-reg */
+  line-height: 1.4;
+  color: var(--foreground-text-dim);
+}
+
+/* An optional badge, centred against the full height of the row. */
+.grep-toggle-group__badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-self: stretch;
+  flex-shrink: 0;
+}
+
+/* ---------- card ---------- */
+
+.grep-toggle-group--card {
+  box-sizing: border-box;
+  padding: var(--space-12);
+  border-radius: var(--radius-8);
+  background: var(--background-component);
+  overflow: clip;
+  box-shadow: inset 0 0 0 var(--_ring-w) var(--border-base), var(--elevation-card);
+}
+
+/* Figma: "On hover, border changes from 0.5px to 1px width." */
+.grep-toggle-group--card:hover,
+.grep-toggle-group--card[data-state="hover"] { --_ring-w: var(--border-width-1); }
+
+/* Figma: "Disable pointer events for this toggle — the card itself owns the
+   hover state here." */
+.grep-toggle-group--card .grep-toggle { pointer-events: none; }
+
+.grep-toggle-group--card:focus-visible,
+.grep-toggle-group--card[data-state="focused"] {
+  outline: none;
+  box-shadow: inset 0 0 0 var(--_ring-w) var(--border-base), var(--elevation-card-focus);
+}
+
+/* ---------- disabled ---------- */
+
+.grep-toggle-group:disabled,
+.grep-toggle-group[data-state="disabled"] {
+  opacity: var(--opacity-disabled);
+  cursor: not-allowed;
+  pointer-events: none;
+}

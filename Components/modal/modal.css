@@ -1,0 +1,143 @@
+/* ============================================================
+   Grep UI — Modal
+   ⚠️ NO FIGMA NODE. Every value here is DERIVED from components that were
+   read, or from DESIGN.md's stated conventions. Nothing is measured.
+   When the Figma component exists, treat this file as the thing to correct.
+
+   Derivations, one by one:
+     radius-16        DESIGN.md > Radius: "16 for modals and panels"
+     background-component + 0.5px border-base   Toast, Tooltip, Card
+     --elevation-flyout                         Grep UI/Component/flyout,
+                                                "menus, popovers, dropdowns"
+     --background-overlay-scrim                 the token's own name
+     1px border-subtle rules                    RULES.md > Line weights:
+                                                a section divider INSIDE a
+                                                component
+     padding 16                                 DESIGN.md > Spacing: 16–24
+                                                for card padding and gaps
+                                                between groups
+     footer gap 12                              Toast's actions row, the only
+                                                read precedent for two
+                                                adjacent buttons
+   ============================================================ */
+
+/* ---------- scrim ---------- */
+
+.grep-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-24);
+  background: var(--background-overlay-scrim);
+}
+
+/* ---------- shell ---------- */
+
+.grep-modal {
+  --_w: 400px;
+
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  width: var(--_w);
+  max-width: 100%;
+  max-height: 80vh;
+  overflow: clip;
+  border-radius: var(--radius-16);
+  background: var(--background-component);
+  /* Hairline as an inset ring. See DESIGN.md > Borders. */
+  box-shadow: inset 0 0 0 var(--border-width-0-5) var(--border-base),
+              var(--elevation-flyout);
+
+  font-family: var(--text-style-body), system-ui, sans-serif;
+}
+
+.grep-modal--520 { --_w: 520px; }
+
+/* ---------- header ---------- */
+
+.grep-modal__header {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-16);
+  flex-shrink: 0;
+  padding: var(--space-16);
+  /* A section divider inside a component: 1px, border-subtle. */
+  border-bottom: var(--border-width-1) solid var(--border-subtle);
+}
+
+.grep-modal__heading {
+  display: flex;
+  flex: 1 0 0;
+  min-width: 0;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.grep-modal__title {
+  margin: 0;
+  font-size: var(--text-lg);                /* 14 — one step above body */
+  font-weight: var(--text-weight-bold);     /* 500 */
+  line-height: var(--space-20);
+  color: var(--foreground-text-base);
+}
+
+.grep-modal__subtitle {
+  margin: 0;
+  font-size: var(--text-base);              /* 13 — para-base-reg */
+  font-weight: var(--text-weight-regular);
+  line-height: 1.4;
+  color: var(--foreground-text-dim);
+}
+
+/* ---------- body ---------- */
+/* An empty slot. Whatever goes in owns its own layout; the modal only sets
+   the padding and takes care of scrolling. */
+
+.grep-modal__body {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  padding: var(--space-16);
+
+  font-size: var(--text-base);
+  font-weight: var(--text-weight-regular);
+  line-height: 1.4;
+  color: var(--foreground-text-subtle);
+}
+
+/* ---------- footer ---------- */
+
+.grep-modal__footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--space-12);
+  flex-shrink: 0;
+  padding: var(--space-16);
+  border-top: var(--border-width-1) solid var(--border-subtle);
+}
+
+/* A leading slot for anything that belongs on the left of the footer —
+   a checkbox, a secondary link, a count. */
+.grep-modal__footer-lead {
+  margin-right: auto;
+  display: flex;
+  align-items: center;
+  gap: var(--space-8);
+}
+
+/* ---------- motion (inferred) ---------- */
+/* Figma specifies no motion anywhere in the system. This is the smallest
+   thing that reads as "a layer arrived". */
+
+@media (prefers-reduced-motion: no-preference) {
+  .grep-modal-overlay { animation: grep-modal-fade 0.12s ease-out; }
+  .grep-modal { animation: grep-modal-rise 0.12s ease-out; }
+}
+
+@keyframes grep-modal-fade { from { opacity: 0; } }
+@keyframes grep-modal-rise { from { opacity: 0; transform: translateY(2px); } }

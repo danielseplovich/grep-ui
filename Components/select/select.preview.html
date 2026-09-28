@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Grep prototype</title>
+
+<link rel="preconnect" href="https://rsms.me/">
+<link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="../../grepmd/grep-ui.css">
+
+<style>
+  html {
+    font-family: var(--text-style-body), system-ui, sans-serif;
+    font-size: var(--text-base);
+    font-weight: var(--text-weight-regular);
+    color: var(--foreground-text-base);
+    background: var(--background-canvas);
+    -webkit-font-smoothing: antialiased;
+  }
+  body { margin: 0; }
+  h1, h2, h3 {
+    font-family: var(--text-style-display), var(--text-style-body), sans-serif;
+    font-weight: var(--text-weight-bold);
+  }
+  code, kbd, pre { font-family: var(--text-style-code), ui-monospace, monospace; }
+  body { padding: var(--space-32); }
+  .modes { display:flex; flex-direction:column; gap: var(--space-24); }
+  .mode { padding: var(--space-24); border-radius: var(--radius-12);
+          border:0.5px solid var(--border-base); background: var(--background-canvas); }
+  h2 { font-size: var(--text-sm); font-weight: var(--text-weight-medium); color: var(--foreground-text-dim);
+       margin:0 0 var(--space-20); text-transform:uppercase; letter-spacing:0.04em; }
+  .grid { display:grid; grid-template-columns: repeat(2, 320px); gap: var(--space-24) var(--space-40); }
+  .cell { display:flex; flex-direction:column; gap: var(--space-8); }
+  code { font-family: var(--text-style-code), monospace; font-size: var(--text-2xs); color: var(--foreground-text-faint); }
+</style>
+</head>
+<body>
+
+  
+  <div class="modes"><div class="mode"><h2>Light</h2><div id="l"></div></div>
+  <div class="mode" data-theme="dark"><h2>Dark</h2><div id="d"></div></div></div>
+<script>
+const CHEV=`<svg class="grep-select__chevron" aria-hidden="true" width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3.08855 4.83855C3.31579 4.61132 3.68421 4.61132 3.91145 4.83855L7 7.9271L10.0886 4.83855C10.3158 4.61132 10.6842 4.61132 10.9114 4.83855C11.1387 5.06579 11.1387 5.43421 10.9114 5.66145L7.41145 9.16145C7.18421 9.38868 6.81579 9.38868 6.58855 9.16145L3.08855 5.66145C2.86132 5.43421 2.86132 5.06579 3.08855 4.83855Z" fill="currentColor"/></svg>`;
+const AV=`<svg class="grep-avatar__icon" aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" ><g><g><path d="M14.2956 3.80238C14.2956 5.07019 13.2678 6.09795 12 6.09795C10.7322 6.09795 9.70443 5.07019 9.70443 3.80238C9.70443 2.53457 10.7322 1.50681 12 1.50681C13.2678 1.50681 14.2956 2.53457 14.2956 3.80238Z" fill="currentColor" fill-opacity="0.56"/><path d="M3.79776 7.07795C4.00533 6.87039 4.28684 6.75378 4.58038 6.75378H19.4196C19.7132 6.75378 19.9947 6.86916 20.2022 7.07672C20.4098 7.28429 20.5264 7.56581 20.5264 7.85935C20.5264 8.15289 20.4098 8.4344 20.2022 8.64197C19.9947 8.84953 19.7132 8.96614 19.4196 8.96614H15.2355C14.9744 8.96614 14.6321 9.09404 14.4452 9.58102C14.2259 10.1479 14.3333 11.2429 14.4686 12.091L14.6461 13.0932L14.6498 13.0999L14.6506 13.1076L16.0693 21.1753C16.0978 21.3207 16.0971 21.4704 16.0672 21.6155C16.0373 21.7606 15.9788 21.8984 15.8951 22.0207C15.8115 22.143 15.7043 22.2474 15.5799 22.3279C15.4554 22.4083 15.3162 22.4632 15.1703 22.4893C15.0245 22.5154 14.8749 22.5123 14.7302 22.48C14.5856 22.4477 14.4489 22.3869 14.328 22.3013C14.207 22.2156 14.1044 22.1067 14.026 21.981C13.9476 21.8552 13.895 21.7151 13.8713 21.5688L12.8912 15.9562C12.8912 15.9562 12.5833 14.6243 12 14.6243C11.4261 14.6243 11.1117 15.9562 11.1117 15.9562L10.1316 21.5639C10.1079 21.7089 10.0557 21.8478 9.97794 21.9724C9.90018 22.0971 9.79843 22.205 9.67861 22.29C9.55878 22.3751 9.42326 22.4354 9.27992 22.4676C9.13657 22.4998 8.98826 22.5032 8.84359 22.4776C8.55097 22.4249 8.29115 22.2584 8.12099 22.0145C7.95083 21.7707 7.88417 21.4694 7.93561 21.1765L9.35394 13.1088L9.35807 13.1022L9.35886 13.0945L9.53595 12.0922C9.67123 11.2441 9.77863 10.1492 9.55932 9.58225C9.37157 9.09404 9.03994 8.96737 8.75669 8.96737H4.58038C4.28684 8.96737 4.00533 8.85076 3.79776 8.6432C3.5902 8.43563 3.47359 8.15411 3.47359 7.86058C3.47359 7.56704 3.5902 7.28552 3.79776 7.07795Z" fill="currentColor" fill-opacity="0.56"/></g></g></svg>`;
+const badge=(tone,size,txt)=>`<span class="grep-badge grep-badge--${size} grep-badge--${tone} grep-badge--full"><span class="grep-badge__label">${txt}</span></span>`;
+const sel=({lg=false,state="",fill="",disabled=false})=>{
+  const inner = fill==="text" ? `<span class="grep-select__value">Placeholder fill</span>`
+    : fill==="badge" ? `<span class="grep-select__fill">${badge("blue","22","Label")}</span>`
+    : fill==="object" ? `<span class="grep-select__fill"><span class="grep-select__object"><span class="grep-select__object-visual"><span class="grep-avatar grep-avatar--icon-tile grep-avatar--14">${AV}</span></span><span class="grep-select__object-label">Mountain Ad</span></span></span>`
+    : fill==="multi" ? `<span class="grep-select__fill">${badge("orange",lg?"22":"18","Label")}${badge("blue",lg?"22":"18","Label")}${badge("cyan",lg?"22":"18","Long Label")}${badge("indigo",lg?"22":"18","Label")}${badge("neutral-dim",lg?"22":"18","14+")}</span>`
+    : `<span class="grep-select__value grep-select__value--placeholder">Select...</span>`;
+  return `<div class="grep-input${lg?" grep-input--32":""}${disabled?" grep-input--disabled":""}"${state?` data-state="${state}"`:""}>
+    <div class="grep-input__label">
+      <div class="grep-input__label-row">Select</div>
+      <p class="grep-input__sublabel">This is some sublabel.</p>
+    </div>
+    <div class="grep-input__field-container">
+      <button class="grep-input__field grep-select" aria-haspopup="listbox" aria-expanded="false">${inner}${CHEV}</button>
+      <p class="grep-input__help">This is some help text.</p>
+    </div></div>`;
+};
+const cell=(t,el)=>`<div class="cell"><code>${t}</code>${el}</div>`;
+const content=()=>`<div class="grid">
+  ${cell("28 — empty", sel({}))}
+  ${cell("32 — empty", sel({lg:true}))}
+  ${cell("28 — hover", sel({state:"hover"}))}
+  ${cell("32 — hover", sel({lg:true,state:"hover"}))}
+  ${cell("28 — focused", sel({state:"focused"}))}
+  ${cell("32 — focused", sel({lg:true,state:"focused"}))}
+  ${cell("28 — text fill", sel({fill:"text"}))}
+  ${cell("32 — badge fill", sel({lg:true,fill:"badge"}))}
+  ${cell("28 — object fill", sel({fill:"object"}))}
+  ${cell("32 — object fill", sel({lg:true,fill:"object"}))}
+  ${cell("28 — multi, filled", sel({fill:"multi"}))}
+  ${cell("32 — multi, filled", sel({lg:true,fill:"multi"}))}
+  ${cell("28 — disabled", sel({disabled:true}))}
+  ${cell("32 — disabled", sel({lg:true,disabled:true}))}
+</div>`;
+l.innerHTML=content(); d.innerHTML=content();
+</script>
+</body>
+</html>

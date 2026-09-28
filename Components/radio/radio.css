@@ -1,0 +1,169 @@
+/* ============================================================
+   Grep UI — Radio
+   Source: Figma "Grep UI / Radio Base" (722:12282) — selected × 4 states —
+   and "Grep UI / Radio Group" (614:800) — card × checked × 4 states.
+   Both read in full.
+
+   The group mirrors Checkbox Group exactly: gap 12, label gap 2, card
+   padding 12 / radius-8, hover 0.5 -> 1px hairline, large focus ring,
+   disabled at opacity-disabled.
+   ============================================================ */
+
+/* ---------- control ---------- */
+/* 16px hit area holding a 14px circle. Border is 1px, like the checkbox. */
+
+.grep-radio {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: var(--space-16);
+  height: var(--space-16);
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+
+.grep-radio__dot {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  width: var(--space-14);
+  height: var(--space-14);
+  border-radius: var(--radius-full);
+  border: 1px solid var(--border-base);
+  background: var(--background-component);
+  box-shadow: var(--elevation-interactive);
+}
+
+/* ---------- selected ---------- */
+/* A brand disc with a white centre. No hairline, no inner shadow. */
+
+.grep-radio--checked .grep-radio__dot {
+  border-color: transparent;
+  background: var(--foreground-brand);
+  box-shadow: none;
+}
+
+.grep-radio--checked .grep-radio__dot::after {
+  content: "";
+  width: var(--space-4);
+  height: var(--space-4);
+  border-radius: var(--radius-full);
+  background: var(--foreground-icon-on-color);
+}
+
+/* ---------- hover ---------- */
+
+.grep-radio:hover .grep-radio__dot,
+.grep-radio[data-state="hover"] .grep-radio__dot {
+  border-color: var(--border-brand);
+  background-image:
+    linear-gradient(var(--background-overlay-hover-subtle), var(--background-overlay-hover-subtle));
+}
+
+.grep-radio--checked:hover .grep-radio__dot,
+.grep-radio--checked[data-state="hover"] .grep-radio__dot {
+  border-color: transparent;
+  background-color: var(--foreground-brand-hover);
+  background-image: none;
+}
+
+/* ---------- focus ---------- */
+
+.grep-radio:focus-visible { outline: none; }
+
+.grep-radio:focus-visible .grep-radio__dot,
+.grep-radio[data-state="focused"] .grep-radio__dot {
+  box-shadow: var(--elevation-interactive-focus);
+}
+
+/* ---------- disabled ---------- */
+
+.grep-radio:disabled,
+.grep-radio[data-state="disabled"] {
+  opacity: var(--opacity-disabled);
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* ============================================================
+   Radio Group — control + label, optionally in a card
+   ============================================================ */
+
+.grep-radio-group {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-12);
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  text-align: left;
+  cursor: pointer;
+}
+
+.grep-radio-group__label {
+  display: flex;
+  flex: 1 0 0;
+  min-width: 0;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--space-2);
+}
+
+.grep-radio-group__title {
+  font-family: var(--text-style-body), system-ui, sans-serif;
+  font-size: var(--text-base);
+  font-weight: var(--text-weight-medium);   /* 440 */
+  line-height: var(--text-base);
+  color: var(--foreground-text-base);
+}
+
+.grep-radio-group__sublabel {
+  margin: 0;
+  font-family: var(--text-style-body), system-ui, sans-serif;
+  font-size: var(--text-base);
+  font-weight: var(--text-weight-regular);  /* 400 */
+  line-height: 1.4;
+  color: var(--foreground-text-dim);
+}
+
+/* ---------- card ---------- */
+
+.grep-radio-group--card {
+  --_ring: 0.5px;
+
+  box-sizing: border-box;
+  padding: var(--space-12);
+  border-radius: var(--radius-8);
+  background: var(--background-component);
+  overflow: clip;
+  box-shadow: inset 0 0 0 var(--_ring) var(--border-base), var(--elevation-card);
+}
+
+/* Figma: "On hover, border changes from 0.5px to 1px width." */
+.grep-radio-group--card:hover,
+.grep-radio-group--card[data-state="hover"] { --_ring: 1px; }
+
+/* Figma: "Disable pointer events for this radio — the card itself owns the
+   hover state here." So the control must not react on its own in a card. */
+.grep-radio-group--card .grep-radio { pointer-events: none; }
+
+.grep-radio-group--card:focus-visible,
+.grep-radio-group--card[data-state="focused"] {
+  outline: none;
+  box-shadow: inset 0 0 0 var(--_ring) var(--border-base), var(--elevation-card-focus);
+}
+
+/* ---------- disabled ---------- */
+
+.grep-radio-group:disabled,
+.grep-radio-group[data-state="disabled"] {
+  opacity: var(--opacity-disabled);
+  cursor: not-allowed;
+  pointer-events: none;
+}

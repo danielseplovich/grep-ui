@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Grep prototype</title>
+
+<link rel="preconnect" href="https://rsms.me/">
+<link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="../../grepmd/grep-ui.css">
+
+<style>
+  html {
+    font-family: var(--text-style-body), system-ui, sans-serif;
+    font-size: var(--text-base);
+    font-weight: var(--text-weight-regular);
+    color: var(--foreground-text-base);
+    background: var(--background-canvas);
+    -webkit-font-smoothing: antialiased;
+  }
+  body { margin: 0; }
+  h1, h2, h3 {
+    font-family: var(--text-style-display), var(--text-style-body), sans-serif;
+    font-weight: var(--text-weight-bold);
+  }
+  code, kbd, pre { font-family: var(--text-style-code), ui-monospace, monospace; }
+  body { padding: var(--space-32); }
+  .modes { display:flex; gap: var(--space-24); align-items:flex-start; }
+  .mode { flex:1; padding: var(--space-24); border-radius: var(--radius-12);
+          border:0.5px solid var(--border-base); background: var(--background-canvas); }
+  h2 { font-size: var(--text-sm); font-weight: var(--text-weight-medium);
+       color: var(--foreground-text-dim); margin:0 0 var(--space-20);
+       text-transform:uppercase; letter-spacing:0.04em; }
+  h3 { font-size: var(--text-xs); font-weight: var(--text-weight-medium);
+       color: var(--foreground-text-dim); margin: var(--space-24) 0 var(--space-12); }
+  table { border-collapse:collapse; }
+  th { font-size: var(--text-xs); font-weight: var(--text-weight-medium);
+       color: var(--foreground-text-dim); text-align:left; padding:0 var(--space-20) var(--space-8) 0; }
+  td { padding: 0 var(--space-20) var(--space-12) 0; }
+  .rowlab { font-size: var(--text-xs); color: var(--foreground-text-dim); padding-right: var(--space-16); }
+  .stack { display:flex; flex-direction:column; gap: var(--space-12); }
+</style>
+</head>
+<body>
+
+
+  <div class="modes">
+    <div class="mode"><h2>Light</h2><div id="l"></div></div>
+    <div class="mode" data-theme="dark"><h2>Dark</h2><div id="d"></div></div>
+  </div>
+<script>
+const SEL=[["","Unchecked"],["grep-radio--checked","Checked"]];
+const ST=[["","Default"],["hover","Hover"],["focused","Focused"],["disabled","Disabled"]];
+const dot=(sel,st)=>`<span class="grep-radio ${sel}"${st?` data-state="${st}"`:""}><span class="grep-radio__dot"></span></span>`;
+const group=(sel,st,card)=>`<button class="grep-radio-group ${card?"grep-radio-group--card":""}"${st?` data-state="${st}"`:""}>
+  ${dot(sel,card?"":st)}
+  <span class="grep-radio-group__label">
+    <span class="grep-radio-group__title">Label</span>
+    <p class="grep-radio-group__sublabel">This is some sublabel.</p></span></button>`;
+function content(){
+  let h=`<h3>Control — 2 × 4</h3><table><tr><th></th>${ST.map(s=>`<th>${s[1]}</th>`).join("")}</tr>`;
+  for(const [c,l] of SEL) h+=`<tr><td class="rowlab">${l}</td>${ST.map(s=>`<td>${dot(c,s[0])}</td>`).join("")}</tr>`;
+  h+=`</table><h3>Group</h3><div class="stack">${group("","",false)}${group("grep-radio--checked","",false)}</div>`;
+  h+=`<h3>Group — card</h3><div class="stack">
+    ${group("","",true)}${group("grep-radio--checked","hover",true)}
+    ${group("grep-radio--checked","focused",true)}${group("","disabled",true)}</div>`;
+  return h;
+}
+document.getElementById("l").innerHTML=content();
+document.getElementById("d").innerHTML=content();
+</script>
+
+
+<script>
+  // Follow the OS theme. Remove if the prototype needs a fixed mode.
+  const dark = matchMedia("(prefers-color-scheme: dark)");
+  const apply = () => (document.documentElement.dataset.theme = dark.matches ? "dark" : "light");
+  document.documentElement.dataset.theme = "light";
+</script>
+</body>
+</html>

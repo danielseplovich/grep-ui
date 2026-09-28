@@ -1,0 +1,175 @@
+/* ============================================================
+   Grep UI — Item Block
+   Source: Figma "Grep UI / Item Row" (4621:3776) and
+           "Grep UI / Item Block" + Settings Group (4621:3810 / 4621:3812)
+   Item Row read with its full boolean prop set and both states.
+   ============================================================ */
+
+/* ---------- block ---------- */
+
+.grep-item-block {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: var(--space-16);
+  width: 100%;
+}
+
+.grep-item-block__title {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+
+  font-family: var(--text-style-body), system-ui, sans-serif;
+  font-size: var(--text-lg);                /* 14 — label-lg-med */
+  font-weight: var(--text-weight-medium);   /* 440 */
+  line-height: var(--text-lg);
+  color: var(--foreground-text-base);
+}
+
+.grep-item-block__subtitle {
+  margin: 0;
+  font-size: var(--text-lg);                /* 14 — para-lg-reg */
+  font-weight: var(--text-weight-regular);  /* 400 */
+  line-height: 1.4;
+  color: var(--foreground-text-dim);
+}
+
+/* ---------- settings group ---------- */
+/* Rows stack with no gap — each row draws its own bottom rule, and the last
+   row omits it. radius-12, not radius-8. */
+
+.grep-item-block__group {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  overflow: clip;
+  border-radius: var(--radius-12);
+  background: var(--background-component);
+  box-shadow: inset 0 0 0 0.5px var(--border-base), var(--elevation-card);
+}
+
+/* ---------- row ---------- */
+
+.grep-item-row {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: center;
+  min-height: var(--space-76, 76px);
+  width: 100%;
+  background: var(--background-component);
+}
+
+.grep-item-row__internal {
+  display: flex;
+  align-items: center;
+  gap: var(--space-12);
+  padding: var(--space-20) var(--space-24);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* ---------- left container ---------- */
+
+.grep-item-row__left {
+  flex: 1 0 0;
+  min-width: 0;
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-16);
+}
+
+/* `tile` — a 36px Avatar Base, but filled with background-contrast rather
+   than the avatar's own background-tile. */
+.grep-item-row__tile {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  width: var(--space-36);
+  height: var(--space-36);
+  padding: var(--space-8);
+  border-radius: var(--radius-8);
+  background: var(--background-contrast);
+  color: var(--foreground-icon-subtle);
+}
+
+.grep-item-row__tile > svg { width: var(--space-20); height: var(--space-20); display: block; }
+
+.grep-item-row__label-frame {
+  flex-shrink: 0;
+  width: var(--_label-w, 136px);
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.grep-item-row__label {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.grep-item-row__label-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-6);
+  height: var(--space-16);
+
+  font-family: var(--text-style-body), system-ui, sans-serif;
+  font-size: var(--text-base);
+  font-weight: var(--text-weight-medium);   /* 440 — label-base-medium */
+  line-height: var(--text-base);
+  color: var(--foreground-text-base);
+}
+
+.grep-item-row__sublabel {
+  margin: 0;
+  font-family: var(--text-style-body), system-ui, sans-serif;
+  font-size: var(--text-base);
+  font-weight: var(--text-weight-regular);  /* 400 — para-base-reg */
+  line-height: 1.4;
+  color: var(--foreground-text-dim);
+}
+
+/* ---------- trailing slots ---------- */
+/* Every boolean prop is just a child of __internal, in the order authored.
+   They sit after __left, spaced by the row's 12px gap. */
+
+.grep-item-row__chevron {
+  flex-shrink: 0;
+  width: var(--space-16);
+  height: var(--space-16);
+  color: var(--foreground-icon-dim);
+  transition: transform 120ms ease;
+}
+
+/* `open` swaps the chevron from right to down. */
+.grep-item-row--open .grep-item-row__chevron { transform: rotate(90deg); }
+
+/* ---------- bottom rule ---------- */
+/* `dividingLine` — 1px border-subtle, full width. A section divider inside a
+   component, per RULES.md > Line weights. Omit it on the last row. */
+
+.grep-item-row__rule {
+  flex-shrink: 0;
+  width: 100%;
+  height: 1px;
+  margin: 0;
+  border: 0;
+  background: var(--border-subtle);
+}
+
+/* ---------- state: hover ---------- */
+/* background-overlay-hover-subtle layered over background-component. */
+
+.grep-item-row--interactive:hover,
+.grep-item-row[data-state="hover"] {
+  background-image:
+    linear-gradient(var(--background-overlay-hover-subtle), var(--background-overlay-hover-subtle));
+}
+
+.grep-item-row--interactive { cursor: pointer; }

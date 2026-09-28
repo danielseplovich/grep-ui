@@ -1,0 +1,147 @@
+/* ============================================================
+   Grep UI — Icon Button
+   Source: Figma "Grep UI / Icon Button Base"
+     2XS 16 (834:1839) · XS 20 (834:1531) · Small 24 (774:3875)
+     Base 28 (774:3881) · LG 32 (774:3887) · XL 36 (774:3893)
+     2XL 40 (774:3899)
+   All seven read at Type=Primary, State=Default, Radius=Rounded.
+   Types and states beyond that are carried from Button — see the spec.
+   ============================================================ */
+
+.grep-icon-btn {
+  --_size: var(--space-28);
+  --_radius: var(--radius-6);
+
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-sizing: border-box;
+  width: var(--_size);
+  height: var(--_size);
+  padding: 0;
+  border-radius: var(--_radius);
+  overflow: clip;
+
+  border: 0.5px solid transparent;
+  box-shadow: var(--elevation-button);
+  cursor: pointer;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ---------- sizes ---------- */
+/* The icon is always 14, centred — the box grows around it. Radius does not
+   scale linearly: it steps at 24 and again at 36. */
+
+.grep-icon-btn--16 { --_size: var(--space-16); --_radius: var(--radius-4); }
+.grep-icon-btn--20 { --_size: var(--space-20); --_radius: var(--radius-4); }
+.grep-icon-btn--24 { --_size: var(--space-24); --_radius: var(--radius-6); }
+.grep-icon-btn--28 { --_size: var(--space-28); --_radius: var(--radius-6); }
+.grep-icon-btn--32 { --_size: var(--space-32); --_radius: var(--radius-6); }
+.grep-icon-btn--36 { --_size: var(--space-36); --_radius: var(--radius-8); }
+.grep-icon-btn--40 { --_size: var(--space-40); --_radius: var(--radius-8); }
+
+/* ---------- radius: full ---------- */
+
+.grep-icon-btn--full { --_radius: var(--radius-full); }
+
+/* ---------- parts ---------- */
+
+.grep-icon-btn__icon {
+  width: var(--space-14);
+  height: var(--space-14);
+  display: block;
+  flex-shrink: 0;
+}
+
+.grep-icon-btn::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: transparent;
+  pointer-events: none;
+}
+
+/* ---------- types ---------- */
+/* Same five the Button has. Primary is the Button's brand. */
+
+.grep-icon-btn--primary {
+  background: var(--button-brand-background);
+  border-color: var(--border-brand);
+  color: var(--foreground-icon-on-color);
+}
+.grep-icon-btn--primary:hover:not(:disabled):not([data-state="loading"]) {
+  background: var(--button-brand-background-hover);
+}
+
+.grep-icon-btn--neutral {
+  background: var(--button-neutral-background);
+  border-color: var(--border-base);
+  color: var(--foreground-icon-base);
+}
+.grep-icon-btn--neutral:hover:not(:disabled):not([data-state="loading"])::before {
+  background: var(--button-neutral-background-overlay-hover);
+}
+
+.grep-icon-btn--inverted {
+  background: var(--button-contrast-background);
+  border-color: var(--button-contrast-border);
+  color: var(--button-contrast-icon);
+}
+.grep-icon-btn--inverted:hover:not(:disabled):not([data-state="loading"])::before {
+  background: var(--button-contrast-background-overlay-hover);
+}
+
+.grep-icon-btn--danger {
+  background: var(--button-danger-background);
+  border-color: var(--border-danger);
+  color: var(--foreground-icon-on-color);
+}
+.grep-icon-btn--danger:hover:not(:disabled):not([data-state="loading"]) {
+  background: var(--button-danger-background-hover);
+}
+
+/* Ghost carries no fill, border or shadow — for toolbars and dense chrome. */
+.grep-icon-btn--ghost {
+  background: none;
+  border-color: transparent;
+  box-shadow: none;
+  color: var(--foreground-icon-subtle);
+}
+.grep-icon-btn--ghost:hover:not(:disabled):not([data-state="loading"])::before {
+  background: var(--button-ghost-background-hover);
+}
+
+/* ---------- state: focused ---------- */
+
+.grep-icon-btn:focus-visible,
+.grep-icon-btn[data-state="focused"] {
+  outline: none;
+  box-shadow: var(--elevation-button-focus);
+}
+
+.grep-icon-btn--ghost:focus-visible,
+.grep-icon-btn--ghost[data-state="focused"] {
+  box-shadow: var(--elevation-focus-ring);
+}
+
+/* ---------- state: loading ---------- */
+/* Same mechanic as Button: the icon goes to opacity 0 and the spinner
+   centres over it, so the box never changes size. */
+
+.grep-icon-btn[data-state="loading"] {
+  cursor: default;
+  pointer-events: none;
+}
+.grep-icon-btn[data-state="loading"] .grep-icon-btn__icon { opacity: var(--opacity-hidden); }
+.grep-icon-btn[data-state="loading"] .grep-btn__spinner { opacity: 1; }
+
+/* ---------- state: disabled ---------- */
+
+.grep-icon-btn:disabled,
+.grep-icon-btn[data-state="disabled"] {
+  opacity: var(--opacity-disabled);
+  cursor: not-allowed;
+  pointer-events: none;
+}

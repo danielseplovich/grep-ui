@@ -1,0 +1,33 @@
+{
+  "name": "@shade/grep-ui",
+  "version": "0.1.0",
+  "description": "Grep UI — the design system for Grep. Tokens, effects and components as plain CSS, compiled from the Figma component set.",
+  "license": "UNLICENSED",
+  "private": false,
+  "style": "grepmd/grep-ui.css",
+  "main": "grepmd/grep-ui.css",
+  "exports": {
+    ".": "./grepmd/grep-ui.css",
+    "./grep-ui.css": "./grepmd/grep-ui.css",
+    "./tokens.css": "./grepmd/tokens.css",
+    "./effects.css": "./grepmd/effects.css",
+    "./grepmd/*": "./grepmd/*",
+    "./Components/*": "./Components/*",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "grepmd",
+    "Components",
+    "Grep UI Opacity",
+    "Grep UI Primitive Tokens",
+    "Grep UI Scale",
+    "Grep UI Semantic Tokens",
+    "Grep UI Text",
+    "Grep UI effects",
+    "AGENTS.md"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/danielseplovich/grep-ui.git"
+  }
+}

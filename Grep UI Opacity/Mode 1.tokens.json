@@ -1,0 +1,49 @@
+{
+  "opacity-subtle": {
+    "$type": "number",
+    "$value": 88,
+    "$extensions": {
+      "com.figma.variableId": "VariableID:2267:6654",
+      "com.figma.scopes": [
+        "EFFECT_FLOAT",
+        "OPACITY"
+      ]
+    }
+  },
+  "opacity-dim": {
+    "$type": "number",
+    "$value": 56,
+    "$extensions": {
+      "com.figma.variableId": "VariableID:6029:93375",
+      "com.figma.scopes": [
+        "EFFECT_FLOAT",
+        "OPACITY"
+      ]
+    }
+  },
+  "opacity-disabled": {
+    "$type": "number",
+    "$value": 50,
+    "$extensions": {
+      "com.figma.variableId": "VariableID:772:753",
+      "com.figma.scopes": [
+        "EFFECT_FLOAT",
+        "OPACITY"
+      ]
+    }
+  },
+  "opacity-hidden": {
+    "$type": "number",
+    "$value": 0,
+    "$extensions": {
+      "com.figma.variableId": "VariableID:1488:46551",
+      "com.figma.scopes": [
+        "EFFECT_FLOAT",
+        "OPACITY"
+      ]
+    }
+  },
+  "$extensions": {
+    "com.figma.modeName": "Mode 1"
+  }
+}

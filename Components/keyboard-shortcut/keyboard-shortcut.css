@@ -1,0 +1,77 @@
+/* ============================================================
+   Grep UI — Keyboard Shortcut
+   Source: Figma "Grep UI / Keyboard Shortcut Base" (160:272)
+   Read: both sizes × all four types.
+   ============================================================ */
+
+.grep-kbd {
+  --_size: var(--space-16);
+  --_radius: var(--radius-4);
+  --_pad-x: var(--space-4);
+  --_font: var(--text-xs);      /* 11 — code-label-xs-reg */
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-sizing: border-box;
+  height: var(--_size);
+  padding: 0 var(--_pad-x);
+  border-radius: var(--_radius);
+  background: var(--background-contrast-strong);
+  overflow: clip;
+
+  /* Everything inside uses the ICON token, not a text token — Figma's
+     annotation: "even though we have text as an option, we use an icon token
+     since they should be consistent". */
+  color: var(--foreground-icon-subtle);
+  font-family: var(--text-style-code), ui-monospace, monospace;
+  font-size: var(--_font);
+  font-weight: var(--text-weight-regular);
+  line-height: var(--_font);
+  text-align: center;
+}
+
+/* ---------- size ---------- */
+/* LG is for Settings pages only — Figma says so on the component. */
+
+.grep-kbd--lg {
+  --_size: var(--space-20);
+  --_radius: var(--radius-5);
+  --_pad-x: var(--space-5);
+  --_font: var(--text-base);    /* 13 — code-label-base-reg */
+}
+
+/* ---------- type ---------- */
+/* Letter, Number and Icon are square with no padding; only Label is a pill
+   that grows with its text. */
+
+.grep-kbd--letter,
+.grep-kbd--number,
+.grep-kbd--icon {
+  width: var(--_size);
+  padding: 0;
+}
+
+/* A single letter gets a fixed centring box. */
+.grep-kbd--letter > * { width: 10px; }
+.grep-kbd--lg.grep-kbd--letter > * { width: var(--space-20); }
+
+.grep-kbd--label,
+.grep-kbd--number { white-space: nowrap; }
+
+.grep-kbd__icon {
+  width: var(--_size);
+  height: var(--_size);
+  display: block;
+}
+
+/* ---------- group ---------- */
+/* A combo — modifier + key. Gap read from the Item Row's usage. */
+
+.grep-kbd-group {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-4);
+  flex-shrink: 0;
+}

@@ -1,0 +1,131 @@
+{
+  "gradient": {
+    "component-light": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.9960784316062927,
+          0.9960784316062927,
+          0.9960784316062927
+        ],
+        "alpha": 0,
+        "hex": "#FEFEFE"
+      },
+      "$description": "Referenced in the semantic token \"background/transparent\" and used for gradients on top of \"component\" fill items that fade to 0% opacity",
+      "$extensions": {
+        "com.figma.variableId": "VariableID:8154:44428",
+        "com.figma.hiddenFromPublishing": true,
+        "com.figma.scopes": [
+          "FRAME_FILL",
+          "EFFECT_COLOR"
+        ]
+      }
+    },
+    "component-dark": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.08627451211214066,
+          0.09019608050584793,
+          0.10196078568696976
+        ],
+        "alpha": 0,
+        "hex": "#16171A"
+      },
+      "$description": "Referenced in the semantic token \"background/transparent\" and used for gradients on top of \"component\" fill items that fade to 0% opacity",
+      "$extensions": {
+        "com.figma.variableId": "VariableID:8154:44429",
+        "com.figma.hiddenFromPublishing": true,
+        "com.figma.scopes": [
+          "FRAME_FILL",
+          "EFFECT_COLOR"
+        ]
+      }
+    }
+  },
+  "shadow": {
+    "ink-4": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.07450980693101883,
+          0.07450980693101883,
+          0.08235294371843338
+        ],
+        "alpha": 0.03999999910593033,
+        "hex": "#131315"
+      },
+      "$extensions": {
+        "com.figma.variableId": "VariableID:6026:186",
+        "com.figma.hiddenFromPublishing": true,
+        "com.figma.scopes": [
+          "EFFECT_COLOR"
+        ],
+        "com.figma.aliasData": {
+          "targetVariableId": "VariableID:8d569827fb9fa27d7d95a1dc7c478b4cbad3ab36/-1:-1",
+          "targetVariableName": "light/ink/04",
+          "targetVariableSetId": "VariableCollectionId:f211adcf507312ccc6ebb47568be8a7abdfd1453/-1:-1",
+          "targetVariableSetName": "Grep UI Neutral Primitives"
+        }
+      }
+    },
+    "ink-8": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.07450980693101883,
+          0.07450980693101883,
+          0.08235294371843338
+        ],
+        "alpha": 0.07999999821186066,
+        "hex": "#131315"
+      },
+      "$extensions": {
+        "com.figma.variableId": "VariableID:6026:187",
+        "com.figma.hiddenFromPublishing": true,
+        "com.figma.scopes": [
+          "EFFECT_COLOR"
+        ],
+        "com.figma.aliasData": {
+          "targetVariableId": "VariableID:f6347a9a33b1446114d2eef3c37090851ec6d204/-1:-1",
+          "targetVariableName": "light/ink/08",
+          "targetVariableSetId": "VariableCollectionId:f211adcf507312ccc6ebb47568be8a7abdfd1453/-1:-1",
+          "targetVariableSetName": "Grep UI Neutral Primitives"
+        }
+      }
+    },
+    "ink-12": {
+      "$type": "color",
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.07450980693101883,
+          0.07450980693101883,
+          0.08235294371843338
+        ],
+        "alpha": 0.11999999731779099,
+        "hex": "#131315"
+      },
+      "$extensions": {
+        "com.figma.variableId": "VariableID:6026:188",
+        "com.figma.hiddenFromPublishing": true,
+        "com.figma.scopes": [
+          "EFFECT_COLOR"
+        ],
+        "com.figma.aliasData": {
+          "targetVariableId": "VariableID:3d94f720a989a08ff716183f80ef7ffae5549ab5/-1:-1",
+          "targetVariableName": "light/ink/12",
+          "targetVariableSetId": "VariableCollectionId:f211adcf507312ccc6ebb47568be8a7abdfd1453/-1:-1",
+          "targetVariableSetName": "Grep UI Neutral Primitives"
+        }
+      }
+    }
+  },
+  "$extensions": {
+    "com.figma.modeName": "Value"
+  }
+}

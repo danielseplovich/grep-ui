@@ -1,0 +1,62 @@
+/* Grep UI — named effect styles, read from Figma.
+   These live in Figma's *effect styles*, not its variables, so they never
+   appear in a token export. Read them off components and keep them here. */
+
+:root,
+[data-theme="light"],
+[data-theme="dark"] {
+  /* Grep UI/Button/base */
+  --elevation-button: 0 1px 2px 0 var(--shadow-ink-8);
+
+  /* Grep UI/Button/focus — the large ring: 2px gap + 4px brand */
+  --elevation-button-focus:
+    0 1px 2px 1px var(--shadow-ink-8),
+    0 0 0 2px var(--background-canvas),
+    0 0 0 4px rgb(133 92 248 / 0.6);
+
+  /* The large ring on its own, for surfaces that already carry a shadow */
+  --elevation-focus-ring:
+    0 0 0 2px var(--background-canvas),
+    0 0 0 4px rgb(133 92 248 / 0.6);
+
+  /* Grep UI/Avatar/base */
+  --elevation-avatar: 0 1px 2px -2px var(--shadow-ink-8);
+
+  /* Grep UI/Card/base */
+  --elevation-card: 0 1px 2px -1px var(--shadow-ink-8), 0 2px 4px 0 var(--shadow-ink-4);
+
+  /* Grep UI/Card/focus — the card shadow with the large ring on top */
+  --elevation-card-focus:
+    0 1px 2px -1px var(--shadow-ink-8),
+    0 2px 4px 0 var(--shadow-ink-4),
+    0 0 0 2px var(--background-canvas),
+    0 0 0 4px rgb(133 92 248 / 0.6);
+
+  /* Grep UI/Interactive/base — inset, for checkboxes, radios, toggles, fields */
+  --elevation-interactive: inset 0 1px 2px 0 var(--shadow-ink-12);
+
+  /* Grep UI/Input/base — fields */
+  --elevation-input: 0 1px 1px 0 var(--shadow-ink-4), 0 1px 2px -1px var(--shadow-ink-4);
+
+  /* Grep UI/Input/focus — a THIRD ring size: 1px gap + 2.5px brand */
+  --elevation-input-focus:
+    0 1px 1px 0 var(--shadow-ink-4),
+    0 1px 2px -1px var(--shadow-ink-4),
+    0 0 0 1px var(--background-canvas),
+    0 0 0 2.5px rgb(133 92 248 / 0.6);
+
+  /* Grep UI/Input/focus-danger */
+  --elevation-input-focus-danger:
+    0 1px 1px 0 var(--shadow-ink-4),
+    0 1px 2px -1px var(--shadow-ink-4),
+    0 0 0 1px var(--background-canvas),
+    0 0 0 2.5px rgb(240 62 62 / 0.6);
+
+  /* Grep UI/Component/flyout — menus, popovers, dropdowns */
+  --elevation-flyout: 0 4px 8px 0 var(--shadow-ink-8), 0 8px 16px 1px var(--shadow-ink-4);
+
+  /* Grep UI/Interactive/focus — the small ring: 1px gap + 2px brand */
+  --elevation-interactive-focus:
+    0 0 0 1px var(--background-canvas),
+    0 0 0 2px rgb(133 92 248 / 0.6);
+}
