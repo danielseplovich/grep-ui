@@ -1283,11 +1283,11 @@ samp {
    Docs redesign (Figma: Grep UI docs)
    ====================================================================== */
 
-/* ---------- Preview / Code (Component preview + Button Tab Group) ---------- */
+/* ---------- Preview / Code (Figma: Grep UI docs 15:1040) ---------- */
 .doc-example {
   display: flex;
   flex-direction: column;
-  gap: var(--space-16);
+  gap: var(--space-32);
   margin: 0 0 var(--space-16);
   border-radius: 0;
   background: none;
@@ -1297,27 +1297,36 @@ samp {
 .doc-example__tabs {
   gap: var(--space-6);
 }
+/* outer frame: 1px border, radius-16, 4px gap to the inner frame */
 .doc-preview {
+  padding: var(--space-4);
+  border: 1px solid var(--border-base);
+  border-radius: var(--radius-16);
+}
+/* inner frame: the stage the component sits on */
+.doc-preview__stage {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 295px;
+  min-height: 540px;
   padding: var(--space-40);
   border: 1px solid var(--border-base);
   border-radius: var(--radius-12);
   background: var(--background-component);
   color: var(--foreground-text-base);
-  overflow-x: auto;
-  scrollbar-width: thin;
+  overflow: hidden;
 }
-.doc-preview--sidebar {
+.doc-preview__stage--sidebar {
   background: var(--background-left-sidebar);
 }
-.doc-preview--panel {
+.doc-preview__stage--panel {
   background: var(--background-panel);
 }
-.doc-preview--tall {
-  min-height: 400px;
+.doc-preview__zoom {
+  position: absolute;
+  top: var(--space-24);
+  right: var(--space-24);
 }
 .doc-preview__canvas {
   display: flex;
@@ -1326,6 +1335,8 @@ samp {
   flex-wrap: wrap;
   gap: var(--space-12);
   max-width: 100%;
+  transform-origin: center;
+  transition: transform 160ms ease;
 }
 .doc-preview__canvas--start {
   justify-content: flex-start;
@@ -1552,20 +1563,17 @@ samp {
   height: 100%;
 }
 
-/* ---------- Playground: one preview, controls beneath it ---------- */
-/* The controls are a Grep UI Item Block group: one Item Row per prop, with
-   the label on the left and a Select or Toggle on the right. */
+/* ---------- Playground: one preview, an Item Block of controls beneath it ---------- */
+/* The Item Block is used as-is (title, group with its 0.5px hairline and card
+   shadow, 76px rows, subtle rules). Only the select's width is set here. */
 .doc-playground {
   margin: 0 0 var(--space-16);
 }
 .doc-playground .doc-example {
-  margin-bottom: var(--space-16);
-}
-.doc-playground__controls .grep-item-row__label-row {
-  color: var(--foreground-text-subtle);
+  margin-bottom: var(--space-32);
 }
 .doc-playground__select {
-  width: 280px;
+  width: 300px;
   flex-shrink: 0;
 }
 .doc-playground__select .grep-select {

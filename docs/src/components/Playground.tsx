@@ -19,11 +19,14 @@ export function Playground({ playground }: { playground: PlaygroundDef }) {
   return (
     <div className="doc-playground">
       <ExampleBlock example={example} />
-      <div className="grep-item-block__group doc-playground__controls">
-        {playground.controls.map((c, i) => (
-          <ControlRow key={c.name} control={c} value={state[c.name]} onChange={(v) => set(c.name, v)} last={i === playground.controls.length - 1} />
-        ))}
-      </div>
+      <section className="grep-item-block doc-playground__controls">
+        <h3 className="grep-item-block__title">Props</h3>
+        <div className="grep-item-block__group">
+          {playground.controls.map((c, i) => (
+            <ControlRow key={c.name} control={c} value={state[c.name]} onChange={(v) => set(c.name, v)} last={i === playground.controls.length - 1} />
+          ))}
+        </div>
+      </section>
     </div>
   )
 }
@@ -42,7 +45,7 @@ function ControlRow({ control, value, onChange, last }: { control: Control; valu
           </div>
         </div>
         {control.type === 'select' ? (
-          <span className="grep-input grep-input--32 doc-playground__select">
+          <span className="grep-input doc-playground__select">
             <span className="grep-input__field grep-select">
               <select id={id} className="doc-playground__native" value={String(value)} onChange={(e) => onChange(e.target.value)}>
                 {control.options.map((o) => (
@@ -61,7 +64,7 @@ function ControlRow({ control, value, onChange, last }: { control: Control; valu
             type="button"
             role="switch"
             aria-checked={Boolean(value)}
-            className={`grep-toggle${value ? ' grep-toggle--on' : ''}`}
+            className={`grep-toggle grep-toggle--md${value ? ' grep-toggle--on' : ''}`}
             onClick={() => onChange(!value)}
           >
             <span className="grep-toggle__track">
