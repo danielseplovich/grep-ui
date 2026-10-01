@@ -1,7 +1,9 @@
 /* Grep UI — Select (React). Styling: Components/select/select.css + input.css
    The trigger is the Figma Select field; the open list is a Grep UI Context
-   Menu anchored under it. */
-import { forwardRef, useEffect, useId, useRef, useState, type ButtonHTMLAttributes, type ReactNode } from 'react'
+   Menu rendered in a portal at the top of the document, so no ancestor's
+   overflow or stacking can hide it. */
+import { forwardRef, useEffect, useId, useLayoutEffect, useRef, useState, type ButtonHTMLAttributes, type CSSProperties, type ReactNode } from 'react'
+import { createPortal } from 'react-dom'
 import { cx } from '../lib/cx'
 import { SelectChevron } from '../icons'
 import { ContextMenu } from '../context-menu'
@@ -31,36 +33,57 @@ export const Select = forwardRef<HTMLButtonElement, SelectProps>(function Select
   const auto = useId()
   const triggerId = id ?? auto
   const [open, setOpen] = useState(false)
-  const root = useRef<HTMLDivElement>(null)
+  const [pos, setPos] = useState<CSSProperties>({})
+  const trigger = useRef<HTMLButtonElement | null>(null)
+  const menu = useRef<HTMLDivElement>(null)
   const shown = options.find((o) => o.value === value)
+
+  const place = () => {
+    const r = trigger.current?.getBoundingClientRect()
+    if (!r) return
+    setPos({ position: 'fixed', top: r.bottom + 4, left: r.left, width: r.width, zIndex: 1000 })
+  }
+
+  useLayoutEffect(() => {
+    if (open) place()
+  }, [open])
 
   useEffect(() => {
     if (!open) return
     const onDown = (e: MouseEvent) => {
-      if (!root.current?.contains(e.target as Node)) setOpen(false)
+      const t = e.target as Node
+      if (!trigger.current?.contains(t) && !menu.current?.contains(t)) setOpen(false)
     }
     const onKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape') setOpen(false)
     }
     document.addEventListener('mousedown', onDown)
     document.addEventListener('keydown', onKey)
+    window.addEventListener('scroll', place, true)
+    window.addEventListener('resize', place)
     return () => {
       document.removeEventListener('mousedown', onDown)
       document.removeEventListener('keydown', onKey)
+      window.removeEventListener('scroll', place, true)
+      window.removeEventListener('resize', place)
     }
   }, [open])
 
   return (
-    <div ref={root} className={cx('grep-input', size === 32 && 'grep-input--32', disabled && 'grep-input--disabled', error && 'grep-input--error', className)}>
+    <div className={cx('grep-input', size === 32 && 'grep-input--32', disabled && 'grep-input--disabled', error && 'grep-input--error', className)}>
       {(label || sublabel) && (
         <label className="grep-input__label" htmlFor={triggerId}>
           {label && <span className="grep-input__label-row">{label}</span>}
           {sublabel && <p className="grep-input__sublabel">{sublabel}</p>}
         </label>
       )}
-      <div className="grep-input__field-container" style={{ position: 'relative' }}>
+      <div className="grep-input__field-container">
         <button
-          ref={ref}
+          ref={(el) => {
+            trigger.current = el
+            if (typeof ref === 'function') ref(el)
+            else if (ref) ref.current = el
+          }}
           id={triggerId}
           type="button"
           className="grep-input__field grep-select"
@@ -73,24 +96,27 @@ export const Select = forwardRef<HTMLButtonElement, SelectProps>(function Select
           <span className={cx('grep-select__value', !shown && 'grep-select__value--placeholder')}>{shown ? shown.label : placeholder}</span>
           <SelectChevron className="grep-select__chevron" />
         </button>
-        {open && (
-          <ContextMenu
-            role="listbox"
-            style={{ position: 'absolute', top: 'calc(100% + var(--space-4))', left: 0, width: '100%', zIndex: 20 }}
-            sections={[
-              {
-                items: options.map((o) => ({
-                  label: o.label,
-                  icon: o.icon,
-                  onSelect: () => {
-                    onValueChange?.(o.value)
-                    setOpen(false)
-                  },
-                })),
-              },
-            ]}
-          />
-        )}
+        {open &&
+          createPortal(
+            <ContextMenu
+              ref={menu}
+              role="listbox"
+              style={pos}
+              sections={[
+                {
+                  items: options.map((o) => ({
+                    label: o.label,
+                    icon: o.icon,
+                    onSelect: () => {
+                      onValueChange?.(o.value)
+                      setOpen(false)
+                    },
+                  })),
+                },
+              ]}
+            />,
+            document.body,
+          )}
         {helpText && <p className="grep-input__help">{helpText}</p>}
       </div>
     </div>

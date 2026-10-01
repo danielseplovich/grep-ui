@@ -22,7 +22,7 @@ npm install github:danielseplovich/grep-ui
 
 Light is the default; dark is `data-theme="dark"` on `<html>`. Start with [AGENTS.md](./AGENTS.md) for the rules, then the docs for each component.
 
-To pin a release: `npm install github:danielseplovich/grep-ui#v0.1.0`.
+To pin a release: `npm install github:danielseplovich/grep-ui#v0.2.0`.
 
 ## Docs
 

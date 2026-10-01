@@ -1,6 +1,6 @@
 /* Grep UI — Context Menu (React). Styling: Components/context-menu/context-menu.css
    The menu surface and its items. Opening it at the pointer is the app's job. */
-import { Fragment, type HTMLAttributes, type ReactNode } from 'react'
+import { Fragment, forwardRef, type HTMLAttributes, type ReactNode } from 'react'
 import { cx } from '../lib/cx'
 import { withClass } from '../lib/slot'
 import { BreadcrumbsChevron, FileTreeSearch } from '../icons'
@@ -29,9 +29,9 @@ export interface ContextMenuProps extends HTMLAttributes<HTMLDivElement> {
   onSearch?: (query: string) => void
 }
 
-export function ContextMenu({ sections, searchable, searchPlaceholder = 'Search…', onSearch, className, ...rest }: ContextMenuProps) {
+export const ContextMenu = forwardRef<HTMLDivElement, ContextMenuProps>(function ContextMenu({ sections, searchable, searchPlaceholder = 'Search…', onSearch, className, role = 'menu', ...rest }, ref) {
   return (
-    <div className={cx('grep-menu', className)} role="menu" {...rest}>
+    <div ref={ref} className={cx('grep-menu', className)} role={role} {...rest}>
       {searchable && (
         <>
           <div style={{ display: 'flex', alignItems: 'center', paddingLeft: 'var(--space-14)' }}>
@@ -60,4 +60,4 @@ export function ContextMenu({ sections, searchable, searchPlaceholder = 'Search�
       ))}
     </div>
   )
-}
+})
