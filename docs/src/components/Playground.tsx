@@ -20,7 +20,7 @@ export function Playground({ playground }: { playground: PlaygroundDef }) {
     <div className="doc-playground">
       <ExampleBlock example={example} />
       <section className="grep-item-block doc-playground__controls">
-        <h3 className="grep-item-block__title">Props</h3>
+        <h3 className="grep-item-block__title">Properties</h3>
         <div className="grep-item-block__group">
           {playground.controls.map((c, i) => (
             <ControlRow key={c.name} control={c} value={state[c.name]} onChange={(v) => set(c.name, v)} last={i === playground.controls.length - 1} />
