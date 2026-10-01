@@ -73,7 +73,7 @@ They are **not mutually exclusive** — any combination can be on at once. In CS
 
 ## Two details worth knowing
 
-**The label frame is a fixed 136px.** Not `flex: 1` — the label column is a fixed width so every row's trailing content starts at the same x. Exposed as `--_label-w` if a block needs a different column.
+**The label frame grows.** Figma draws it at 136px, but in a real page the label takes all the room the trailing controls leave, so long titles and sublabels don't wrap into a narrow column. 136px is the minimum. Set `--_label-w` to pin the column when every row's trailing content must start at the same x.
 
 **The tile is not the Avatar component's default.** It's the same 36px geometry but filled with `background-contrast` instead of `background-tile`, with no hairline and no shadow. It's an override, not a variant.
 

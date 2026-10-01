@@ -4,7 +4,7 @@ import { CodeBlock } from '../components/CodeBlock'
 import { Asset } from '../components/ui'
 
 const install = `npm install github:danielseplovich/grep-ui`
-const installPinned = `npm install github:danielseplovich/grep-ui#v0.2.0`
+const installPinned = `npm install github:danielseplovich/grep-ui#v0.2.1`
 
 const fonts = `<link rel="preconnect" href="https://rsms.me/">
 <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
@@ -44,7 +44,7 @@ export default defineConfig({
   resolve: { dedupe: ["react", "react-dom"] },
 })`
 
-const update = `npm install github:danielseplovich/grep-ui#v0.3.0`
+const update = `npm install github:danielseplovich/grep-ui#v0.2.2`
 
 export function InstallationPage() {
   const toc = [
