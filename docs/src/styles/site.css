@@ -1553,39 +1553,23 @@ samp {
 }
 
 /* ---------- Playground: one preview, controls beneath it ---------- */
+/* The controls are a Grep UI Item Block group: one Item Row per prop, with
+   the label on the left and a Select or Toggle on the right. */
 .doc-playground {
   margin: 0 0 var(--space-16);
 }
 .doc-playground .doc-example {
   margin-bottom: var(--space-16);
 }
-.doc-playground__controls {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: flex-start;
-  gap: var(--space-16) var(--space-24);
-  padding: var(--space-16);
-  border: 1px solid var(--border-base);
-  border-radius: var(--radius-12);
-  background: var(--background-component);
-}
-.doc-playground__control {
-  flex: 0 0 auto;
-  width: auto;
-}
-.doc-playground__control .grep-input__label-row {
-  font-size: var(--text-xs);
+.doc-playground__controls .grep-item-row__label-row {
   color: var(--foreground-text-subtle);
 }
-.doc-playground__control--switch {
-  gap: var(--space-10);
-}
-.doc-playground__control--switch .grep-input__label {
-  min-height: var(--space-16);
-}
 .doc-playground__select {
+  width: 280px;
+  flex-shrink: 0;
+}
+.doc-playground__select .grep-select {
   position: relative;
-  width: 160px;
   cursor: pointer;
 }
 .doc-playground__select .grep-select__value {
@@ -1599,7 +1583,7 @@ samp {
   cursor: pointer;
   font-size: var(--text-lg); /* keeps iOS from zooming the page on focus */
 }
-.doc-playground__select:focus-within {
+.doc-playground__select .grep-select:focus-within {
   --_ring: var(--border-brand);
   --_ring-w: 1px;
 }

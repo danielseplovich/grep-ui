@@ -19,50 +19,58 @@ export function Playground({ playground }: { playground: PlaygroundDef }) {
   return (
     <div className="doc-playground">
       <ExampleBlock example={example} />
-      <div className="doc-playground__controls">
-        {playground.controls.map((c) => (
-          <ControlField key={c.name} control={c} value={state[c.name]} onChange={(v) => set(c.name, v)} />
+      <div className="grep-item-block__group doc-playground__controls">
+        {playground.controls.map((c, i) => (
+          <ControlRow key={c.name} control={c} value={state[c.name]} onChange={(v) => set(c.name, v)} last={i === playground.controls.length - 1} />
         ))}
       </div>
     </div>
   )
 }
 
-function ControlField({ control, value, onChange }: { control: Control; value: string | boolean; onChange: (v: string | boolean) => void }) {
+/** One Item Row: label on the left, a Grep UI Select or Toggle on the right. */
+function ControlRow({ control, value, onChange, last }: { control: Control; value: string | boolean; onChange: (v: string | boolean) => void; last: boolean }) {
   const id = useId()
-  if (control.type === 'select') {
-    return (
-      <div className="grep-input doc-playground__control">
-        <label className="grep-input__label" htmlFor={id}>
-          <span className="grep-input__label-row">{control.label}</span>
-        </label>
-        <div className="grep-input__field-container">
-          <span className="grep-input__field grep-select doc-playground__select">
-            <select id={id} className="doc-playground__native" value={String(value)} onChange={(e) => onChange(e.target.value)}>
-              {control.options.map((o) => (
-                <option key={o} value={o}>
-                  {o}
-                </option>
-              ))}
-            </select>
-            <span className="grep-select__value">{String(value)}</span>
-            <Asset name="select-chevron" className="grep-select__chevron" />
-          </span>
-        </div>
-      </div>
-    )
-  }
-  const on = Boolean(value)
   return (
-    <div className="grep-input doc-playground__control doc-playground__control--switch">
-      <label className="grep-input__label" htmlFor={id}>
-        <span className="grep-input__label-row">{control.label}</span>
-      </label>
-      <button id={id} type="button" role="switch" aria-checked={on} className={`grep-toggle${on ? ' grep-toggle--on' : ''}`} onClick={() => onChange(!on)}>
-        <span className="grep-toggle__track">
-          <span className="grep-toggle__thumb" />
-        </span>
-      </button>
+    <div className="grep-item-row">
+      <div className="grep-item-row__internal">
+        <div className="grep-item-row__left">
+          <div className="grep-item-row__label-frame">
+            <label className="grep-item-row__label" htmlFor={id}>
+              <span className="grep-item-row__label-row">{control.label}</span>
+            </label>
+          </div>
+        </div>
+        {control.type === 'select' ? (
+          <span className="grep-input grep-input--32 doc-playground__select">
+            <span className="grep-input__field grep-select">
+              <select id={id} className="doc-playground__native" value={String(value)} onChange={(e) => onChange(e.target.value)}>
+                {control.options.map((o) => (
+                  <option key={o} value={o}>
+                    {o}
+                  </option>
+                ))}
+              </select>
+              <span className="grep-select__value">{String(value)}</span>
+              <Asset name="select-chevron" className="grep-select__chevron" />
+            </span>
+          </span>
+        ) : (
+          <button
+            id={id}
+            type="button"
+            role="switch"
+            aria-checked={Boolean(value)}
+            className={`grep-toggle${value ? ' grep-toggle--on' : ''}`}
+            onClick={() => onChange(!value)}
+          >
+            <span className="grep-toggle__track">
+              <span className="grep-toggle__thumb" />
+            </span>
+          </button>
+        )}
+      </div>
+      {!last && <hr className="grep-item-row__rule" />}
     </div>
   )
 }

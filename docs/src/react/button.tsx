@@ -1,8 +1,12 @@
 import type { ReactDoc, ControlState } from '../lib/reactDocs'
 import { Button, type ButtonVariant } from '../../../react/button'
-import { Asset } from '../components/ui'
 
-const Plus = () => <Asset name="icon-button-icon-example" />
+/** A 14px plus, drawn with currentColor, the way an icon component would be passed in Shade. */
+const Plus = ({ className }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 14 14" fill="none" aria-hidden="true">
+    <path d="M7 2.8v8.4M2.8 7h8.4" stroke="currentColor" strokeWidth="1.25" strokeLinecap="round" />
+  </svg>
+)
 
 function snippet(s: ControlState): string {
   const props: string[] = []
