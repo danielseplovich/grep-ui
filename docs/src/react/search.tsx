@@ -20,7 +20,7 @@ export const searchDoc: ReactDoc = {
     controls: [
       { name: 'size', label: 'Size', type: 'select', options: ['28', '32'], default: '28' },
       { name: 'ghost', label: 'Ghost', type: 'boolean', default: false },
-      { name: 'shortcut', label: 'Shortcut', type: 'boolean', default: true },
+      { name: 'shortcut', label: 'Shortcut', type: 'boolean', default: false },
       { name: 'error', label: 'Error', type: 'boolean', default: false },
     ],
     render: (s) => (

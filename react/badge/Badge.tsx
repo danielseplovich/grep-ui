@@ -4,7 +4,7 @@ import { cx } from '../lib/cx'
 import { BadgeClose } from '../icons'
 
 export type BadgeTone = 'neutral-base' | 'neutral-dim' | 'brand' | 'success' | 'warning' | 'destructive' | 'blue' | 'cyan' | 'fuschia' | 'indigo' | 'orange' | 'teal'
-export type BadgeSize = 16 | 18 | 22
+export type BadgeSize = 22 | 18 | 16
 
 export interface BadgeProps extends HTMLAttributes<HTMLSpanElement> {
   tone?: BadgeTone

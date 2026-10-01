@@ -30,8 +30,8 @@ export const fileTreeMenuDoc: ReactDoc = {
   playground: {
     controls: [
       { name: 'type', label: 'Type', type: 'select', options: ['text', 'checkbox'], default: 'text' },
-      { name: 'searchable', label: 'Searchable', type: 'boolean', default: true },
-      { name: 'selected', label: 'Selected row', type: 'boolean', default: true },
+      { name: 'searchable', label: 'Searchable', type: 'boolean', default: false },
+      { name: 'selected', label: 'Selected row', type: 'boolean', default: false },
     ],
     render: (s) => (
       <div style={{ width: 300 }}>

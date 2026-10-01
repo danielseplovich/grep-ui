@@ -23,7 +23,7 @@ export const breadcrumbsDoc: ReactDoc = {
   ],
   playground: {
     controls: [
-      { name: 'depth', label: 'Path length', type: 'select', options: ['2', '4', '6'], default: '4' },
+      { name: 'depth', label: 'Path length', type: 'select', options: ['4', '2', '6'], default: '4' },
       { name: 'simplified', label: 'Simplified', type: 'boolean', default: false },
     ],
     render: (s) => <Breadcrumbs items={paths[String(s.depth)].map((label) => ({ label }))} simplified={Boolean(s.simplified)} />,

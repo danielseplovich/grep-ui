@@ -20,7 +20,7 @@ export const bannerDoc: ReactDoc = {
   playground: {
     controls: [
       { name: 'type', label: 'Type', type: 'select', options: ['info', 'success', 'warning', 'danger'], default: 'info' },
-      { name: 'action', label: 'Action button', type: 'boolean', default: true },
+      { name: 'action', label: 'Action button', type: 'boolean', default: false },
       { name: 'dismiss', label: 'Dismiss button', type: 'boolean', default: true },
     ],
     render: (s) => (

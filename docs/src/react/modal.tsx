@@ -26,7 +26,7 @@ export const modalDoc: ReactDoc = {
   playground: {
     controls: [
       { name: 'size', label: 'Size', type: 'select', options: ['base', '520'], default: 'base' },
-      { name: 'subtitle', label: 'Subtitle', type: 'boolean', default: true },
+      { name: 'subtitle', label: 'Subtitle', type: 'boolean', default: false },
       { name: 'destructive', label: 'Destructive', type: 'boolean', default: false },
       { name: 'lead', label: 'Footer lead', type: 'boolean', default: false },
     ],

@@ -16,8 +16,8 @@ export const tooltipDoc: ReactDoc = {
   playground: {
     controls: [
       { name: 'type', label: 'Type', type: 'select', options: ['sentence', 'shortcut'], default: 'sentence' },
-      { name: 'tail', label: 'Tail', type: 'boolean', default: true },
-      { name: 'edge', label: 'Tail edge', type: 'select', options: ['top', 'bottom'], default: 'bottom' },
+      { name: 'tail', label: 'Tail', type: 'boolean', default: false },
+      { name: 'edge', label: 'Tail edge', type: 'select', options: ['bottom', 'top'], default: 'bottom' },
       { name: 'align', label: 'Tail position', type: 'select', options: ['left', 'middle', 'right'], default: 'middle' },
     ],
     render: (s) => (

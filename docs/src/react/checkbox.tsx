@@ -21,9 +21,9 @@ export const checkboxDoc: ReactDoc = {
   ],
   playground: {
     controls: [
-      { name: 'state', label: 'State', type: 'select', options: ['unchecked', 'checked', 'indeterminate'], default: 'checked' },
-      { name: 'label', label: 'Label', type: 'boolean', default: true },
-      { name: 'sublabel', label: 'Sublabel', type: 'boolean', default: true },
+      { name: 'state', label: 'State', type: 'select', options: ['unchecked', 'checked', 'indeterminate'], default: 'unchecked' },
+      { name: 'label', label: 'Label', type: 'boolean', default: false },
+      { name: 'sublabel', label: 'Sublabel', type: 'boolean', default: false },
       { name: 'badge', label: 'Badge', type: 'boolean', default: false },
       { name: 'card', label: 'Card', type: 'boolean', default: false },
       { name: 'disabled', label: 'Disabled', type: 'boolean', default: false },

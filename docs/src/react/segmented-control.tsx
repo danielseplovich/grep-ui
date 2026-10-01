@@ -18,7 +18,7 @@ export const segmentedControlDoc: ReactDoc = {
   ],
   playground: {
     controls: [
-      { name: 'count', label: 'Segments', type: 'select', options: ['2', '3', '4'], default: '3' },
+      { name: 'count', label: 'Segments', type: 'select', options: ['3', '2', '4'], default: '3' },
       { name: 'size', label: 'Size', type: 'select', options: ['28', '32'], default: '28' },
       { name: 'style', label: 'Content', type: 'select', options: ['label', 'icon', 'icon + label'], default: 'label' },
     ],

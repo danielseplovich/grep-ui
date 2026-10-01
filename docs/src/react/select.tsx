@@ -14,9 +14,11 @@ export const selectDoc: ReactDoc = {
   description: 'A field that opens a list of options.',
   basedOn: 'select',
   importCode: IMPORT('Select'),
-  usageCode: `<Select label="Storage" options={[{ value: "r2", label: "Cloudflare R2" }]} value={v} onChange={(e) => setV(e.target.value)} />`,
+  usageCode: `<Select label="Storage" options={[{ value: "r2", label: "Cloudflare R2" }]} value={v} onValueChange={setV} />`,
   props: [
-    { name: 'options', type: '{ value: string; label: ReactNode }[]' },
+    { name: 'options', type: '{ value: string; label: ReactNode; icon?: ReactNode }[]' },
+    { name: 'value', type: 'string' },
+    { name: 'onValueChange', type: '(value: string) => void' },
     { name: 'placeholder', type: 'string', default: '"Select…"' },
     { name: 'label', type: 'ReactNode' },
     { name: 'sublabel', type: 'ReactNode' },
@@ -27,7 +29,7 @@ export const selectDoc: ReactDoc = {
   playground: {
     controls: [
       { name: 'size', label: 'Size', type: 'select', options: ['28', '32'], default: '28' },
-      { name: 'label', label: 'Label', type: 'boolean', default: true },
+      { name: 'label', label: 'Label', type: 'boolean', default: false },
       { name: 'helpText', label: 'Help text', type: 'boolean', default: false },
       { name: 'value', label: 'Value', type: 'select', options: ['none', 'r2', 's3', 'gcs'], default: 'none' },
       { name: 'error', label: 'Error', type: 'boolean', default: false },
@@ -35,13 +37,13 @@ export const selectDoc: ReactDoc = {
     ],
     render: (s) => (
       <div style={{ width: 320 }}>
-        <Select options={options} size={Number(s.size) as 28} label={s.label ? 'Storage provider' : undefined} helpText={s.helpText ? 'Where uploads are kept.' : undefined} value={s.value === 'none' ? undefined : String(s.value)} onChange={() => {}} error={Boolean(s.error)} disabled={Boolean(s.disabled)} />
+        <Select options={options} size={Number(s.size) as 28} label={s.label ? 'Storage provider' : undefined} helpText={s.helpText ? 'Where uploads are kept.' : undefined} value={s.value === 'none' ? undefined : String(s.value)} error={Boolean(s.error)} disabled={Boolean(s.disabled)} />
       </div>
     ),
     code: (s) =>
       example(
         [IMPORT('Select')],
-        jsx('Select', { label: s.label ? 'Storage provider' : undefined, helpText: s.helpText ? 'Where uploads are kept.' : undefined, size: s.size !== '28' ? Number(s.size) : undefined, options: { raw: 'providers' }, value: s.value === 'none' ? undefined : String(s.value), onChange: { raw: '(e) => setProvider(e.target.value)' }, error: Boolean(s.error), disabled: Boolean(s.disabled) }),
+        jsx('Select', { label: s.label ? 'Storage provider' : undefined, helpText: s.helpText ? 'Where uploads are kept.' : undefined, size: s.size !== '28' ? Number(s.size) : undefined, options: { raw: 'providers' }, value: s.value === 'none' ? undefined : String(s.value), onValueChange: { raw: 'setProvider' }, error: Boolean(s.error), disabled: Boolean(s.disabled) }),
       ),
   },
   examples: { hero: { html: '' }, examples: [] },

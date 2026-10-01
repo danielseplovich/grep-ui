@@ -22,7 +22,7 @@ export const tabsDoc: ReactDoc = {
       { name: 'size', label: 'Size', type: 'select', options: ['28', '32', '36'], default: '28' },
       { name: 'round', label: 'Round', type: 'boolean', default: false },
       { name: 'icons', label: 'Icons', type: 'boolean', default: false },
-      { name: 'badge', label: 'Badge', type: 'boolean', default: true },
+      { name: 'badge', label: 'Badge', type: 'boolean', default: false },
     ],
     render: (s) => (
       <Tabs size={Number(s.size) as 28} round={Boolean(s.round)}>

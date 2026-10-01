@@ -5,7 +5,7 @@ import { withClass } from '../lib/slot'
 import { Spinner } from '../button/Spinner'
 
 export type IconButtonVariant = 'primary' | 'neutral' | 'ghost' | 'inverted' | 'danger'
-export type IconButtonSize = 16 | 20 | 24 | 28 | 32 | 36 | 40
+export type IconButtonSize = 28 | 16 | 20 | 24 | 32 | 36 | 40
 
 export interface IconButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   /** Required: an icon button has no visible text. */
@@ -20,7 +20,7 @@ export interface IconButtonProps extends ButtonHTMLAttributes<HTMLButtonElement>
 }
 
 export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(function IconButton(
-  { label, variant = 'ghost', size = 28, round, isLoading = false, className, children, type, ...rest },
+  { label, variant = 'primary', size = 28, round, isLoading = false, className, children, type, ...rest },
   ref,
 ) {
   const icon = withClass(children, 'grep-icon-btn__icon')

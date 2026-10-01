@@ -7,6 +7,13 @@ import { CodeBlock } from '../components/CodeBlock'
 import { Asset } from '../components/ui'
 import type { TocEntry } from '../components/Toc'
 
+/** The default for a prop that has none set: the first option of a union, false for booleans, otherwise none. */
+function defaultFor(type: string): string {
+  if (type === 'boolean') return 'false'
+  if (type.includes(' | ')) return type.split(' | ')[0]
+  return 'none'
+}
+
 /** Component page for a component that has a React doc. Mirrors Medusa UI's layout. */
 export function ReactComponentPage({ doc }: { doc: ReactDoc }) {
   const toc: TocEntry[] = [
@@ -74,7 +81,7 @@ export function ReactComponentPage({ doc }: { doc: ReactDoc }) {
                       </span>
                     ))}
                   </td>
-                  <td>{p.default ? <code>{p.default}</code> : <span className="doc-props__none">—</span>}</td>
+                  <td><code>{p.default ?? defaultFor(p.type)}</code></td>
                 </tr>
               ))}
             </tbody>

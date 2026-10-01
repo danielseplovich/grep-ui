@@ -15,7 +15,7 @@ export const progressBarDoc: ReactDoc = {
   ],
   playground: {
     controls: [
-      { name: 'value', label: 'Value', type: 'select', options: ['0', '25', '50', '75', '100'], default: '50' },
+      { name: 'value', label: 'Value', type: 'select', options: ['50', '0', '25', '75', '100'], default: '50' },
       { name: 'tone', label: 'Tone', type: 'select', options: ['brand', 'success', 'warning', 'danger'], default: 'brand' },
     ],
     render: (s) => (

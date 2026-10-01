@@ -26,8 +26,8 @@ export const contextMenuDoc: ReactDoc = {
   playground: {
     controls: [
       { name: 'searchable', label: 'Searchable', type: 'boolean', default: false },
-      { name: 'headers', label: 'Section headers', type: 'boolean', default: true },
-      { name: 'icons', label: 'Icons', type: 'boolean', default: true },
+      { name: 'headers', label: 'Section headers', type: 'boolean', default: false },
+      { name: 'icons', label: 'Icons', type: 'boolean', default: false },
     ],
     render: (s) => <ContextMenu searchable={Boolean(s.searchable)} sections={sections.map((sec) => ({ header: s.headers ? sec.header : undefined, items: sec.items.map((i) => ({ ...i, icon: s.icons ? i.icon : undefined })) }))} />,
     code: (s) => {

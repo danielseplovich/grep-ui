@@ -14,7 +14,7 @@ export const badgeDoc: ReactDoc = {
   usageCode: `<Badge tone="success">Synced</Badge>`,
   props: [
     { name: 'tone', type: tones.map((t) => `"${t}"`).join(' | '), default: '"neutral-base"' },
-    { name: 'size', type: '16 | 18 | 22', default: '22' },
+    { name: 'size', type: '22 | 18 | 16', default: '22' },
     { name: 'shape', type: '"full" | "rounded"', default: '"full"' },
     { name: 'icon', type: 'ReactNode' },
     { name: 'onRemove', type: '() => void' },
@@ -23,7 +23,7 @@ export const badgeDoc: ReactDoc = {
     controls: [
       { name: 'label', label: 'Label', type: 'text', default: 'Label' },
       { name: 'tone', label: 'Tone', type: 'select', options: tones, default: 'neutral-base' },
-      { name: 'size', label: 'Size', type: 'select', options: ['16', '18', '22'], default: '22' },
+      { name: 'size', label: 'Size', type: 'select', options: ['22', '18', '16'], default: '22' },
       { name: 'shape', label: 'Shape', type: 'select', options: ['full', 'rounded'], default: 'full' },
       { name: 'icon', label: 'Icon', type: 'boolean', default: false },
       { name: 'removable', label: 'Removable', type: 'boolean', default: false },

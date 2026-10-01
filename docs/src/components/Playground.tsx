@@ -1,7 +1,7 @@
 import { useId, useMemo, useState } from 'react'
 import type { Control, ControlState, Playground as PlaygroundDef } from '../lib/reactDocs'
 import { ExampleBlock } from './ExampleBlock'
-import { Asset } from './ui'
+import { Select } from '../../../react/select'
 
 /**
  * One preview with Grep UI controls beneath it. Each control changes a prop;
@@ -51,19 +51,13 @@ function ControlRow({ control, value, onChange, last }: { control: Control; valu
             </span>
           </span>
         ) : control.type === 'select' ? (
-          <span className="grep-input doc-playground__select">
-            <span className="grep-input__field grep-select">
-              <select id={id} className="doc-playground__native" value={String(value)} onChange={(e) => onChange(e.target.value)}>
-                {control.options.map((o) => (
-                  <option key={o} value={o}>
-                    {o}
-                  </option>
-                ))}
-              </select>
-              <span className="grep-select__value">{String(value)}</span>
-              <Asset name="select-chevron" className="grep-select__chevron" />
-            </span>
-          </span>
+          <Select
+            id={id}
+            className="doc-playground__select"
+            options={control.options.map((o) => ({ value: o, label: o.charAt(0).toUpperCase() + o.slice(1) }))}
+            value={String(value)}
+            onValueChange={(v) => onChange(v)}
+          />
         ) : (
           <button
             id={id}

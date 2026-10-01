@@ -18,9 +18,9 @@ export const radioDoc: ReactDoc = {
   ],
   playground: {
     controls: [
-      { name: 'checked', label: 'Checked', type: 'boolean', default: true },
-      { name: 'label', label: 'Label', type: 'boolean', default: true },
-      { name: 'sublabel', label: 'Sublabel', type: 'boolean', default: true },
+      { name: 'checked', label: 'Checked', type: 'boolean', default: false },
+      { name: 'label', label: 'Label', type: 'boolean', default: false },
+      { name: 'sublabel', label: 'Sublabel', type: 'boolean', default: false },
       { name: 'card', label: 'Card', type: 'boolean', default: false },
       { name: 'disabled', label: 'Disabled', type: 'boolean', default: false },
     ],

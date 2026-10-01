@@ -4,7 +4,7 @@ import { IconButton, type IconButtonVariant } from '../../../react/icon-button'
 import { IconButtonIconExample } from '../../../react/icons'
 
 const variants = ['primary', 'neutral', 'ghost', 'inverted', 'danger']
-const sizes = ['16', '20', '24', '28', '32', '36', '40']
+const sizes = ['28', '16', '20', '24', '32', '36', '40']
 
 export const iconButtonDoc: ReactDoc = {
   slug: 'icon-button',
@@ -15,7 +15,7 @@ export const iconButtonDoc: ReactDoc = {
   usageCode: `<IconButton label="Add"><Plus /></IconButton>`,
   props: [
     { name: 'label', type: 'string' },
-    { name: 'variant', type: variants.map((v) => `"${v}"`).join(' | '), default: '"ghost"' },
+    { name: 'variant', type: variants.map((v) => `"${v}"`).join(' | '), default: '"primary"' },
     { name: 'size', type: sizes.join(' | '), default: '28' },
     { name: 'round', type: 'boolean', default: 'false' },
     { name: 'isLoading', type: 'boolean', default: 'false' },
@@ -36,7 +36,7 @@ export const iconButtonDoc: ReactDoc = {
     code: (s) =>
       example(
         [IMPORT('IconButton'), ICONS('Plus')],
-        jsx('IconButton', { label: 'Add', variant: s.variant !== 'ghost' ? String(s.variant) : undefined, size: s.size !== '28' ? Number(s.size) : undefined, round: Boolean(s.round), isLoading: Boolean(s.isLoading), disabled: Boolean(s.disabled) }, '<Plus />'),
+        jsx('IconButton', { label: 'Add', variant: s.variant !== 'primary' ? String(s.variant) : undefined, size: s.size !== '28' ? Number(s.size) : undefined, round: Boolean(s.round), isLoading: Boolean(s.isLoading), disabled: Boolean(s.disabled) }, '<Plus />'),
       ),
   },
   examples: { hero: { html: '' }, examples: [] },

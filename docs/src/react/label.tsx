@@ -26,7 +26,7 @@ export const labelDoc: ReactDoc = {
       { name: 'bold', label: 'Bold', type: 'boolean', default: false },
       { name: 'icon', label: 'Icon', type: 'boolean', default: false },
       { name: 'optional', label: 'Optional', type: 'boolean', default: false },
-      { name: 'sublabel', label: 'Sublabel', type: 'boolean', default: true },
+      { name: 'sublabel', label: 'Sublabel', type: 'boolean', default: false },
       { name: 'sublabelStyle', label: 'Sublabel style', type: 'select', options: ['base', 'sm', 'subtle', 'path'], default: 'base' },
     ],
     render: (s) => (

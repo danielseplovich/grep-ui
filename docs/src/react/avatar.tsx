@@ -3,7 +3,7 @@ import { example, jsx, IMPORT, ICONS } from '../lib/snippet'
 import { Avatar } from '../../../react/avatar'
 import { AvatarIconExample } from '../../../react/icons'
 
-const sizes = ['12', '14', '16', '20', '24', '28', '32', '36', '40']
+const sizes = ['40', '12', '14', '16', '20', '24', '28', '32', '36']
 
 export const avatarDoc: ReactDoc = {
   slug: 'avatar',
@@ -13,7 +13,7 @@ export const avatarDoc: ReactDoc = {
   importCode: IMPORT('Avatar'),
   usageCode: `<Avatar size={32}><UserIcon /></Avatar>`,
   props: [
-    { name: 'size', type: '12 | 14 | 16 | 20 | 24 | 28 | 32 | 36 | 40', default: '40' },
+    { name: 'size', type: '40 | 12 | 14 | 16 | 20 | 24 | 28 | 32 | 36', default: '40' },
     { name: 'round', type: 'boolean', default: 'false' },
     { name: 'interactive', type: 'boolean', default: 'false' },
     { name: 'badge', type: 'ReactNode' },

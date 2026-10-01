@@ -18,10 +18,10 @@ export const toastDoc: ReactDoc = {
   ],
   playground: {
     controls: [
-      { name: 'type', label: 'Type', type: 'select', options: ['info', 'success', 'attention', 'warning', 'loading'], default: 'success' },
-      { name: 'message', label: 'Message', type: 'boolean', default: true },
-      { name: 'style', label: 'Actions', type: 'select', options: ['none', 'links', 'buttons'], default: 'links' },
-      { name: 'dismiss', label: 'Dismiss', type: 'boolean', default: true },
+      { name: 'type', label: 'Type', type: 'select', options: ['info', 'success', 'attention', 'warning', 'loading'], default: 'info' },
+      { name: 'message', label: 'Message', type: 'boolean', default: false },
+      { name: 'style', label: 'Actions', type: 'select', options: ['none', 'links', 'buttons'], default: 'none' },
+      { name: 'dismiss', label: 'Dismiss', type: 'boolean', default: false },
     ],
     render: (s) => (
       <Toast type={s.type as ToastType} title="Upload complete" links={s.style === 'links' ? [{ label: 'Undo' }, { label: 'View' }] : undefined} actions={s.style === 'buttons' ? [{ label: 'Dismiss' }, { label: 'Open' }] : undefined} onDismiss={s.dismiss ? () => {} : undefined}>

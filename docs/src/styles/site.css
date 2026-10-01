@@ -87,7 +87,10 @@ samp {
   gap: var(--space-12);
   height: var(--doc-header-h);
   padding: 0 var(--space-16);
-  background: var(--background-canvas);
+  /* translucent over a blur, so the page shows through as it scrolls under */
+  background: color-mix(in srgb, var(--background-canvas) 72%, transparent);
+  -webkit-backdrop-filter: saturate(180%) blur(16px);
+  backdrop-filter: saturate(180%) blur(16px);
   border-bottom: 1px solid var(--border-base); /* major app section divider */
 }
 
@@ -1576,22 +1579,6 @@ samp {
   width: 300px;
   flex-shrink: 0;
 }
-.doc-playground__select .grep-select {
-  position: relative;
-  cursor: pointer;
-}
 .doc-playground__select .grep-select__value {
   text-transform: capitalize;
-}
-.doc-playground__native {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  opacity: 0;
-  cursor: pointer;
-  font-size: var(--text-lg); /* keeps iOS from zooming the page on focus */
-}
-.doc-playground__select .grep-select:focus-within {
-  --_ring: var(--border-brand);
-  --_ring-w: 1px;
 }

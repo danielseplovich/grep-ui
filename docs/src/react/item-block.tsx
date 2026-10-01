@@ -24,10 +24,10 @@ export const itemBlockDoc: ReactDoc = {
   ],
   playground: {
     controls: [
-      { name: 'title', label: 'Block title', type: 'boolean', default: true },
-      { name: 'sublabels', label: 'Sublabels', type: 'boolean', default: true },
+      { name: 'title', label: 'Block title', type: 'boolean', default: false },
+      { name: 'sublabels', label: 'Sublabels', type: 'boolean', default: false },
       { name: 'tiles', label: 'Tiles', type: 'boolean', default: false },
-      { name: 'trailing', label: 'Trailing control', type: 'select', options: ['toggle', 'button', 'chevron', 'none'], default: 'toggle' },
+      { name: 'trailing', label: 'Trailing control', type: 'select', options: ['none', 'toggle', 'button', 'chevron'], default: 'none' },
     ],
     render: (s) => {
       const sub = (t: string) => (s.sublabels ? t : undefined)

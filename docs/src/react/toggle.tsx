@@ -21,7 +21,7 @@ export const toggleDoc: ReactDoc = {
   ],
   playground: {
     controls: [
-      { name: 'checked', label: 'On', type: 'boolean', default: true },
+      { name: 'checked', label: 'On', type: 'boolean', default: false },
       { name: 'size', label: 'Size', type: 'select', options: ['sm', 'md'], default: 'sm' },
       { name: 'label', label: 'Label', type: 'boolean', default: false },
       { name: 'sublabel', label: 'Sublabel', type: 'boolean', default: false },

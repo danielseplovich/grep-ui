@@ -3,7 +3,7 @@ import { forwardRef, type HTMLAttributes, type ReactNode } from 'react'
 import { cx } from '../lib/cx'
 import { withClass } from '../lib/slot'
 
-export type AvatarSize = 12 | 14 | 16 | 20 | 24 | 28 | 32 | 36 | 40
+export type AvatarSize = 40 | 12 | 14 | 16 | 20 | 24 | 28 | 32 | 36
 
 export interface AvatarProps extends HTMLAttributes<HTMLSpanElement> {
   /** Box size. Padding, icon and radius follow the spec per size. Default 40. */

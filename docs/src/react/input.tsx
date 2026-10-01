@@ -21,9 +21,9 @@ export const inputDoc: ReactDoc = {
   playground: {
     controls: [
       { name: 'size', label: 'Size', type: 'select', options: ['28', '32'], default: '28' },
-      { name: 'label', label: 'Label', type: 'boolean', default: true },
+      { name: 'label', label: 'Label', type: 'boolean', default: false },
       { name: 'sublabel', label: 'Sublabel', type: 'boolean', default: false },
-      { name: 'helpText', label: 'Help text', type: 'boolean', default: true },
+      { name: 'helpText', label: 'Help text', type: 'boolean', default: false },
       { name: 'unit', label: 'Unit (trailing)', type: 'boolean', default: false },
       { name: 'error', label: 'Error', type: 'boolean', default: false },
       { name: 'disabled', label: 'Disabled', type: 'boolean', default: false },
