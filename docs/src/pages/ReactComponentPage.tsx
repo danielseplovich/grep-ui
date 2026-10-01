@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom'
 import type { ReactDoc } from '../lib/reactDocs'
 import { Page, PageHeader, Section, Subsection } from '../components/Page'
 import { ExampleBlock } from '../components/ExampleBlock'
+import { Playground } from '../components/Playground'
 import { CodeBlock } from '../components/CodeBlock'
 import { Asset } from '../components/ui'
 import type { TocEntry } from '../components/Toc'
@@ -37,7 +38,7 @@ export function ReactComponentPage({ doc }: { doc: ReactDoc }) {
         }
       />
 
-      <ExampleBlock example={doc.examples.hero} />
+      {doc.playground ? <Playground playground={doc.playground} /> : <ExampleBlock example={doc.examples.hero} />}
 
       <Section id="usage" title="Usage">
         <CodeBlock code={doc.importCode} />
