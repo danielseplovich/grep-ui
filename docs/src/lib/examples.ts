@@ -1,5 +1,7 @@
 /* Example model shared by the per-component example files. */
 
+import type { ReactNode } from 'react'
+
 export type Layout = 'center' | 'start' | 'column' | 'fill'
 export type Stage = 'canvas' | 'sidebar' | 'panel'
 
@@ -7,8 +9,10 @@ export interface Example {
   id: string
   title: string
   description?: string
-  /** Full HTML, with inline SVG assets expanded. */
+  /** Full HTML, with inline SVG assets expanded. Empty when `element` is set. */
   html: string
+  /** A rendered React element for the preview, for components that have a React version. */
+  element?: ReactNode
   layout?: Layout
   stage?: Stage
   tall?: boolean

@@ -49,7 +49,7 @@ export function ExampleBlock({ example, headingId }: { example: Omit<Example, 'i
 
       {tab === 'preview' ? (
         <div id={`${id}-panel-preview`} role="tabpanel" aria-labelledby={`${id}-tab-preview`} className={stageClass}>
-          <div className={canvasClass} dangerouslySetInnerHTML={{ __html: example.html }} />
+          {example.element ? <div className={canvasClass}>{example.element}</div> : <div className={canvasClass} dangerouslySetInnerHTML={{ __html: example.html }} />}
         </div>
       ) : (
         <div id={`${id}-panel-code`} role="tabpanel" aria-labelledby={`${id}-tab-code`}>

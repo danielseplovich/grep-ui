@@ -66,6 +66,8 @@ export default defineConfig({
   server: {
     fs: { allow: ['..'] },
   },
+  // ../react sits outside this package, so resolve React from here for it too
+  resolve: { dedupe: ['react', 'react-dom'] },
   build: {
     outDir: 'dist',
     chunkSizeWarningLimit: 800,

@@ -1,15 +1,17 @@
 import type { ReactDoc } from '../lib/reactDocs'
-import { dedent, siblings } from '../lib/examples'
-import { btn, icon14, spinner } from '../examples/_shared'
+import { dedent } from '../lib/examples'
+import { Button } from '../../../react/button'
+import { Asset } from '../components/ui'
 
 const code = (s: string) => dedent(s)
+const Plus = () => <Asset name="icon-button-icon-example" />
 
 export const buttonDoc: ReactDoc = {
   slug: 'button',
   title: 'Button',
   description: 'The standard action control, using Grep UI’s design system.',
   basedOn: 'button',
-  importCode: `import { Button } from "@shade/grep-ui"`,
+  importCode: `import { Button } from "@shade/grep-ui/react"`,
   usageCode: `<Button>Button</Button>`,
   props: [
     { name: 'variant', type: '"brand" | "neutral" | "inverted" | "danger"', default: '"brand"' },
@@ -20,9 +22,10 @@ export const buttonDoc: ReactDoc = {
   ],
   examples: {
     hero: {
-      html: btn('brand', 'Button'),
+      html: '',
+      element: <Button>Button</Button>,
       code: code(`
-        import { Button } from "@shade/grep-ui"
+        import { Button } from "@shade/grep-ui/react"
 
         export default function ButtonDemo() {
           return <Button>Button</Button>
@@ -32,9 +35,17 @@ export const buttonDoc: ReactDoc = {
       {
         id: 'variants',
         title: 'Button Variants',
-        html: siblings(btn('brand', 'Brand'), btn('neutral', 'Neutral'), btn('inverted', 'Inverted'), btn('danger', 'Danger')),
+        html: '',
+        element: (
+          <>
+            <Button variant="brand">Brand</Button>
+            <Button variant="neutral">Neutral</Button>
+            <Button variant="inverted">Inverted</Button>
+            <Button variant="danger">Danger</Button>
+          </>
+        ),
         code: code(`
-          import { Button } from "@shade/grep-ui"
+          import { Button } from "@shade/grep-ui/react"
 
           export default function ButtonVariants() {
             return (
@@ -50,12 +61,10 @@ export const buttonDoc: ReactDoc = {
       {
         id: 'loading',
         title: 'Button Loading State',
-        html: `<button class="grep-btn grep-btn--brand" data-state="loading" aria-busy="true">
-  <span class="grep-btn__label">Button</span>
-  ${spinner()}
-</button>`,
+        html: '',
+        element: <Button isLoading>Button</Button>,
         code: code(`
-          import { Button } from "@shade/grep-ui"
+          import { Button } from "@shade/grep-ui/react"
 
           export default function ButtonLoading() {
             return <Button isLoading>Button</Button>
@@ -64,25 +73,38 @@ export const buttonDoc: ReactDoc = {
       {
         id: 'icon',
         title: 'Button with Icon',
-        html: `<button class="grep-btn grep-btn--brand">
-  ${icon14('grep-btn__icon')}
-  <span class="grep-btn__label">Button</span>
-  ${spinner()}
-</button>`,
+        html: '',
+        element: (
+          <>
+            <Button leadingIcon={<Plus />}>Leading</Button>
+            <Button variant="neutral" trailingIcon={<Plus />}>Trailing</Button>
+          </>
+        ),
         code: code(`
-          import { Button } from "@shade/grep-ui"
+          import { Button } from "@shade/grep-ui/react"
           import { Plus } from "@shade/grep-ui/icons"
 
           export default function ButtonWithIcon() {
-            return <Button leadingIcon={<Plus />}>Button</Button>
+            return (
+              <div className="flex items-center gap-3">
+                <Button leadingIcon={<Plus />}>Leading</Button>
+                <Button variant="neutral" trailingIcon={<Plus />}>Trailing</Button>
+              </div>
+            )
           }`),
       },
       {
         id: 'disabled',
         title: 'Button Disabled',
-        html: siblings(btn('brand', 'Brand', { state: 'disabled' }), btn('neutral', 'Neutral', { state: 'disabled' })),
+        html: '',
+        element: (
+          <>
+            <Button disabled>Brand</Button>
+            <Button variant="neutral" disabled>Neutral</Button>
+          </>
+        ),
         code: code(`
-          import { Button } from "@shade/grep-ui"
+          import { Button } from "@shade/grep-ui/react"
 
           export default function ButtonDisabled() {
             return (
@@ -96,12 +118,16 @@ export const buttonDoc: ReactDoc = {
       {
         id: 'link',
         title: 'Button as Link',
-        html: `<a class="grep-btn grep-btn--neutral" href="https://shade.inc" target="_blank" rel="noreferrer">
-  <span class="grep-btn__label">Open Shade</span>
-  ${spinner()}
-</a>`,
+        html: '',
+        element: (
+          <Button variant="neutral" asChild>
+            <a href="https://shade.inc" target="_blank" rel="noreferrer">
+              Open Shade
+            </a>
+          </Button>
+        ),
         code: code(`
-          import { Button } from "@shade/grep-ui"
+          import { Button } from "@shade/grep-ui/react"
 
           export default function ButtonAsLink() {
             return (
