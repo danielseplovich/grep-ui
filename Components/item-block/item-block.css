@@ -58,7 +58,9 @@
   justify-content: center;
   min-height: var(--space-76, 76px);
   width: 100%;
-  background: var(--background-component);
+  /* No fill of its own: the group paints background-component, and an opaque
+     row would cover the group's inset 0.5px hairline. Hover layers its overlay
+     on the group's fill instead. */
 }
 
 .grep-item-row__internal {
