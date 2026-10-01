@@ -1,4 +1,4 @@
-import { useId, useMemo, useState } from 'react'
+import { useEffect, useId, useMemo, useState } from 'react'
 import type { Control, ControlState, Playground as PlaygroundDef } from '../lib/reactDocs'
 import { ExampleBlock } from './ExampleBlock'
 import { Select } from '../../../react/select'
@@ -8,7 +8,9 @@ import { Select } from '../../../react/select'
  * the Code tab shows the snippet for the current values.
  */
 export function Playground({ playground }: { playground: PlaygroundDef }) {
-  const [state, setState] = useState<ControlState>(() => Object.fromEntries(playground.controls.map((c) => [c.name, c.default])))
+  const defaults = useMemo(() => Object.fromEntries(playground.controls.map((c) => [c.name, c.default])), [playground])
+  const [state, setState] = useState<ControlState>(defaults)
+  useEffect(() => setState(defaults), [defaults])
   const set = (name: string, value: string | boolean) => setState((s) => ({ ...s, [name]: value }))
 
   const example = useMemo(
@@ -23,7 +25,7 @@ export function Playground({ playground }: { playground: PlaygroundDef }) {
         <h3 className="grep-item-block__title">Properties</h3>
         <div className="grep-item-block__group">
           {playground.controls.map((c, i) => (
-            <ControlRow key={c.name} control={c} value={state[c.name]} onChange={(v) => set(c.name, v)} last={i === playground.controls.length - 1} />
+            <ControlRow key={c.name} control={c} value={state[c.name] ?? c.default} onChange={(v) => set(c.name, v)} last={i === playground.controls.length - 1} />
           ))}
         </div>
       </section>

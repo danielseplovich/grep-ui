@@ -31,19 +31,19 @@ export const selectDoc: ReactDoc = {
       { name: 'size', label: 'Size', type: 'select', options: ['28', '32'], default: '28' },
       { name: 'label', label: 'Label', type: 'boolean', default: false },
       { name: 'helpText', label: 'Help text', type: 'boolean', default: false },
-      { name: 'value', label: 'Value', type: 'select', options: ['none', 'r2', 's3', 'gcs'], default: 'none' },
+      { name: 'value', label: 'Value', type: 'select', options: ['r2', 's3', 'gcs'], default: 'r2' },
       { name: 'error', label: 'Error', type: 'boolean', default: false },
       { name: 'disabled', label: 'Disabled', type: 'boolean', default: false },
     ],
     render: (s) => (
       <div style={{ width: 320 }}>
-        <Select options={options} size={Number(s.size) as 28} label={s.label ? 'Storage provider' : undefined} helpText={s.helpText ? 'Where uploads are kept.' : undefined} value={s.value === 'none' ? undefined : String(s.value)} error={Boolean(s.error)} disabled={Boolean(s.disabled)} />
+        <Select options={options} size={Number(s.size) as 28} label={s.label ? 'Storage provider' : undefined} helpText={s.helpText ? 'Where uploads are kept.' : undefined} value={String(s.value)} error={Boolean(s.error)} disabled={Boolean(s.disabled)} />
       </div>
     ),
     code: (s) =>
       example(
         [IMPORT('Select')],
-        jsx('Select', { label: s.label ? 'Storage provider' : undefined, helpText: s.helpText ? 'Where uploads are kept.' : undefined, size: s.size !== '28' ? Number(s.size) : undefined, options: { raw: 'providers' }, value: s.value === 'none' ? undefined : String(s.value), onValueChange: { raw: 'setProvider' }, error: Boolean(s.error), disabled: Boolean(s.disabled) }),
+        jsx('Select', { label: s.label ? 'Storage provider' : undefined, helpText: s.helpText ? 'Where uploads are kept.' : undefined, size: s.size !== '28' ? Number(s.size) : undefined, options: { raw: 'providers' }, value: { raw: 'provider' }, onValueChange: { raw: 'setProvider' }, error: Boolean(s.error), disabled: Boolean(s.disabled) }),
       ),
   },
   examples: { hero: { html: '' }, examples: [] },

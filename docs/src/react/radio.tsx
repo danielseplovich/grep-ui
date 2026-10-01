@@ -5,7 +5,7 @@ import { Radio } from '../../../react/radio'
 export const radioDoc: ReactDoc = {
   slug: 'radio',
   title: 'Radio',
-  description: 'A single choice from a set, alone or with a label, sublabel and card.',
+  description: 'A single choice from a set. With a label it becomes a Radio Group: control, label block and optional card.',
   basedOn: 'button',
   importCode: IMPORT('Radio'),
   usageCode: `<Radio checked={plan === "pro"} onCheckedChange={() => setPlan("pro")} label="Pro" />`,
@@ -18,17 +18,17 @@ export const radioDoc: ReactDoc = {
   ],
   playground: {
     controls: [
+      { name: 'variant', label: 'Variant', type: 'select', options: ['radio', 'radio group'], default: 'radio' },
       { name: 'checked', label: 'Checked', type: 'boolean', default: false },
-      { name: 'label', label: 'Label', type: 'boolean', default: false },
-      { name: 'sublabel', label: 'Sublabel', type: 'boolean', default: false },
-      { name: 'card', label: 'Card', type: 'boolean', default: false },
+      { name: 'sublabel', label: 'Sublabel (group)', type: 'boolean', default: false },
+      { name: 'card', label: 'Card (group)', type: 'boolean', default: false },
       { name: 'disabled', label: 'Disabled', type: 'boolean', default: false },
     ],
-    render: (s) => <Radio checked={Boolean(s.checked)} label={s.label ? 'Pro' : undefined} sublabel={s.label && s.sublabel ? 'Unlimited renders and 5 TB.' : undefined} card={Boolean(s.card)} disabled={Boolean(s.disabled)} />,
+    render: (s) => <Radio checked={Boolean(s.checked)} label={s.variant === 'radio group' ? 'Pro' : undefined} sublabel={s.variant === 'radio group' && s.sublabel ? 'Unlimited renders and 5 TB.' : undefined} card={s.variant === 'radio group' && Boolean(s.card)} disabled={Boolean(s.disabled)} />,
     code: (s) =>
       example(
         [IMPORT('Radio')],
-        jsx('Radio', { checked: s.checked ? { raw: 'plan === "pro"' } : undefined, onCheckedChange: { raw: '() => setPlan("pro")' }, label: s.label ? 'Pro' : undefined, sublabel: s.label && s.sublabel ? 'Unlimited renders and 5 TB.' : undefined, card: Boolean(s.card), disabled: Boolean(s.disabled) }),
+        jsx('Radio', { checked: s.checked ? { raw: 'plan === "pro"' } : undefined, onCheckedChange: { raw: '() => setPlan("pro")' }, label: s.variant === 'radio group' ? 'Pro' : undefined, sublabel: s.variant === 'radio group' && s.sublabel ? 'Unlimited renders and 5 TB.' : undefined, card: s.variant === 'radio group' && Boolean(s.card), disabled: Boolean(s.disabled) }),
       ),
   },
   examples: { hero: { html: '' }, examples: [] },

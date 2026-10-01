@@ -22,7 +22,7 @@ export const nav: NavGroup[] = [
     title: 'Getting started',
     items: [
       { label: 'Introduction', to: '/', description: 'What Grep UI is and where it is heading.' },
-      { label: 'Installation', to: '/installation', description: 'Link the stylesheet today; React components are coming.' },
+      { label: 'Installation', to: '/installation', description: 'Install the package, load the fonts and stylesheet, set the theme.' },
     ],
   },
   {

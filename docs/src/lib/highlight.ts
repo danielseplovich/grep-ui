@@ -167,5 +167,6 @@ export function highlight(src: string, lang: string): string {
   if (lang === 'html' || lang === 'xml' || lang === 'svg') return highlightHtml(src)
   if (lang === 'css') return highlightCss(src)
   if (lang === 'tsx' || lang === 'jsx' || lang === 'ts' || lang === 'js') return highlightTsx(src)
+  if (lang === 'sh' || lang === 'bash') return src.split('\n').map((l) => (l.startsWith('#') ? span('comment', l) : esc(l))).join('\n')
   return esc(src)
 }

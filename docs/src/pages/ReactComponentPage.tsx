@@ -45,7 +45,7 @@ export function ReactComponentPage({ doc }: { doc: ReactDoc }) {
         }
       />
 
-      {doc.playground ? <Playground playground={doc.playground} /> : <ExampleBlock example={doc.examples.hero} />}
+      {doc.playground ? <Playground key={doc.slug} playground={doc.playground} /> : <ExampleBlock example={doc.examples.hero} />}
 
       <Section id="usage" title="Usage">
         <CodeBlock code={doc.importCode} />
