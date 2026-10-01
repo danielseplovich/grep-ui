@@ -14,6 +14,9 @@ export interface Example {
   tall?: boolean
   /** A short line under the code, e.g. "hover is forced with data-state". */
   note?: string
+  /** What the Code tab shows. When set, this replaces the HTML; `lang` defaults to tsx. */
+  code?: string
+  lang?: string
 }
 
 export interface ComponentExamples {

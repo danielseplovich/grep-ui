@@ -21,16 +21,14 @@ export const nav: NavGroup[] = [
   {
     title: 'Getting started',
     items: [
-      { label: 'Introduction', to: '/', description: 'What Grep UI is and how the library is put together.' },
-      { label: 'Installation', to: '/installation', description: 'Link the stylesheet and start assembling.' },
-      { label: 'Rules', to: '/rules', description: 'Decisions that outrank inferred guidance.' },
-      { label: 'Open contradictions', to: '/contradictions', description: 'Where the library says two things.' },
+      { label: 'Introduction', to: '/', description: 'What Grep UI is and where it is heading.' },
+      { label: 'Installation', to: '/installation', description: 'Link the stylesheet today; React components are coming.' },
     ],
   },
   {
     title: 'Foundations',
     items: [
-      { label: 'Color', to: '/foundations/color', description: 'Semantic surfaces, inks, borders and the primitive ramps.' },
+      { label: 'Colors', to: '/foundations/color', description: 'Every color token, with its value.' },
       { label: 'Typography', to: '/foundations/typography', description: 'Families, sizes and the three weights.' },
       { label: 'Spacing & radius', to: '/foundations/spacing', description: 'The spacing scale, radii and border widths.' },
       { label: 'Effects', to: '/foundations/effects', description: 'Elevation, focus rings and opacity.' },

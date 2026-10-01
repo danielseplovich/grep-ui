@@ -1,5 +1,7 @@
 import { Link } from 'react-router-dom'
 import { Page, PageHeader, Section } from '../components/Page'
+import figmaLogo from '../assets/figma-logo.png'
+import exportIcon from '../assets/export.svg?raw'
 
 export function IntroPage() {
   const toc = [
@@ -14,8 +16,9 @@ export function IntroPage() {
         title="Grep UI"
         lede={
           <p>
-            Grep UI is the design system for Shade. It is a collection of tokens, components, icons and CSS classes for
-            building consistent interfaces across the Shade app.
+            Grep UI is the design system for Shade: a collection of tokens, components and icons for building
+            consistent interfaces across the Shade app. It is moving from plain CSS to React components, so the same
+            component is the same thing in Figma, in the docs and in the app.
           </p>
         }
       >
@@ -31,22 +34,28 @@ export function IntroPage() {
 
       <Section id="figma" title="Figma design system">
         <div className="doc-prose">
-          <p>
-            The Grep UI design system lives in{' '}
-            <a href="https://www.figma.com/design/w7zQJ1PbccPqDSPxwiacec/Grep-UI" target="_blank" rel="noreferrer">
-              Figma
-            </a>
-            . It contains the colors, typography, icons and components that this site documents. Every spec here was
-            read from the Figma file, so the two should always match.
-          </p>
+          <p>The Grep UI design system lives in Figma. It contains the colors, typography, icons and components that this site documents, and every spec here was read from it.</p>
         </div>
+        <a className="doc-figma" href="https://www.figma.com/design/w7zQJ1PbccPqDSPxwiacec/Grep-UI" target="_blank" rel="noreferrer">
+          <span className="grep-avatar grep-avatar--32 doc-figma__tile" aria-hidden="true">
+            <img src={figmaLogo} alt="" width={20} height={20} />
+          </span>
+          <span className="doc-figma__body">
+            <span className="doc-figma__title">Grep UI</span>
+            <span className="doc-figma__desc">Colors, type, icons, and components</span>
+          </span>
+          <span className="grep-icon-btn grep-icon-btn--ghost grep-icon-btn--28 doc-figma__action" aria-hidden="true">
+            <span className="grep-icon-btn__icon" dangerouslySetInnerHTML={{ __html: exportIcon }} />
+          </span>
+        </a>
       </Section>
 
       <Section id="package" title="Package">
         <div className="doc-prose">
           <p>
-            Grep UI ships as one package: <code>@shade/grep-ui</code>. It includes the tokens, effects and the CSS for
-            every component in a single import.
+            Grep UI ships as one package: <code>@shade/grep-ui</code>. Today it contains the tokens, effects and the CSS
+            for every component. The React components are being added to the same package, one component at a time,
+            until every component here has one.
           </p>
           <p>
             See the <Link to="/installation">installation guide</Link> to add it to a project.
@@ -58,8 +67,10 @@ export function IntroPage() {
         <div className="doc-prose">
           <p>Grep UI was meticulously crafted with love by Karina Minanov.</p>
           <p>
-            It is plain CSS compiled from the Figma component set. There is no framework in the way: every component is a
-            small set of classes on native HTML, so it works wherever Shade does.
+            It started as plain CSS compiled from the Figma component set, and that CSS is still the source of truth for
+            how every component looks. The React components wrap it: thin components over native HTML that take props
+            instead of class names, so Shade can replace its current components with Grep UI's without changing how
+            they look.
           </p>
         </div>
       </Section>

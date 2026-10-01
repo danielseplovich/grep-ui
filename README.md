@@ -1,6 +1,8 @@
 # Grep UI
 
-The design system for **Grep**, a file and asset workspace. Plain CSS compiled from the Figma component set — tokens, effect styles and 24 components — plus a spec per component and a docs site.
+The design system for **Shade**. Tokens, effect styles and 24 components compiled from the Figma component set, plus a spec per component and a docs site.
+
+**Direction:** Grep UI is migrating from plain CSS to React components. The CSS stays the source of truth for how things look; the React components wrap it so Shade can swap its current components for Grep UI's one by one.
 
 ## Use it in a project
 

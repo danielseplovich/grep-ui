@@ -8,6 +8,8 @@ import { ExampleBlock } from '../components/ExampleBlock'
 import { Callout } from '../components/Callout'
 import { Asset, useCopy } from '../components/ui'
 import type { TocEntry } from '../components/Toc'
+import { reactDocs } from '../lib/reactDocs'
+import { ReactComponentPage } from './ReactComponentPage'
 
 function ClassChip({ name }: { name: string }) {
   const [copied, copy] = useCopy()
@@ -36,6 +38,7 @@ export function ComponentPage() {
     }
   }, [spec])
 
+  if (reactDocs[slug]) return <ReactComponentPage doc={reactDocs[slug]} />
   if (!spec || !groups) return <Navigate to="/" replace />
 
   const notes = [...groups.inferred, ...groups.contradiction, ...groups.notcovered]

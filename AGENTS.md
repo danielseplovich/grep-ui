@@ -1,6 +1,6 @@
 # grep UI — start here
 
-The design system for **Grep**, a file and asset workspace. This folder is the library itself: real CSS compiled from the Figma component set, plus a spec per component. You do not need to design anything — assemble what's here.
+The design system for **Shade**. This folder is the library itself: real CSS compiled from the Figma component set, plus a spec per component. Grep UI is migrating from plain CSS to React components; until a component's React version exists, use its classes. You do not need to design anything — assemble what's here.
 
 **Read this file in full. Open anything else only when you need it.**
 

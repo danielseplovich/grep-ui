@@ -52,7 +52,7 @@ export function InstallationPage() {
           </>
         }
         title="Installation"
-        lede="Grep UI is plain CSS. There is no package to install — link one stylesheet and every token and component follows from it."
+        lede="Until the React components land, Grep UI is used through its stylesheet. Link it once and every token and component follows from it. The React components will install from the same package."
       />
 
       <Section id="stylesheet" title="Link the stylesheet">
@@ -69,7 +69,7 @@ export function InstallationPage() {
         </Callout>
       </Section>
 
-      <Section id="use" title="Use the classes" lede="Every component is a block class with modifiers — no JavaScript, no build step.">
+      <Section id="use" title="Use the classes" lede="For now, every component is a block class with modifiers. The React components will take the same variants as props.">
         <Prose html={usage} />
         <p className="doc-prose">
           Each component page shows the markup it expects under <strong>Usage</strong>, the classes it accepts under <strong>API reference</strong>, and copy-ready variants under{' '}

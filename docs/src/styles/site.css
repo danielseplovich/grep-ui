@@ -1278,3 +1278,276 @@ samp {
     padding-top: var(--space-24);
   }
 }
+
+/* ======================================================================
+   Docs redesign (Figma: Grep UI docs)
+   ====================================================================== */
+
+/* ---------- Preview / Code (Component preview + Button Tab Group) ---------- */
+.doc-example {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-16);
+  margin: 0 0 var(--space-16);
+  border-radius: 0;
+  background: none;
+  box-shadow: none;
+  overflow: visible;
+}
+.doc-example__tabs {
+  gap: var(--space-6);
+}
+.doc-preview {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 295px;
+  padding: var(--space-40);
+  border: 1px solid var(--border-base);
+  border-radius: var(--radius-12);
+  background: var(--background-component);
+  color: var(--foreground-text-base);
+  overflow-x: auto;
+  scrollbar-width: thin;
+}
+.doc-preview--sidebar {
+  background: var(--background-left-sidebar);
+}
+.doc-preview--panel {
+  background: var(--background-panel);
+}
+.doc-preview--tall {
+  min-height: 400px;
+}
+.doc-preview__canvas {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: var(--space-12);
+  max-width: 100%;
+}
+.doc-preview__canvas--start {
+  justify-content: flex-start;
+  width: 100%;
+}
+.doc-preview__canvas--column {
+  flex-direction: column;
+  align-items: stretch;
+}
+.doc-preview__canvas--fill {
+  width: 100%;
+}
+.doc-preview__canvas--fill > * {
+  width: 100%;
+}
+.doc-example__note {
+  margin: var(--space-8) 0 0;
+  font-size: var(--text-xs);
+  line-height: 1.5;
+  color: var(--foreground-text-dim);
+}
+
+/* ---------- Code Block ---------- */
+.doc-codeblock {
+  display: flex;
+  flex-direction: column;
+  margin: 0 0 var(--space-16);
+  border-radius: var(--radius-12);
+  background: var(--background-component-shell);
+  box-shadow: inset 0 0 0 var(--border-width-0-5) var(--border-base), var(--elevation-card);
+  overflow: hidden;
+}
+.doc-codeblock__header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-24);
+  padding: var(--space-16);
+}
+.doc-codeblock__label {
+  flex: 1 0 0;
+  min-width: 0;
+  font-size: var(--text-base);
+  font-weight: var(--text-weight-medium);
+  line-height: var(--text-base);
+  color: var(--foreground-text-base);
+}
+.doc-codeblock__copy {
+  color: var(--foreground-icon-dim);
+}
+.doc-codeblock__copy:hover {
+  color: var(--foreground-icon-base);
+}
+.doc-codeblock__copy[data-copied] {
+  color: var(--foreground-brand);
+}
+.doc-codeblock__copy .grep-icon-btn__icon svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.doc-codeblock__container {
+  padding: 0 var(--space-4) var(--space-4);
+}
+.doc-codeblock__snippet {
+  display: flex;
+  gap: var(--space-16);
+  margin: 0;
+  padding: var(--space-12);
+  border-radius: var(--radius-8);
+  background: var(--background-field);
+  box-shadow: inset 0 0 0 var(--border-width-0-5) var(--border-base);
+  font-family: var(--text-style-code), ui-monospace, monospace;
+  font-size: var(--text-base);
+  font-weight: var(--text-weight-regular);
+  line-height: 1.4;
+  overflow-x: auto;
+  scrollbar-width: thin;
+  tab-size: 2;
+}
+.doc-codeblock__lines {
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  text-align: right;
+  color: var(--foreground-text-dim);
+  user-select: none;
+}
+.doc-codeblock__code {
+  display: block;
+  color: var(--foreground-text-base);
+  white-space: pre;
+}
+
+/* ---------- API reference props table ---------- */
+.doc-props code {
+  font-family: var(--text-style-code), ui-monospace, monospace;
+  font-size: var(--text-xs);
+  padding: 1px var(--space-4);
+  border-radius: var(--radius-4);
+  background: var(--background-component-shell);
+  box-shadow: inset 0 0 0 var(--border-width-0-5) var(--border-base);
+  color: var(--foreground-text-base);
+}
+.doc-props__type {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-4);
+  margin-right: var(--space-4);
+}
+.doc-props__sep {
+  color: var(--foreground-text-faint);
+  margin-right: var(--space-4);
+}
+.doc-props__none {
+  color: var(--foreground-text-faint);
+}
+
+/* ---------- Colors: tile + token + value ---------- */
+.doc-colors {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(216px, 1fr));
+  gap: var(--space-8) var(--space-16);
+  margin: 0 0 var(--space-16);
+}
+.doc-color {
+  display: flex;
+  align-items: center;
+  gap: var(--space-12);
+  padding: var(--space-6);
+  margin: 0 calc(var(--space-6) * -1);
+  border: 0;
+  border-radius: var(--radius-8);
+  background: none;
+  text-align: left;
+  color: inherit;
+  cursor: pointer;
+}
+.doc-color:hover {
+  background: var(--background-overlay-hover);
+}
+.doc-color:focus-visible {
+  outline: none;
+  box-shadow: var(--elevation-focus-ring);
+}
+.doc-color__tile {
+  flex-shrink: 0;
+  /* the tile keeps its hairline and shadow; the token fills it, over a checker for translucent inks */
+  background-image: linear-gradient(var(--_swatch), var(--_swatch)),
+    linear-gradient(45deg, var(--background-contrast) 25%, transparent 25%, transparent 75%, var(--background-contrast) 75%),
+    linear-gradient(45deg, var(--background-contrast) 25%, transparent 25%, transparent 75%, var(--background-contrast) 75%);
+  background-size: 100% 100%, var(--space-8) var(--space-8), var(--space-8) var(--space-8);
+  background-position: 0 0, 0 0, var(--space-4) var(--space-4);
+}
+.doc-color__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  min-width: 0;
+}
+.doc-color__name {
+  font-size: var(--text-base);
+  font-weight: var(--text-weight-medium);
+  line-height: 1.25;
+  color: var(--foreground-text-base);
+  overflow-wrap: anywhere;
+}
+.doc-color__value {
+  font-family: var(--text-style-code), ui-monospace, monospace;
+  font-size: var(--text-xs);
+  line-height: 1.4;
+  color: var(--foreground-text-dim);
+}
+
+/* ---------- Figma card on the intro page ---------- */
+.doc-figma {
+  display: flex;
+  align-items: center;
+  gap: var(--space-12);
+  max-width: 420px;
+  padding: var(--space-8);
+  border: 1px solid var(--border-base);
+  border-radius: var(--radius-10);
+  background: var(--background-component);
+  color: inherit;
+  text-decoration: none;
+}
+.doc-figma:hover .doc-figma__action {
+  background: var(--background-overlay-hover);
+}
+.doc-figma__tile {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.doc-figma__tile img {
+  display: block;
+  width: var(--space-20);
+  height: var(--space-20);
+}
+.doc-figma__body {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  min-width: 0;
+}
+.doc-figma__title {
+  font-size: var(--text-base);
+  font-weight: var(--text-weight-medium);
+  line-height: var(--text-base);
+  color: var(--foreground-text-base);
+}
+.doc-figma__desc {
+  font-size: var(--text-sm);
+  line-height: 1.4;
+  color: var(--foreground-text-dim);
+}
+.doc-figma__action {
+  flex-shrink: 0;
+  color: var(--foreground-icon-subtle);
+}
+.doc-figma__action .grep-icon-btn__icon svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}

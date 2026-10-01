@@ -121,8 +121,51 @@ export function highlightCss(src: string): string {
   return out
 }
 
+/* TSX / JSX: keywords, strings, comments, and JSX tags via the HTML pass. */
+const tsxKeywords = new Set(['import', 'export', 'from', 'default', 'function', 'return', 'const', 'let', 'var', 'type', 'interface', 'extends', 'as', 'async', 'await', 'if', 'else', 'true', 'false', 'null', 'undefined'])
+
+export function highlightTsx(src: string): string {
+  let out = ''
+  let i = 0
+  const n = src.length
+  while (i < n) {
+    const rest = src.slice(i)
+    let m: RegExpExecArray | null
+    if ((m = /^\/\/[^\n]*/.exec(rest)) || (m = /^\/\*[\s\S]*?\*\//.exec(rest))) {
+      out += span('comment', m[0])
+      i += m[0].length
+      continue
+    }
+    if ((m = /^(["'`])(?:\\.|(?!\1)[^\\])*\1/.exec(rest))) {
+      out += span('val', m[0])
+      i += m[0].length
+      continue
+    }
+    // a JSX element: hand the whole tag (through its closing >) to the HTML pass
+    if ((m = /^<\/?[A-Za-z][\w.:-]*(?:\s[^<>]*)?\/?>/.exec(rest))) {
+      out += highlightHtml(m[0])
+      i += m[0].length
+      continue
+    }
+    if ((m = /^[A-Za-z_$][\w$]*/.exec(rest))) {
+      out += tsxKeywords.has(m[0]) ? span('tag', m[0]) : esc(m[0])
+      i += m[0].length
+      continue
+    }
+    if ((m = /^[{}()[\]=;,.:<>]/.exec(rest))) {
+      out += span('punct', m[0])
+      i += 1
+      continue
+    }
+    out += esc(src[i])
+    i += 1
+  }
+  return out
+}
+
 export function highlight(src: string, lang: string): string {
   if (lang === 'html' || lang === 'xml' || lang === 'svg') return highlightHtml(src)
   if (lang === 'css') return highlightCss(src)
+  if (lang === 'tsx' || lang === 'jsx' || lang === 'ts' || lang === 'js') return highlightTsx(src)
   return esc(src)
 }

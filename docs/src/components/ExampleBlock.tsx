@@ -1,102 +1,60 @@
 import { useId, useMemo, useState } from 'react'
 import { displayHtml, type Example } from '../lib/examples'
-import { highlightHtml } from '../lib/highlight'
-import { useTheme, type Theme } from '../lib/theme'
-import { CopyButton, Glyph, IconButton } from './ui'
+import { CodeBlock } from './CodeBlock'
 
 type Tab = 'preview' | 'code'
 
+/**
+ * Preview / Code block (Figma: Grep UI docs › Component preview + Code Block).
+ * A Button Tab Group switches between the preview card and the code block.
+ */
 export function ExampleBlock({ example, headingId }: { example: Omit<Example, 'id' | 'title'>; headingId?: string }) {
   const [tab, setTab] = useState<Tab>('preview')
-  const [siteTheme] = useTheme()
-  const [override, setOverride] = useState<Theme | null>(null)
   const id = useId()
 
-  const previewTheme: Theme = override ?? siteTheme
-  const shown = useMemo(() => displayHtml(example.html), [example.html])
-  const highlighted = useMemo(() => highlightHtml(shown), [shown])
+  const code = useMemo(() => example.code ?? displayHtml(example.html), [example.code, example.html])
+  const lang = example.code ? (example.lang ?? 'tsx') : 'html'
 
-  const stageClass = [
-    'doc-example__stage',
-    example.layout === 'start' || example.layout === 'fill' ? 'doc-example__stage--start' : '',
-    example.stage === 'sidebar' ? 'doc-example__stage--sidebar' : '',
-    example.stage === 'panel' ? 'doc-example__stage--panel' : '',
-    example.tall ? 'doc-example__stage--tall' : '',
+  const canvasClass = [
+    'doc-preview__canvas',
+    example.layout === 'column' ? 'doc-preview__canvas--column' : '',
+    example.layout === 'fill' ? 'doc-preview__canvas--fill doc-preview__canvas--column' : '',
+    example.layout === 'start' ? 'doc-preview__canvas--start' : '',
   ]
     .filter(Boolean)
     .join(' ')
 
-  const canvasClass = [
-    'doc-example__canvas',
-    example.layout === 'column' ? 'doc-example__canvas--column' : '',
-    example.layout === 'fill' ? 'doc-example__canvas--fill doc-example__canvas--column' : '',
-  ]
+  const stageClass = ['doc-preview', example.stage === 'sidebar' ? 'doc-preview--sidebar' : '', example.stage === 'panel' ? 'doc-preview--panel' : '', example.tall ? 'doc-preview--tall' : '']
     .filter(Boolean)
     .join(' ')
 
   return (
     <div className="doc-example" aria-labelledby={headingId}>
-      <div className="doc-example__bar">
-        <div className="grep-tabs" role="tablist" aria-label="Example view">
+      <div className="grep-tabs doc-example__tabs" role="tablist" aria-label="Example view">
+        {(['preview', 'code'] as Tab[]).map((t) => (
           <button
+            key={t}
             type="button"
             role="tab"
-            id={`${id}-tab-preview`}
-            aria-selected={tab === 'preview'}
-            aria-controls={`${id}-panel-preview`}
-            className={`grep-tab${tab === 'preview' ? ' grep-tab--selected' : ''}`}
-            onClick={() => setTab('preview')}
+            id={`${id}-tab-${t}`}
+            aria-selected={tab === t}
+            aria-controls={`${id}-panel-${t}`}
+            className={`grep-tab grep-tab--full${tab === t ? ' grep-tab--selected' : ''}`}
+            onClick={() => setTab(t)}
           >
-            Preview
+            {t === 'preview' ? 'Preview' : 'Code'}
           </button>
-          <button
-            type="button"
-            role="tab"
-            id={`${id}-tab-code`}
-            aria-selected={tab === 'code'}
-            aria-controls={`${id}-panel-code`}
-            className={`grep-tab${tab === 'code' ? ' grep-tab--selected' : ''}`}
-            onClick={() => setTab('code')}
-          >
-            Code
-          </button>
-        </div>
-        <div className="doc-example__tools">
-          {tab === 'preview' && (
-            <IconButton
-              label={previewTheme === 'dark' ? 'Preview in light mode' : 'Preview in dark mode'}
-              size={24}
-              aria-pressed={override !== null}
-              onClick={() => setOverride(previewTheme === 'dark' ? 'light' : 'dark')}
-            >
-              <Glyph name={previewTheme === 'dark' ? 'sun' : 'moon'} className="grep-icon-btn__icon" />
-            </IconButton>
-          )}
-          <CopyButton text={example.html} label="Copy HTML" />
-        </div>
+        ))}
       </div>
 
       {tab === 'preview' ? (
-        <div
-          id={`${id}-panel-preview`}
-          role="tabpanel"
-          aria-labelledby={`${id}-tab-preview`}
-          className={stageClass}
-          data-theme={previewTheme}
-        >
+        <div id={`${id}-panel-preview`} role="tabpanel" aria-labelledby={`${id}-tab-preview`} className={stageClass}>
           <div className={canvasClass} dangerouslySetInnerHTML={{ __html: example.html }} />
         </div>
       ) : (
-        <div id={`${id}-panel-code`} role="tabpanel" aria-labelledby={`${id}-tab-code`} className="doc-example__code">
-          <figure className="doc-code" data-lang="html">
-            <pre>
-              <code className="doc-code__body lang-html" dangerouslySetInnerHTML={{ __html: highlighted }} />
-            </pre>
-          </figure>
-          <div className="doc-example__note">
-            Inline SVG assets are collapsed to <code>…</code> here. Copy includes the full markup.
-            {example.note ? ` ${example.note}` : ''}
-          </div>
+        <div id={`${id}-panel-code`} role="tabpanel" aria-labelledby={`${id}-tab-code`}>
+          <CodeBlock code={code} lang={lang} />
+          {example.note && <p className="doc-example__note">{example.note}</p>}
         </div>
       )}
     </div>

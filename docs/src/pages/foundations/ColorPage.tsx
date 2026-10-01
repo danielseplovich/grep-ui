@@ -1,39 +1,32 @@
 import { Link } from 'react-router-dom'
-import { Page, PageHeader, Section, Subsection } from '../../components/Page'
-import { Prose } from '../../components/Prose'
-import { Ramp, SwatchGrid } from '../../components/Foundations'
+import { Page, PageHeader, Section } from '../../components/Page'
+import { ColorList } from '../../components/Foundations'
+import { CodeBlock } from '../../components/CodeBlock'
 import { Asset } from '../../components/ui'
-import { avatarColors, colorGroups, ramp, rampNames, shadowInks } from '../../lib/tokens'
-import { designMd } from '../../lib/specs'
-import { subsections } from '../../lib/docs'
+import { colorGroups, shadowInks } from '../../lib/tokens'
 
-const design = subsections(designMd, 'Color')
-const find = (h: RegExp) => design.find((s) => h.test(s.heading))
+const usage = `.card {
+  background: var(--background-component);
+  border: 0.5px solid var(--border-base);
+  color: var(--foreground-text-base);
+}`
+
+const groups = [
+  { id: 'background', title: 'Background', note: 'Surfaces: canvas, components, fields, tiles and panels.', tokens: colorGroups.surfaces },
+  { id: 'overlay', title: 'Overlay', note: 'Layered on top of a surface for hover and pressed states.', tokens: colorGroups.overlays },
+  { id: 'accent', title: 'Accent', note: 'Tinted surfaces for emphasis and status.', tokens: colorGroups.accents },
+  { id: 'border', title: 'Border', note: 'Hairlines and dividers.', tokens: colorGroups.borders },
+  { id: 'button', title: 'Button', note: 'Fills, borders and inks for each button type.', tokens: colorGroups.buttons },
+  { id: 'foreground', title: 'Foreground', note: 'Text and icon inks.', tokens: colorGroups.text.concat(colorGroups.icons) },
+  { id: 'badge', title: 'Badge', note: 'Fills and inks for each badge tone.', tokens: colorGroups.badges },
+  { id: 'shadow', title: 'Shadow', note: 'The inks every elevation is built from.', tokens: shadowInks },
+]
 
 export function ColorPage() {
-  const surfaces = find(/^Surfaces/)
-  const inks = find(/^Text and icons/)
-  const borders = find(/^Borders/)
-  const interaction = find(/^Interaction states/)
-  const buttons = find(/^Buttons/)
-  const accents = find(/^Accents/)
-  const badges = find(/^Badges/)
-  const avatars = find(/^Avatars/)
-  const primitives = find(/^Primitive ramps/)
-
-  const toc = [
-    { id: 'surfaces', label: 'Surfaces' },
-    { id: 'inks', label: 'Text and icons' },
-    { id: 'borders', label: 'Borders' },
-    { id: 'interaction', label: 'Interaction states' },
-    { id: 'buttons', label: 'Buttons' },
-    { id: 'accents', label: 'Accents' },
-    { id: 'badges', label: 'Badges' },
-    { id: 'primitives', label: 'Primitive ramps' },
-  ]
+  const toc = [{ id: 'overview', label: 'Overview' }, { id: 'usage', label: 'How to use the colors' }, ...groups.map((g) => ({ id: g.id, label: g.title }))]
 
   return (
-    <Page title="Color" toc={toc}>
+    <Page title="Colors" toc={toc}>
       <PageHeader
         eyebrow={
           <>
@@ -44,65 +37,33 @@ export function ColorPage() {
             <span>Foundations</span>
           </>
         }
-        title="Color"
-        lede="Semantic tokens only. Every token below has a light and a dark value; the swatches follow the site theme, and the values under each name list light then dark. Click a swatch to copy its var()."
+        title="Grep UI Colors"
+        lede={<p>In this guide, you'll learn about the color tokens available in Grep UI and how to use them.</p>}
       />
 
-      <Section id="surfaces" title="Surfaces">
-        {surfaces && <Prose html={surfaces.html} />}
-        <SwatchGrid tokens={colorGroups.surfaces} />
+      <Section id="overview" title="Overview">
+        <div className="doc-prose">
+          <p>Grep UI provides color tokens from the Grep design system. Use them to style components and elements consistently across Shade.</p>
+          <p>Every token has a light and a dark value. To view the colors below in dark mode, switch the site's theme from the menu in the top right.</p>
+          <p>To copy a color's token from the list below, click on it.</p>
+        </div>
       </Section>
 
-      <Section id="inks" title="Text and icons">
-        {inks && <Prose html={inks.html} />}
-        <Subsection id="text-tokens" title="Text">
-          <SwatchGrid tokens={colorGroups.text} />
-        </Subsection>
-        <Subsection id="icon-tokens" title="Icons">
-          <SwatchGrid tokens={colorGroups.icons} />
-        </Subsection>
+      <Section id="usage" title="How to use the Grep UI colors">
+        <div className="doc-prose">
+          <p>
+            Every color is a CSS variable, available anywhere the Grep UI stylesheet is loaded. Use it with <code>var()</code>; never write the hex value.
+          </p>
+          <p>For example, to style a card:</p>
+        </div>
+        <CodeBlock code={usage} lang="css" />
       </Section>
 
-      <Section id="borders" title="Borders">
-        {borders && <Prose html={borders.html} />}
-        <SwatchGrid tokens={colorGroups.borders} />
-      </Section>
-
-      <Section id="interaction" title="Interaction states">
-        {interaction && <Prose html={interaction.html} />}
-        <SwatchGrid tokens={colorGroups.overlays} />
-      </Section>
-
-      <Section id="buttons" title="Buttons">
-        {buttons && <Prose html={buttons.html} />}
-        <SwatchGrid tokens={colorGroups.buttons} />
-      </Section>
-
-      <Section id="accents" title="Accents">
-        {accents && <Prose html={accents.html} />}
-        <SwatchGrid tokens={colorGroups.accents} />
-      </Section>
-
-      <Section id="badges" title="Badges">
-        {badges && <Prose html={badges.html} />}
-        <SwatchGrid tokens={colorGroups.badges} />
-        {avatars && (
-          <Subsection id="avatar-colors" title="Avatar fills">
-            <Prose html={avatars.html} />
-            <SwatchGrid tokens={avatarColors} />
-          </Subsection>
-        )}
-      </Section>
-
-      <Section id="primitives" title="Primitive ramps" lede="A last resort, and never for neutrals. Hover a step for its name and value; click to copy.">
-        {primitives && <Prose html={primitives.html} />}
-        {rampNames.map((n) => (
-          <Ramp key={n} name={n} steps={ramp(n)} />
-        ))}
-        <Subsection id="shadow-ink" title="Shadow ink">
-          <SwatchGrid tokens={shadowInks} />
-        </Subsection>
-      </Section>
+      {groups.map((g) => (
+        <Section key={g.id} id={g.id} title={g.title} lede={g.note}>
+          <ColorList tokens={g.tokens} />
+        </Section>
+      ))}
     </Page>
   )
 }
