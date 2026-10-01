@@ -44,7 +44,13 @@ function ControlRow({ control, value, onChange, last }: { control: Control; valu
             </label>
           </div>
         </div>
-        {control.type === 'select' ? (
+        {control.type === 'text' ? (
+          <span className="grep-input doc-playground__select">
+            <span className="grep-input__field">
+              <input id={id} className="grep-input__control" value={String(value)} onChange={(e) => onChange(e.target.value)} />
+            </span>
+          </span>
+        ) : control.type === 'select' ? (
           <span className="grep-input doc-playground__select">
             <span className="grep-input__field grep-select">
               <select id={id} className="doc-playground__native" value={String(value)} onChange={(e) => onChange(e.target.value)}>

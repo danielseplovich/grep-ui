@@ -15,7 +15,8 @@
     "./Components/*": "./Components/*",
     "./package.json": "./package.json",
     "./react": "./react/index.ts",
-    "./react/*": "./react/*"
+    "./react/*": "./react/*",
+    "./react/icons": "./react/icons/index.tsx"
   },
   "files": [
     "grepmd",

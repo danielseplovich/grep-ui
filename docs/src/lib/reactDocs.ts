@@ -13,6 +13,7 @@ export type ControlState = Record<string, ControlValue>
 export type Control =
   | { name: string; label: string; type: 'select'; options: string[]; default: string }
   | { name: string; label: string; type: 'boolean'; default: boolean }
+  | { name: string; label: string; type: 'text'; default: string }
 
 export interface Playground {
   controls: Control[]
@@ -42,8 +43,35 @@ export interface ReactDoc {
   examples: ComponentExamples
 }
 
+import { avatarDoc } from '../react/avatar'
+import { badgeDoc } from '../react/badge'
+import { bannerDoc } from '../react/banner'
+import { breadcrumbsDoc } from '../react/breadcrumbs'
 import { buttonDoc } from '../react/button'
+import { checkboxDoc } from '../react/checkbox'
+import { contextMenuDoc } from '../react/context-menu'
+import { dividerDoc } from '../react/divider'
+import { fileTreeMenuDoc } from '../react/file-tree-menu'
+import { iconButtonDoc } from '../react/icon-button'
+import { inputDoc } from '../react/input'
+import { itemBlockDoc } from '../react/item-block'
+import { keyboardShortcutDoc } from '../react/keyboard-shortcut'
+import { labelDoc } from '../react/label'
+import { modalDoc } from '../react/modal'
+import { progressBarDoc } from '../react/progress-bar'
+import { radioDoc } from '../react/radio'
+import { searchDoc } from '../react/search'
+import { segmentedControlDoc } from '../react/segmented-control'
+import { selectDoc } from '../react/select'
+import { tabsDoc } from '../react/tabs'
+import { toastDoc } from '../react/toast'
+import { toggleDoc } from '../react/toggle'
+import { tooltipDoc } from '../react/tooltip'
 
-export const reactDocs: Record<string, ReactDoc> = {
-  [buttonDoc.slug]: buttonDoc,
-}
+const all: ReactDoc[] = [
+  avatarDoc, badgeDoc, bannerDoc, breadcrumbsDoc, buttonDoc, checkboxDoc, contextMenuDoc, dividerDoc, fileTreeMenuDoc,
+  iconButtonDoc, inputDoc, itemBlockDoc, keyboardShortcutDoc, labelDoc, modalDoc, progressBarDoc, radioDoc, searchDoc,
+  segmentedControlDoc, selectDoc, tabsDoc, toastDoc, toggleDoc, tooltipDoc,
+]
+
+export const reactDocs: Record<string, ReactDoc> = Object.fromEntries(all.map((d) => [d.slug, d]))

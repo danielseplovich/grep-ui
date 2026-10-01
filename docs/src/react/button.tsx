@@ -15,7 +15,7 @@ function snippet(s: ControlState): string {
   if (s.trailingIcon) props.push('trailingIcon={<Plus />}')
   if (s.isLoading) props.push('isLoading')
   if (s.disabled) props.push('disabled')
-  const icons = s.leadingIcon || s.trailingIcon ? `import { Plus } from "@shade/grep-ui/icons"\n` : ''
+  const icons = s.leadingIcon || s.trailingIcon ? `import { Plus } from "@shade/grep-ui/react/icons"\n` : ''
   const open = props.length ? `<Button ${props.join(' ')}>` : '<Button>'
   return `import { Button } from "@shade/grep-ui/react"\n${icons}\nexport default function Example() {\n  return ${open}Button</Button>\n}`
 }
