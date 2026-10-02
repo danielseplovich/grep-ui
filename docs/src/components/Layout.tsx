@@ -51,7 +51,7 @@ export function Layout({ children }: { children: ReactNode }) {
             <NavLink
               key={item.to}
               to={item.to}
-              className={`grep-tab grep-tab--32 grep-tab--full${section === item.to ? ' grep-tab--selected' : ''}`}
+              className={`grep-tab grep-tab--36 grep-tab--full${section === item.to ? ' grep-tab--selected' : ''}`}
               aria-current={section === item.to ? 'page' : undefined}
             >
               {item.label}

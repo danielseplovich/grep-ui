@@ -1,8 +1,6 @@
-import { Link } from 'react-router-dom'
 import { Page, PageHeader, Section } from '../../components/Page'
 import { Prose } from '../../components/Prose'
 import { TokenChip } from '../../components/Foundations'
-import { Asset } from '../../components/ui'
 import { elevations, opacities } from '../../lib/tokens'
 import { designMd } from '../../lib/specs'
 import { parseDoc, section } from '../../lib/docs'
@@ -25,17 +23,8 @@ export function EffectsPage() {
     { id: 'opacity', label: 'Opacity' },
   ]
   return (
-    <Page title="Effects" toc={toc}>
+    <Page title="Effects" toc={toc} back={{ to: '/foundations', label: 'Foundations' }}>
       <PageHeader
-        eyebrow={
-          <>
-            <Link to="/foundations">Foundations</Link>
-            <span className="doc-eyebrow__sep" aria-hidden="true">
-              <Asset name="caret-right" />
-            </span>
-            <span>Effects</span>
-          </>
-        }
         title="Effects"
         lede="Named Figma effect styles — every shadow and focus ring lives in effects.css. Components never declare their own."
       />

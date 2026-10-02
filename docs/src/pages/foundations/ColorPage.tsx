@@ -1,8 +1,6 @@
-import { Link } from 'react-router-dom'
 import { Page, PageHeader, Section } from '../../components/Page'
 import { ColorList } from '../../components/Foundations'
 import { CodeBlock } from '../../components/CodeBlock'
-import { Asset } from '../../components/ui'
 import { colorGroups, shadowInks } from '../../lib/tokens'
 
 const usage = `.card {
@@ -26,17 +24,8 @@ export function ColorPage() {
   const toc = [{ id: 'overview', label: 'Overview' }, { id: 'usage', label: 'How to use the colors' }, ...groups.map((g) => ({ id: g.id, label: g.title }))]
 
   return (
-    <Page title="Colors" toc={toc}>
+    <Page title="Colors" toc={toc} back={{ to: '/foundations', label: 'Foundations' }}>
       <PageHeader
-        eyebrow={
-          <>
-            <Link to="/foundations">Foundations</Link>
-            <span className="doc-eyebrow__sep" aria-hidden="true">
-              <Asset name="caret-right" />
-            </span>
-            <span>Colors</span>
-          </>
-        }
         title="Grep UI Colors"
         lede={<p>In this guide, you'll learn about the color tokens available in Grep UI and how to use them.</p>}
       />

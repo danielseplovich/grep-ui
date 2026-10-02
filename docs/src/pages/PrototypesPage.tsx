@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link, Navigate, useParams } from 'react-router-dom'
 import { Page, PageHeader, Section } from '../components/Page'
-import { Asset } from '../components/ui'
 import { CodeBlock } from '../components/CodeBlock'
 import { prototypes, prototypeBySlug, downloadPrototype, openPrototype } from '../lib/prototypes'
 import { Button } from '../../../react/button'
@@ -11,7 +10,7 @@ const kb = (n: number) => `${Math.round(n / 1024)} KB`
 export function PrototypesIndexPage() {
   return (
     <Page title="Prototypes" toc={[]}>
-      <PageHeader eyebrow={<span>Prototypes</span>} title="Prototypes" lede={<p>HTML prototypes built on Grep UI. Each one is a single file: open it in the browser, or download it and send it on.</p>} />
+      <PageHeader title="Prototypes" lede={<p>HTML prototypes built on Grep UI. Each one is a single file: open it in the browser, or download it and send it on.</p>} />
       <Section id="all" title="All prototypes">
         {prototypes.length === 0 ? (
           <p className="doc-section__lede">None yet. See "Adding one" below.</p>
@@ -48,17 +47,8 @@ export function PrototypePage() {
   const p = prototypeBySlug[slug]
   if (!p) return <Navigate to="/prototypes" replace />
   return (
-    <Page title={p.title} toc={[]}>
+    <Page title={p.title} back={{ to: '/prototypes', label: 'Prototypes' }}>
       <PageHeader
-        eyebrow={
-          <>
-            <Link to="/prototypes">Prototypes</Link>
-            <span className="doc-eyebrow__sep" aria-hidden="true">
-              <Asset name="caret-right" />
-            </span>
-            <span>{p.title}</span>
-          </>
-        }
         title={p.title}
         lede={<p>{p.description}</p>}
       >

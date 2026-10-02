@@ -1,8 +1,9 @@
 import { useEffect, type ReactNode } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { neighbours } from '../lib/nav'
-import { Glyph } from './ui'
-import { Toc, type TocEntry } from './Toc'
+import { Glyph, IconButton, useCopy } from './ui'
+import { Button } from '../../../react/button'
+import type { TocEntry } from './Toc'
 
 /* ---------- document title + scroll restoration ---------- */
 
@@ -28,14 +29,42 @@ export function useScrollToHash() {
 
 /* ---------- page frame ---------- */
 
-export function Page({ title, toc, wide, children }: { title: string; toc?: TocEntry[]; wide?: boolean; children: ReactNode }) {
+/**
+ * Back + copy link. Every page one level below a hub gets this bar, so there
+ * is always a way back after clicking deeper.
+ */
+export function BackBar({ to, label = 'Back' }: { to: string; label?: string }) {
+  const [copied, copy] = useCopy()
+  return (
+    <div className="doc-backbar">
+      <Button asChild variant="neutral" leadingIcon={<Glyph name="arrowLeft" />}>
+        <Link to={to}>{label}</Link>
+      </Button>
+      <IconButton
+        label={copied ? 'Link copied' : 'Copy link to this page'}
+        kind="neutral"
+        size={32}
+        className="doc-backbar__copy"
+        onClick={() => copy(window.location.href)}
+        style={copied ? { color: 'var(--foreground-brand)' } : undefined}
+      >
+        <Glyph name={copied ? 'check' : 'link'} className="grep-icon-btn__icon" />
+      </IconButton>
+    </div>
+  )
+}
+
+export function Page({ title, toc, wide, prose, back, children }: { title: string; toc?: TocEntry[]; wide?: boolean; prose?: boolean; back?: { to: string; label?: string }; children: ReactNode }) {
   useDocumentTitle(title)
   useScrollToHash()
   const { pathname } = useLocation()
   const { prev, next } = neighbours(pathname)
+  void wide
+  void toc // the table of contents is retired: pages are 1200px wide with a back bar instead
   return (
     <>
-      <article className={wide ? 'doc-article doc-article--wide' : 'doc-article'}>
+      <article className={prose ? 'doc-article doc-article--prose' : 'doc-article'}>
+        {back && <BackBar to={back.to} label={back.label} />}
         {children}
         {(prev || next) && (
           <nav className="doc-pager" aria-label="Previous and next page">
@@ -54,7 +83,6 @@ export function Page({ title, toc, wide, children }: { title: string; toc?: TocE
           </nav>
         )}
       </article>
-      {toc && toc.length > 0 && <Toc entries={toc} />}
     </>
   )
 }

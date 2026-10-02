@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { Page, PageHeader } from '../components/Page'
 import { Fit } from '../components/Fit'
 import { specs } from '../lib/specs'
@@ -7,6 +7,9 @@ import { navLabel } from '../lib/nav'
 import { reactDocs } from '../lib/reactDocs'
 import { galleryPreview } from '../lib/gallery'
 import { Badge } from '../../../react/badge'
+import { Playground } from '../components/Playground'
+import { ExampleBlock } from '../components/ExampleBlock'
+import { examplesBySlug } from '../examples'
 import { SegmentedControl } from '../../../react/segmented-control'
 
 type View = 'grid' | 'list'
@@ -31,6 +34,8 @@ const ListIcon = (p: { className?: string }) => (
 
 /** The components hub: every component previewed live, as a grid of cards or a list. */
 export function ComponentsIndexPage() {
+  const navigate = useNavigate()
+  const [current, setCurrent] = useState(specs[0].slug)
   const [view, setView] = useState<View>(() => {
     try {
       return localStorage.getItem(KEY) === 'list' ? 'list' : 'grid'
@@ -83,16 +88,31 @@ export function ComponentsIndexPage() {
           ))}
         </div>
       ) : (
-        <div className="doc-list">
-          {specs.map((s) => (
-            <Link key={s.slug} to={`/components/${s.slug}`} className="doc-list__row">
-              <span className="doc-list__name">{navLabel(s)}</span>
-              <span className="doc-list__desc">{s.descriptionText}</span>
-              <span className="doc-list__status">
-                {reactDocs[s.slug] ? <Badge tone="success" size={16}>React</Badge> : <Badge size={16}>CSS only</Badge>}
-              </span>
-            </Link>
-          ))}
+        <div className="doc-master">
+          <nav className="doc-master__names" aria-label="Components">
+            {specs.map((s) => (
+              <button
+                key={s.slug}
+                type="button"
+                className={`doc-master__name${s.slug === current ? ' doc-master__name--current' : ''}`}
+                aria-current={s.slug === current ? 'true' : undefined}
+                onClick={() => setCurrent(s.slug)}
+                onDoubleClick={() => navigate(`/components/${s.slug}`)}
+              >
+                {navLabel(s)}
+              </button>
+            ))}
+          </nav>
+          <div className="doc-master__detail" key={current}>
+            <div className="doc-master__title">
+              <Link to={`/components/${current}`} className="doc-master__open">
+                {navLabel(specs.find((s) => s.slug === current)!)}
+                {reactDocs[current] ? <Badge tone="success" size={16}>React</Badge> : <Badge size={16}>CSS only</Badge>}
+                <span className="doc-master__arrow" aria-hidden="true">→</span>
+              </Link>
+            </div>
+            {reactDocs[current]?.playground ? <Playground playground={reactDocs[current].playground} /> : <ExampleBlock example={examplesBySlug[current].hero} />}
+          </div>
         </div>
       )}
     </Page>

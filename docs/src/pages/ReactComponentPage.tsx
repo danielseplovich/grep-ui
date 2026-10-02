@@ -1,11 +1,8 @@
-import { Link } from 'react-router-dom'
 import type { ReactDoc } from '../lib/reactDocs'
 import { Page, PageHeader, Section, Subsection } from '../components/Page'
 import { ExampleBlock } from '../components/ExampleBlock'
 import { Playground } from '../components/Playground'
 import { CodeBlock } from '../components/CodeBlock'
-import { Asset } from '../components/ui'
-import type { TocEntry } from '../components/Toc'
 
 /** The default for a prop that has none set: the first option of a union, false for booleans, otherwise none. */
 function defaultFor(type: string): string {
@@ -16,26 +13,9 @@ function defaultFor(type: string): string {
 
 /** Component page for a component that has a React doc. Mirrors Medusa UI's layout. */
 export function ReactComponentPage({ doc }: { doc: ReactDoc }) {
-  const toc: TocEntry[] = [
-    { id: 'usage', label: 'Usage' },
-    { id: 'api-reference', label: 'API reference' },
-    ...(doc.examples.examples.length
-      ? [{ id: 'examples', label: 'Examples' }, ...doc.examples.examples.map((e) => ({ id: `example-${e.id}`, label: e.title, sub: true }))]
-      : []),
-  ]
-
   return (
-    <Page title={doc.title} toc={toc}>
+    <Page title={doc.title} back={{ to: '/components', label: 'Components' }}>
       <PageHeader
-        eyebrow={
-          <>
-            <Link to="/components">Components</Link>
-            <span className="doc-eyebrow__sep" aria-hidden="true">
-              <Asset name="caret-right" />
-            </span>
-            <span>{doc.title}</span>
-          </>
-        }
         title={doc.title}
         lede={
           <>
@@ -48,8 +28,10 @@ export function ReactComponentPage({ doc }: { doc: ReactDoc }) {
       {doc.playground ? <Playground key={doc.slug} playground={doc.playground} /> : <ExampleBlock example={doc.examples.hero} />}
 
       <Section id="usage" title="Usage">
-        <CodeBlock code={doc.importCode} />
-        <CodeBlock code={doc.usageCode} />
+        <div className="doc-pair">
+          <CodeBlock code={doc.importCode} />
+          <CodeBlock code={doc.usageCode} />
+        </div>
       </Section>
 
       <Section id="api-reference" title="API reference">

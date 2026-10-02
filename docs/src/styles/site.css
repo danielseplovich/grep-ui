@@ -6,10 +6,11 @@
    ============================================================ */
 
 :root {
-  --doc-header-h: var(--space-56);
+  --doc-header-h: var(--space-72);
   --doc-toc-w: calc(var(--space-128) + var(--space-64));
-  --doc-content-max: 760px;
-  --doc-wide-max: 1140px;
+  --doc-content-max: 1200px;
+  --doc-prose-max: 760px;
+  --doc-wide-max: 1200px;
   --doc-gutter: var(--space-48);
 }
 
@@ -86,12 +87,11 @@ samp {
   align-items: center;
   gap: var(--space-12);
   height: var(--doc-header-h);
-  padding: 0 var(--space-16);
+  padding: 0 var(--space-20);
   /* translucent over a blur, so the page shows through as it scrolls under */
   background: color-mix(in srgb, var(--background-canvas) 72%, transparent);
   -webkit-backdrop-filter: saturate(180%) blur(16px);
   backdrop-filter: saturate(180%) blur(16px);
-  border-bottom: 1px solid var(--border-base); /* major app section divider */
 }
 
 .doc-header__brand {
@@ -168,8 +168,8 @@ samp {
   min-width: 0;
   max-width: var(--doc-content-max);
 }
-.doc-article--wide {
-  max-width: var(--doc-wide-max);
+.doc-article--prose {
+  max-width: var(--doc-prose-max);
 }
 
 .doc-toc {
@@ -225,7 +225,7 @@ samp {
 /* ---------- page header ---------- */
 
 .doc-page-header {
-  margin-bottom: var(--space-32);
+  margin-bottom: var(--space-36);
 }
 .doc-eyebrow {
   display: flex;
@@ -286,13 +286,13 @@ samp {
 /* ---------- sections ---------- */
 
 .doc-section {
-  margin-top: var(--space-48);
+  margin-top: var(--space-36);
 }
-.doc-section:first-of-type {
+.doc-page-header + .doc-section {
   margin-top: 0;
 }
 .doc-section__title {
-  margin: 0 0 var(--space-16);
+  margin: 0;
   font-family: var(--text-style-display), var(--text-style-body), sans-serif;
   font-size: var(--text-xl);
   font-weight: var(--text-weight-bold);
@@ -301,17 +301,11 @@ samp {
   color: var(--foreground-text-base);
 }
 .doc-section__lede {
-  margin: calc(var(--space-8) * -1) 0 var(--space-16);
+  margin: 0;
   color: var(--foreground-text-subtle);
 }
-.doc-subsection {
-  margin-top: var(--space-32);
-}
-.doc-subsection:first-child {
-  margin-top: 0;
-}
 .doc-subsection__title {
-  margin: 0 0 var(--space-12);
+  margin: 0;
   font-size: var(--text-lg);
   font-weight: var(--text-weight-bold);
   line-height: 1.4;
@@ -321,7 +315,7 @@ samp {
   font-size: var(--text-base);
 }
 .doc-subsection__lede {
-  margin: calc(var(--space-6) * -1) 0 var(--space-12);
+  margin: 0;
   color: var(--foreground-text-subtle);
 }
 
@@ -576,17 +570,6 @@ samp {
   background: var(--background-component);
   box-shadow: inset 0 0 0 0.5px var(--border-base);
   overflow: hidden;
-}
-.doc-example__bar {
-  display: flex;
-  align-items: center;
-  gap: var(--space-8);
-  height: var(--space-44);
-  padding: 0 var(--space-8);
-  border-bottom: 1px solid var(--border-subtle); /* section divider inside a component */
-}
-.doc-example__bar .grep-tabs {
-  gap: var(--space-2);
 }
 .doc-example__tools {
   display: flex;
@@ -1207,7 +1190,7 @@ samp {
 .doc-example {
   display: flex;
   flex-direction: column;
-  gap: var(--space-32);
+  gap: var(--space-16);
   margin: 0 0 var(--space-16);
   border-radius: 0;
   background: none;
@@ -1243,10 +1226,11 @@ samp {
 .doc-preview__stage--panel {
   background: var(--background-panel);
 }
-.doc-preview__zoom {
-  position: absolute;
-  top: var(--space-24);
-  right: var(--space-24);
+.doc-example__bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-12);
 }
 .doc-preview__canvas {
   display: flex;
@@ -1533,7 +1517,7 @@ samp {
   right: 0;
   top: var(--space-4);
 }
-.doc-article--wide .doc-page-header {
+.doc-article:has(.doc-gallery__tools) .doc-page-header {
   position: relative;
   margin-bottom: var(--space-40);
 }
@@ -1611,43 +1595,6 @@ samp {
   justify-content: center;
 }
 
-/* list view */
-.doc-list {
-  display: flex;
-  flex-direction: column;
-  border: 0.5px solid var(--border-base);
-  border-radius: var(--radius-12);
-  background: var(--background-component);
-  overflow: clip;
-}
-.doc-list__row {
-  display: grid;
-  grid-template-columns: 180px minmax(0, 1fr) max-content;
-  align-items: center;
-  gap: var(--space-16);
-  min-height: var(--space-44);
-  padding: var(--space-10) var(--space-16);
-  color: inherit;
-}
-.doc-list__row + .doc-list__row {
-  border-top: 0.5px solid var(--border-base);
-}
-.doc-list__row:hover {
-  background: var(--background-overlay-hover-subtle);
-}
-.doc-list__row:focus-visible {
-  box-shadow: inset var(--elevation-focus-ring);
-}
-.doc-list__name {
-  font-weight: var(--text-weight-medium);
-}
-.doc-list__desc {
-  font-size: var(--text-sm);
-  color: var(--foreground-text-dim);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
 
 @media (max-width: 1180px) {
   .doc-gallery {
@@ -1658,14 +1605,190 @@ samp {
   .doc-gallery {
     grid-template-columns: minmax(0, 1fr);
   }
-  .doc-list__row {
-    grid-template-columns: minmax(0, 1fr) max-content;
-  }
-  .doc-list__desc {
-    display: none;
-  }
   .doc-gallery__tools {
     position: static;
     margin-top: var(--space-12);
+  }
+}
+
+/* ======================================================================
+   Spacing rhythm (last, so it wins over each block's own margins)
+   ====================================================================== */
+
+/* Spacing rhythm: 36 between sections, 24 between items in a section,
+   16 between a heading and what it introduces, 12 inside a .doc-pair
+   (a sentence and the code block it introduces). Children drop their
+   own margins so the rhythm comes from one place. */
+.doc-section > * + *,
+.doc-subsection > * + * {
+  margin-top: var(--space-24);
+}
+.doc-section > .doc-anchor + *,
+.doc-subsection > .doc-anchor + * {
+  margin-top: var(--space-16);
+}
+.doc-section > .doc-anchor + .doc-section__lede,
+.doc-subsection > .doc-anchor + .doc-subsection__lede {
+  margin-top: var(--space-8);
+}
+.doc-section > .doc-section__lede + *,
+.doc-subsection > .doc-subsection__lede + * {
+  margin-top: var(--space-16);
+}
+.doc-section > .doc-prose,
+.doc-section > .doc-codeblock,
+.doc-section > .doc-example,
+.doc-subsection > .doc-prose,
+.doc-subsection > .doc-codeblock,
+.doc-subsection > .doc-example {
+  margin-bottom: 0;
+}
+.doc-pair > * + * {
+  margin-top: var(--space-12);
+}
+.doc-pair > .doc-prose,
+.doc-pair > .doc-codeblock {
+  margin-bottom: 0;
+}
+
+/* ---------- back + copy link ---------- */
+.doc-backbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-36);
+}
+.doc-backbar .grep-btn {
+  text-decoration: none;
+}
+.doc-backbar__copy {
+  border-radius: var(--radius-full);
+}
+
+/* ---------- components list: names on the left, the chosen one on the right ---------- */
+.doc-master {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-40);
+}
+.doc-master__names {
+  flex: 0 0 110px;
+  position: sticky;
+  top: calc(var(--doc-header-h) + var(--space-24));
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-16);
+}
+.doc-master__name {
+  position: relative;
+  padding: 0;
+  border: 0;
+  background: none;
+  font-size: var(--text-base);
+  font-weight: var(--text-weight-medium);
+  line-height: var(--text-base);
+  color: var(--foreground-text-dim);
+  text-align: left;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: color 220ms cubic-bezier(0.2, 0.8, 0.2, 1), transform 320ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+/* a brand hairline that draws in from the left as the name slides over */
+.doc-master__name::before {
+  content: '';
+  position: absolute;
+  left: calc(var(--space-12) * -1);
+  top: 50%;
+  width: var(--space-6);
+  height: 1.5px;
+  border-radius: var(--radius-full);
+  background: var(--foreground-brand);
+  transform: translateY(-50%) scaleX(0);
+  transform-origin: left center;
+  opacity: 0;
+  transition: transform 320ms cubic-bezier(0.2, 0.8, 0.2, 1), opacity 220ms ease;
+}
+.doc-master__name:hover {
+  color: var(--foreground-text-base);
+  transform: translateX(var(--space-6));
+}
+.doc-master__name:hover::before {
+  transform: translateY(-50%) scaleX(1);
+  opacity: 1;
+}
+.doc-master__name:focus-visible {
+  outline: none;
+  color: var(--foreground-text-base);
+  box-shadow: var(--elevation-focus-ring);
+  border-radius: var(--radius-4);
+}
+.doc-master__name--current {
+  font-size: var(--text-lg);
+  line-height: var(--text-lg);
+  color: var(--foreground-text-base);
+}
+.doc-master__name--current:hover {
+  transform: none;
+}
+.doc-master__name--current::before {
+  display: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .doc-master__name,
+  .doc-master__name::before {
+    transition: none;
+  }
+  .doc-master__name:hover {
+    transform: none;
+  }
+}
+.doc-master__detail {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-24);
+  animation: doc-master-in 260ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+@keyframes doc-master-in {
+  from {
+    opacity: 0;
+    transform: translateY(var(--space-4));
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.doc-master__title {
+  display: flex;
+}
+.doc-master__open {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-8);
+  font-size: var(--text-lg);
+  font-weight: var(--text-weight-medium);
+  color: var(--foreground-text-base);
+}
+.doc-master__arrow {
+  color: var(--foreground-text-dim);
+  transition: transform 220ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.doc-master__open:hover .doc-master__arrow {
+  transform: translateX(var(--space-4));
+  color: var(--foreground-text-base);
+}
+@media (max-width: 880px) {
+  .doc-master {
+    flex-direction: column;
+    gap: var(--space-24);
+  }
+  .doc-master__names {
+    position: static;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: var(--space-12) var(--space-16);
   }
 }

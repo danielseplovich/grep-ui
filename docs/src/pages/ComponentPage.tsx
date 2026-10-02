@@ -1,5 +1,5 @@
 import { useMemo } from 'react'
-import { Link, Navigate, useParams } from 'react-router-dom'
+import { Navigate, useParams } from 'react-router-dom'
 import { specBySlug, type SpecSection } from '../lib/specs'
 import { examplesBySlug } from '../examples'
 import { Page, PageHeader, Section, Subsection } from '../components/Page'
@@ -59,17 +59,8 @@ export function ComponentPage() {
   ]
 
   return (
-    <Page title={spec.title} toc={toc}>
+    <Page title={spec.title} toc={toc} back={{ to: '/components', label: 'Components' }}>
       <PageHeader
-        eyebrow={
-          <>
-            <Link to="/components">Components</Link>
-            <span className="doc-eyebrow__sep" aria-hidden="true">
-              <Asset name="caret-right" />
-            </span>
-            <span>{spec.title}</span>
-          </>
-        }
         title={spec.title}
         lede={<span dangerouslySetInnerHTML={{ __html: spec.descriptionHtml }} />}
       >

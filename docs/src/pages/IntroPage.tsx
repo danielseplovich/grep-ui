@@ -10,7 +10,7 @@ export function IntroPage() {
     { id: 'built', label: 'How Grep UI was built' },
   ]
   return (
-    <Page title="Introduction" toc={toc}>
+    <Page title="Introduction" toc={toc} prose>
       <PageHeader
         eyebrow={<span>Getting started</span>}
         title="Grep UI"

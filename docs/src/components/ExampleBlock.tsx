@@ -35,6 +35,7 @@ export function ExampleBlock({ example, headingId }: { example: Omit<Example, 'i
 
   return (
     <div className="doc-example" aria-labelledby={headingId}>
+      <div className="doc-example__bar">
       <div className="grep-tabs doc-example__tabs" role="tablist" aria-label="Example view">
         {(['preview', 'code'] as Tab[]).map((t) => (
           <button
@@ -51,17 +52,20 @@ export function ExampleBlock({ example, headingId }: { example: Omit<Example, 'i
           </button>
         ))}
       </div>
+      {tab === 'preview' && (
+        <div className="grep-segmented doc-example__zoom" role="group" aria-label="Zoom">
+          {zooms.map((z) => (
+            <button key={z} type="button" className={`grep-segment${zoom === z ? ' grep-segment--selected' : ''}`} aria-pressed={zoom === z} onClick={() => setZoom(z)}>
+              {z * 100}%
+            </button>
+          ))}
+        </div>
+      )}
+      </div>
 
       {tab === 'preview' ? (
         <div id={`${id}-panel-preview`} role="tabpanel" aria-labelledby={`${id}-tab-preview`} className="doc-preview">
           <div className={stageClass}>
-            <div className="grep-segmented doc-preview__zoom" role="group" aria-label="Zoom">
-              {zooms.map((z) => (
-                <button key={z} type="button" className={`grep-segment${zoom === z ? ' grep-segment--selected' : ''}`} aria-pressed={zoom === z} onClick={() => setZoom(z)}>
-                  {z * 100}%
-                </button>
-              ))}
-            </div>
             <div className={canvasClass} style={{ transform: `scale(${zoom})` }}>
               {example.element ?? <div style={{ display: 'contents' }} dangerouslySetInnerHTML={{ __html: example.html }} />}
             </div>

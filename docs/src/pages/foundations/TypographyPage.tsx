@@ -1,8 +1,6 @@
-import { Link } from 'react-router-dom'
 import { Page, PageHeader, Section } from '../../components/Page'
 import { Prose } from '../../components/Prose'
 import { TokenChip } from '../../components/Foundations'
-import { Asset } from '../../components/ui'
 import { textSizes, textStyles, textWeights } from '../../lib/tokens'
 import { designMd } from '../../lib/specs'
 import { parseDoc, section } from '../../lib/docs'
@@ -20,17 +18,8 @@ export function TypographyPage() {
     { id: 'guidance', label: 'Guidance' },
   ]
   return (
-    <Page title="Typography" toc={toc}>
+    <Page title="Typography" toc={toc} back={{ to: '/foundations', label: 'Foundations' }}>
       <PageHeader
-        eyebrow={
-          <>
-            <Link to="/foundations">Foundations</Link>
-            <span className="doc-eyebrow__sep" aria-hidden="true">
-              <Asset name="caret-right" />
-            </span>
-            <span>Typography</span>
-          </>
-        }
         title="Typography"
         lede="Three families, seven sizes, three weights. Body is 13px; nothing in-product goes above 20."
       />

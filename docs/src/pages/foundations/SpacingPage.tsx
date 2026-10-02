@@ -1,8 +1,6 @@
-import { Link } from 'react-router-dom'
 import { Page, PageHeader, Section } from '../../components/Page'
 import { Prose } from '../../components/Prose'
 import { TokenChip } from '../../components/Foundations'
-import { Asset } from '../../components/ui'
 import { borderWidths, radii, spacing } from '../../lib/tokens'
 import { designMd } from '../../lib/specs'
 import { parseDoc, section } from '../../lib/docs'
@@ -19,17 +17,8 @@ export function SpacingPage() {
     { id: 'border-width', label: 'Border width' },
   ]
   return (
-    <Page title="Spacing & radius" toc={toc}>
+    <Page title="Spacing & radius" toc={toc} back={{ to: '/foundations', label: 'Foundations' }}>
       <PageHeader
-        eyebrow={
-          <>
-            <Link to="/foundations">Foundations</Link>
-            <span className="doc-eyebrow__sep" aria-hidden="true">
-              <Asset name="caret-right" />
-            </span>
-            <span>Spacing & radius</span>
-          </>
-        }
         title="Spacing & radius"
         lede="Named by value, so --space-8 is 8px. Only values on the scale exist — pick the neighbour, never an in-between."
       />
