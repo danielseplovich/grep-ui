@@ -6,10 +6,10 @@
    ============================================================ */
 
 :root {
-  --doc-header-h: var(--space-48);
-  --doc-sidebar-w: var(--space-256);
+  --doc-header-h: var(--space-56);
   --doc-toc-w: calc(var(--space-128) + var(--space-64));
   --doc-content-max: 760px;
+  --doc-wide-max: 1140px;
   --doc-gutter: var(--space-48);
 }
 
@@ -128,100 +128,31 @@ samp {
   display: block;
 }
 .doc-header__brand-sub {
-  font-weight: var(--text-weight-regular);
-  color: var(--foreground-text-dim);
+  margin-left: var(--space-2);
 }
 
-.doc-header__search {
-  flex: 0 1 var(--space-256);
-  min-width: 0;
-  margin-left: auto;
+/* the four sections, centred; a 32px pill tab group from the library */
+.doc-header__nav {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  gap: var(--space-4);
 }
-.doc-header__search .grep-search {
-  cursor: pointer;
-}
-.doc-header__search .grep-search__input {
-  cursor: pointer;
+.doc-header__nav .grep-tab {
+  text-decoration: none;
 }
 
 .doc-header__actions {
   display: flex;
   align-items: center;
   gap: var(--space-4);
-}
-
-.doc-header__menu {
-  display: none;
-}
-
-/* ---------- body: sidebar + main ---------- */
-
-.doc-body {
-  display: flex;
-  flex: 1 0 auto;
-  align-items: flex-start;
-}
-
-.doc-sidebar {
-  position: sticky;
-  top: var(--doc-header-h);
-  flex: 0 0 var(--doc-sidebar-w);
-  width: var(--doc-sidebar-w);
-  height: calc(100vh - var(--doc-header-h));
-  overflow-y: auto;
-  scrollbar-width: thin;
-  padding: var(--space-12) var(--space-10) var(--space-24);
-  background: var(--background-left-sidebar);
-  border-right: 1px solid var(--border-base); /* major app section divider */
-}
-
-.doc-nav__group {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-1);
-}
-.doc-nav__group + .doc-nav__group {
-  margin-top: var(--space-16);
-}
-.doc-nav__heading {
-  display: flex;
-  align-items: center;
-  height: var(--space-28);
-  padding: 0 var(--space-8);
-  font-size: var(--text-sm);
-  font-weight: var(--text-weight-bold);
-  line-height: var(--text-sm);
-  color: var(--foreground-text-dim);
-}
-.doc-nav__item {
-  display: flex;
-  align-items: center;
-  gap: var(--space-8);
-  height: var(--space-28);
-  padding: 0 var(--space-8);
-  border-radius: var(--radius-6);
-  font-size: var(--text-base);
-  font-weight: var(--text-weight-medium);
-  line-height: var(--text-base);
-  color: var(--foreground-text-subtle);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.doc-nav__item:hover {
-  background: var(--background-overlay-hover);
-  color: var(--foreground-text-base);
-}
-.doc-nav__item[aria-current='page'] {
-  background: var(--background-overlay-selected);
-  color: var(--foreground-text-base);
-}
-.doc-nav__item:focus-visible {
-  box-shadow: var(--elevation-interactive-focus);
-}
-.doc-nav__item .grep-badge {
   margin-left: auto;
 }
+.doc-header__export {
+  margin-left: var(--space-8);
+}
+
+/* ---------- main ---------- */
 
 .doc-main {
   flex: 1 1 auto;
@@ -229,13 +160,16 @@ samp {
   display: flex;
   justify-content: center;
   gap: var(--doc-gutter);
-  padding: var(--space-40) var(--doc-gutter) var(--space-96);
+  padding: var(--space-64) var(--doc-gutter) var(--space-96);
 }
 
 .doc-article {
   flex: 1 1 auto;
   min-width: 0;
   max-width: var(--doc-content-max);
+}
+.doc-article--wide {
+  max-width: var(--doc-wide-max);
 }
 
 .doc-toc {
@@ -1209,39 +1143,22 @@ samp {
 }
 
 @media (max-width: 880px) {
-  .doc-header__menu {
-    display: inline-flex;
-  }
-  .doc-header__search {
-    flex-basis: auto;
-  }
-  .doc-header__search .grep-search {
-    width: var(--space-40);
-  }
-  .doc-header__search .grep-search__input,
-  .doc-header__search .grep-search__shortcut {
-    display: none;
-  }
-  .doc-sidebar {
-    position: fixed;
-    top: var(--doc-header-h);
-    left: 0;
-    bottom: 0;
+  .doc-header {
+    flex-wrap: wrap;
     height: auto;
-    z-index: 25;
-    transform: translateX(-100%);
-    transition: transform 160ms ease;
-    box-shadow: none;
+    padding: var(--space-8) var(--space-16);
+    row-gap: var(--space-8);
   }
-  .doc-sidebar[data-open='true'] {
+  .doc-header__nav {
+    position: static;
     transform: none;
-    box-shadow: var(--elevation-flyout);
+    order: 3;
+    width: 100%;
+    overflow-x: auto;
+    scrollbar-width: none;
   }
-  .doc-scrim {
-    position: fixed;
-    inset: var(--doc-header-h) 0 0 0;
-    z-index: 20;
-    background: var(--background-overlay-scrim);
+  .doc-header__export .grep-btn__label {
+    display: none;
   }
   .doc-main {
     padding: var(--space-24) var(--space-16) var(--space-64);
@@ -1600,4 +1517,155 @@ samp {
   margin-left: var(--space-4);
   font-size: var(--text-xs);
   color: var(--foreground-text-dim);
+}
+
+/* ======================================================================
+   Galleries (components, foundations)
+   ====================================================================== */
+
+.doc-title__count {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-8);
+}
+.doc-gallery__tools {
+  position: absolute;
+  right: 0;
+  top: var(--space-4);
+}
+.doc-article--wide .doc-page-header {
+  position: relative;
+  margin-bottom: var(--space-40);
+}
+
+.doc-gallery {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-32) var(--space-24);
+}
+.doc-gallery--2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.doc-gallery--2 .doc-tile__stage {
+  aspect-ratio: 2 / 1;
+}
+.doc-tile {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-12);
+  min-width: 0;
+  color: inherit;
+  border-radius: var(--radius-16);
+}
+.doc-tile:focus-visible {
+  box-shadow: var(--elevation-focus-ring);
+}
+/* the same double border as the preview frame: outer radius-16 with 4px padding, inner radius-12 */
+.doc-tile__frame {
+  display: block;
+  padding: var(--space-4);
+  border: 1px solid var(--border-base);
+  border-radius: var(--radius-16);
+  transition: border-color 120ms ease, box-shadow 120ms ease;
+}
+.doc-tile:hover .doc-tile__frame {
+  border-color: var(--foreground-icon-faint);
+  box-shadow: var(--elevation-card);
+}
+.doc-tile__stage {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 16 / 10;
+  padding: var(--space-24);
+  border: 1px solid var(--border-base);
+  border-radius: var(--radius-12);
+  background: var(--background-component);
+  overflow: clip;
+}
+.doc-tile__label {
+  padding: 0 var(--space-2);
+  font-size: var(--text-base);
+  font-weight: var(--text-weight-medium);
+  color: var(--foreground-text-subtle);
+}
+.doc-tile:hover .doc-tile__label {
+  color: var(--foreground-text-base);
+}
+
+/* scale-to-fit wrapper */
+.doc-fit {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.doc-fit__inner {
+  flex: 0 0 auto;
+  transform-origin: center center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* list view */
+.doc-list {
+  display: flex;
+  flex-direction: column;
+  border: 0.5px solid var(--border-base);
+  border-radius: var(--radius-12);
+  background: var(--background-component);
+  overflow: clip;
+}
+.doc-list__row {
+  display: grid;
+  grid-template-columns: 180px minmax(0, 1fr) max-content;
+  align-items: center;
+  gap: var(--space-16);
+  min-height: var(--space-44);
+  padding: var(--space-10) var(--space-16);
+  color: inherit;
+}
+.doc-list__row + .doc-list__row {
+  border-top: 0.5px solid var(--border-base);
+}
+.doc-list__row:hover {
+  background: var(--background-overlay-hover-subtle);
+}
+.doc-list__row:focus-visible {
+  box-shadow: inset var(--elevation-focus-ring);
+}
+.doc-list__name {
+  font-weight: var(--text-weight-medium);
+}
+.doc-list__desc {
+  font-size: var(--text-sm);
+  color: var(--foreground-text-dim);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@media (max-width: 1180px) {
+  .doc-gallery {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 640px) {
+  .doc-gallery {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .doc-list__row {
+    grid-template-columns: minmax(0, 1fr) max-content;
+  }
+  .doc-list__desc {
+    display: none;
+  }
+  .doc-gallery__tools {
+    position: static;
+    margin-top: var(--space-12);
+  }
 }

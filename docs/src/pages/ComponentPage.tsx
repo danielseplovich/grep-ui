@@ -63,11 +63,11 @@ export function ComponentPage() {
       <PageHeader
         eyebrow={
           <>
-            <Link to="/">Grep UI</Link>
+            <Link to="/components">Components</Link>
             <span className="doc-eyebrow__sep" aria-hidden="true">
               <Asset name="caret-right" />
             </span>
-            <span>Components</span>
+            <span>{spec.title}</span>
           </>
         }
         title={spec.title}

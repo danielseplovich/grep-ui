@@ -28,14 +28,14 @@ export function useScrollToHash() {
 
 /* ---------- page frame ---------- */
 
-export function Page({ title, toc, children }: { title: string; toc?: TocEntry[]; children: ReactNode }) {
+export function Page({ title, toc, wide, children }: { title: string; toc?: TocEntry[]; wide?: boolean; children: ReactNode }) {
   useDocumentTitle(title)
   useScrollToHash()
   const { pathname } = useLocation()
   const { prev, next } = neighbours(pathname)
   return (
     <>
-      <article className="doc-article">
+      <article className={wide ? 'doc-article doc-article--wide' : 'doc-article'}>
         {children}
         {(prev || next) && (
           <nav className="doc-pager" aria-label="Previous and next page">
@@ -54,7 +54,7 @@ export function Page({ title, toc, children }: { title: string; toc?: TocEntry[]
           </nav>
         )}
       </article>
-      {toc && <Toc entries={toc} />}
+      {toc && toc.length > 0 && <Toc entries={toc} />}
     </>
   )
 }

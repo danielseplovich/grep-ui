@@ -1,6 +1,8 @@
 import { defineConfig, type Plugin } from 'vite'
 import react from '@vitejs/plugin-react'
-import { readFileSync } from 'node:fs'
+import { readFileSync, readdirSync, existsSync } from 'node:fs'
+import { resolve } from 'node:path'
+import { fileURLToPath } from 'node:url'
 
 /**
  * The exported SVGs carry a C2PA <metadata> block of several KB each. It has no
@@ -59,10 +61,65 @@ function tokenDescriptions(): Plugin {
   }
 }
 
+/**
+ * grep.md — the whole system as one file an agent can read. Assembled at build
+ * from the entry file, the full design reference and the hand-made rules, with
+ * a header that says which version and which components it covers, and
+ * served at /grep.md (dev) or emitted into dist (build) for the Export button.
+ */
+function grepMd(): Plugin {
+  const root = fileURLToPath(new URL('..', import.meta.url))
+  const read = (f: string) => (existsSync(resolve(root, f)) ? readFileSync(resolve(root, f), 'utf8') : '')
+  const build = () => {
+    const pkg = JSON.parse(read('package.json')) as { name: string; version: string }
+    const reactDirs = readdirSync(resolve(root, 'react'), { withFileTypes: true }).filter((d) => d.isDirectory() && d.name !== 'lib' && d.name !== 'icons').map((d) => d.name)
+    const cssDirs = readdirSync(resolve(root, 'Components'), { withFileTypes: true }).filter((d) => d.isDirectory() && !d.name.startsWith('_')).map((d) => d.name)
+    const date = new Date().toISOString().slice(0, 10)
+    const status = cssDirs.map((c) => `- ${c}: ${reactDirs.includes(c) ? 'React + CSS' : 'CSS only'}`).join('\n')
+    const relink = (md: string) => md.replace(/\]\((?:\.\.\/)?(?:grepmd\/)?([A-Z_]+\.md)\)/g, '](#$1)')
+    return [
+      `# grep.md — Grep UI, the design system for Shade`,
+      ``,
+      `Generated ${date} from ${pkg.name}@${pkg.version} (https://grep-ui.vercel.app). Load this file before building any Shade interface. It is the entry file, the full design reference and the hand-made rules, in that order; the component list below says which components have a React version.`,
+      ``,
+      `## Components (${cssDirs.length})`,
+      ``,
+      status,
+      ``,
+      `---`,
+      ``,
+      relink(read('AGENTS.md')),
+      ``,
+      `---`,
+      ``,
+      relink(read('grepmd/DESIGN.md')),
+      ``,
+      `---`,
+      ``,
+      relink(read('grepmd/RULES.md')),
+      ``,
+      relink(read('grepmd/CONTRADICTIONS.md')),
+    ].join('\n')
+  }
+  return {
+    name: 'grep-md',
+    configureServer(server) {
+      server.middlewares.use((req, res, next) => {
+        if (req.url?.split('?')[0] !== '/grep.md') return next()
+        res.setHeader('Content-Type', 'text/markdown; charset=utf-8')
+        res.end(build())
+      })
+    },
+    generateBundle() {
+      this.emitFile({ type: 'asset', fileName: 'grep.md', source: build() })
+    },
+  }
+}
+
 // The docs site lives inside the Grep UI folder and reads the library
 // (../Components, ../grepmd, ../Grep UI *) straight from disk at build time.
 export default defineConfig({
-  plugins: [leanSvg(), tokenDescriptions(), react()],
+  plugins: [leanSvg(), tokenDescriptions(), grepMd(), react()],
   server: {
     fs: { allow: ['..'] },
   },

@@ -24,11 +24,11 @@ export function TypographyPage() {
       <PageHeader
         eyebrow={
           <>
-            <Link to="/">Grep UI</Link>
+            <Link to="/foundations">Foundations</Link>
             <span className="doc-eyebrow__sep" aria-hidden="true">
               <Asset name="caret-right" />
             </span>
-            <span>Foundations</span>
+            <span>Typography</span>
           </>
         }
         title="Typography"

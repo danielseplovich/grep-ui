@@ -29,11 +29,11 @@ export function ReactComponentPage({ doc }: { doc: ReactDoc }) {
       <PageHeader
         eyebrow={
           <>
-            <Link to="/">Grep UI</Link>
+            <Link to="/components">Components</Link>
             <span className="doc-eyebrow__sep" aria-hidden="true">
               <Asset name="caret-right" />
             </span>
-            <span>Components</span>
+            <span>{doc.title}</span>
           </>
         }
         title={doc.title}

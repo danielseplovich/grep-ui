@@ -29,6 +29,7 @@ export const nav: NavGroup[] = [
   {
     title: 'Foundations',
     items: [
+      { label: 'All foundations', to: '/foundations', description: 'Colors, typography, spacing and effects.' },
       { label: 'Colors', to: '/foundations/color', description: 'Every color token, with its value.' },
       { label: 'Typography', to: '/foundations/typography', description: 'Families, sizes and the three weights.' },
       { label: 'Spacing & radius', to: '/foundations/spacing', description: 'The spacing scale, radii and border widths.' },
@@ -37,12 +38,12 @@ export const nav: NavGroup[] = [
   },
   {
     title: 'Components',
-    items: specs.map((s) => ({
+    items: [{ label: 'All components', to: '/components', description: 'Every component in the system, previewed live.' }, ...specs.map((s) => ({
       label: navLabel(s),
       to: `/components/${s.slug}`,
       description: s.descriptionText,
       keywords: [s.title, ...s.classes.slice(0, 4)],
-    })),
+    }))],
   },
 ]
 
@@ -50,6 +51,19 @@ nav.push({
   title: 'Prototypes',
   items: [{ label: 'All prototypes', to: '/prototypes', description: 'HTML prototypes built on Grep UI, ready to open or download.' }, ...prototypes.map((p) => ({ label: p.title, to: `/prototypes/${p.slug}`, description: p.description }))],
 })
+
+/** The header: one entry per section. The galleries are the hubs; ⌘K and prev/next do the rest. */
+export const topNav: NavItem[] = [
+  { label: 'Installation', to: '/installation' },
+  { label: 'Foundations', to: '/foundations' },
+  { label: 'Components', to: '/components' },
+  { label: 'Prototypes', to: '/prototypes' },
+]
+
+/** Which header entry a path belongs to. */
+export function sectionOf(pathname: string): string | undefined {
+  return topNav.find((n) => pathname === n.to || pathname.startsWith(n.to + '/'))?.to
+}
 
 export const flatNav: NavItem[] = nav.flatMap((g) => g.items)
 
