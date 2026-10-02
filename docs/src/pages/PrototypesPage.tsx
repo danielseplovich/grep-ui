@@ -1,44 +1,69 @@
 import { useEffect, useRef, useState } from 'react'
-import { Link, Navigate, useParams } from 'react-router-dom'
-import { Page, PageHeader, Section } from '../components/Page'
+import { Navigate, useParams } from 'react-router-dom'
+import { Page, PageHeader } from '../components/Page'
+import { Hub } from '../components/Hub'
 import { CodeBlock } from '../components/CodeBlock'
 import { prototypes, prototypeBySlug, downloadPrototype, openPrototype } from '../lib/prototypes'
 import { Button } from '../../../react/button'
 
 const kb = (n: number) => `${Math.round(n / 1024)} KB`
 
+const addOne = `node docs/scripts/bundle-prototype.mjs path/to/prototype.html my-prototype --title "My prototype" --description "What it shows" --width 1440`
+
+/** The prototypes hub: same shape as the components hub, each tile a scaled live render. */
 export function PrototypesIndexPage() {
   return (
-    <Page title="Prototypes" toc={[]}>
-      <PageHeader title="Prototypes" lede={<p>HTML prototypes built on Grep UI. Each one is a single file: open it in the browser, or download it and send it on.</p>} />
-      <Section id="all" title="All prototypes">
-        {prototypes.length === 0 ? (
-          <p className="doc-section__lede">None yet. See "Adding one" below.</p>
-        ) : (
-          <div className="doc-cards">
-            {prototypes.map((p) => (
-              <Link key={p.slug} to={`/prototypes/${p.slug}`} className="doc-card">
-                <span className="doc-card__title">{p.title}</span>
-                <span className="doc-card__desc">{p.description || `${kb(p.bytes)}, single file`}</span>
-              </Link>
-            ))}
+    <Hub
+      id="prototypes"
+      title="Prototypes"
+      lede="HTML prototypes built on Grep UI, ready to open or download"
+      items={prototypes.map((p) => ({
+        slug: p.slug,
+        label: p.title,
+        to: `/prototypes/${p.slug}`,
+        preview: <TileFrame title={p.title} html={p.html} width={p.width} />,
+        badge: <span className="doc-master__meta">{kb(p.bytes)} · {p.date}</span>,
+        detail: (
+          <>
+            <div className="doc-proto__actions">
+              <Button onClick={() => downloadPrototype(p)}>Download HTML</Button>
+              <Button variant="neutral" onClick={() => openPrototype(p)}>
+                Open full size
+              </Button>
+            </div>
+            <ScaledFrame title={p.title} html={p.html} width={p.width} />
+          </>
+        ),
+      }))}
+      empty={
+        <div className="doc-pair">
+          <div className="doc-prose">
+            <p>None yet. Bundle one into a single file and it appears here:</p>
           </div>
-        )}
-      </Section>
-      <Section id="adding" title="Adding one">
-        <div className="doc-prose">
-          <p>
-            Build the prototype against the library (link <code>grepmd/grep-ui.css</code> and use the classes), then bundle it. The script inlines the stylesheet and every local image so the result is one file that works anywhere:
-          </p>
+          <CodeBlock code={addOne} lang="sh" title="Terminal" />
         </div>
-        <CodeBlock code={`cd docs\nnode scripts/bundle-prototype.mjs path/to/screen.html my-screen --title "My screen" --description "What it shows"`} lang="sh" title="Terminal" />
-        <div className="doc-prose">
-          <p>
-            That writes <code>prototypes/my-screen.html</code>. Commit and push it, and it appears here on the next deploy.
-          </p>
-        </div>
-      </Section>
-    </Page>
+      }
+    />
+  )
+}
+
+/** A tile preview: the prototype rendered at its design width, scaled to fill the tile. */
+function TileFrame({ title, html, width }: { title: string; html: string; width: number }) {
+  const ref = useRef<HTMLDivElement>(null)
+  const [scale, setScale] = useState(0.25)
+  useEffect(() => {
+    const el = ref.current
+    if (!el) return
+    const fit = () => setScale(el.clientWidth / width)
+    fit()
+    const ro = new ResizeObserver(fit)
+    ro.observe(el)
+    return () => ro.disconnect()
+  }, [width])
+  return (
+    <div ref={ref} className="doc-proto-tile">
+      <iframe className="doc-proto__frame" title={title} srcDoc={html} sandbox="allow-scripts allow-same-origin" tabIndex={-1} style={{ width, height: width * (325 / 386.67), transform: `scale(${scale})`, transformOrigin: 'top left' }} />
+    </div>
   )
 }
 

@@ -5,6 +5,8 @@ import { useTheme } from '../lib/theme'
 import { Asset, Glyph, IconButton } from './ui'
 import { SearchDialog } from './SearchDialog'
 import { Button } from '../../../react/button'
+import diceIcon from '../assets/pixel-dice.svg?raw'
+import downloadIcon from '../assets/download.svg?raw'
 
 /**
  * Site shell: a single header, no sidebar. The four sections sit in the
@@ -37,13 +39,8 @@ export function Layout({ children }: { children: ReactNode }) {
 
       <header className="doc-header">
         <Link to="/" className="doc-header__brand" aria-label="Grep UI home">
-          <span className="doc-header__mark" aria-hidden="true">
-            <Asset name="lego-block" />
-          </span>
+          <span className="grep-avatar grep-avatar--32 doc-header__mark" aria-hidden="true" dangerouslySetInnerHTML={{ __html: diceIcon }} />
           Grep UI
-          <span className="grep-badge grep-badge--neutral-base grep-badge--16 grep-badge--full doc-header__brand-sub">
-            <span className="grep-badge__label">Docs</span>
-          </span>
         </Link>
 
         <nav className="grep-tabs doc-header__nav" aria-label="Sections">
@@ -66,9 +63,9 @@ export function Layout({ children }: { children: ReactNode }) {
           <IconButton label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'} onClick={toggleTheme}>
             <Glyph name={theme === 'dark' ? 'sun' : 'moon'} className="grep-icon-btn__icon" />
           </IconButton>
-          <Button asChild variant="brand" trailingIcon={<Glyph name="external" />} className="doc-header__export">
+          <Button asChild variant="brand" trailingIcon={<span dangerouslySetInnerHTML={{ __html: downloadIcon }} />} className="doc-header__export">
             <a href="/grep.md" download="grep.md">
-              Export grep.md
+              Markdown
             </a>
           </Button>
         </div>
