@@ -2,6 +2,7 @@ import { Navigate, Route, Routes } from 'react-router-dom'
 import { Layout } from './components/Layout'
 import { ComponentPage } from './pages/ComponentPage'
 import { IntroPage } from './pages/IntroPage'
+import { PrototypesIndexPage, PrototypePage } from './pages/PrototypesPage'
 import { InstallationPage } from './pages/InstallationPage'
 import { RulesPage, ContradictionsPage } from './pages/LibraryPages'
 import { ColorPage } from './pages/foundations/ColorPage'
@@ -23,6 +24,8 @@ export function App() {
         <Route path="/foundations/effects" element={<EffectsPage />} />
         <Route path="/components/:slug" element={<ComponentPage />} />
         <Route path="/components" element={<Navigate to="/components/avatar" replace />} />
+        <Route path="/prototypes" element={<PrototypesIndexPage />} />
+        <Route path="/prototypes/:slug" element={<PrototypePage />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </Layout>

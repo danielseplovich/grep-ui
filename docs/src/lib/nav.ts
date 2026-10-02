@@ -1,4 +1,5 @@
 import { specs, type Spec } from './specs'
+import { prototypes } from './prototypes'
 
 export interface NavItem {
   label: string
@@ -44,6 +45,11 @@ export const nav: NavGroup[] = [
     })),
   },
 ]
+
+nav.push({
+  title: 'Prototypes',
+  items: [{ label: 'All prototypes', to: '/prototypes', description: 'HTML prototypes built on Grep UI, ready to open or download.' }, ...prototypes.map((p) => ({ label: p.title, to: `/prototypes/${p.slug}`, description: p.description }))],
+})
 
 export const flatNav: NavItem[] = nav.flatMap((g) => g.items)
 
