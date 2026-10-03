@@ -1,5 +1,5 @@
 import { useEffect, useState, type ReactNode } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { Page, PageHeader } from './Page'
 import { Badge } from '../../../react/badge'
 import { SegmentedControl } from '../../../react/segmented-control'
@@ -19,8 +19,6 @@ export interface HubItem {
   to: string
   /** The right-hand side in list view. */
   detail: ReactNode
-  /** Shown beside the name in list view. */
-  badge?: ReactNode
 }
 
 type View = 'grid' | 'list'
@@ -58,6 +56,7 @@ export function Hub({ id, title, lede, items, empty }: { id: string; title: stri
       /* storage unavailable */
     }
   }, [KEY, view])
+  const navigate = useNavigate()
   const [current, setCurrent] = useState(items[0]?.slug)
   const chosen = items.find((i) => i.slug === current) ?? items[0]
 
@@ -109,20 +108,14 @@ export function Hub({ id, title, lede, items, empty }: { id: string; title: stri
                 type="button"
                 className={`doc-master__name${it.slug === chosen.slug ? ' doc-master__name--current' : ''}`}
                 aria-current={it.slug === chosen.slug ? 'true' : undefined}
-                onClick={() => setCurrent(it.slug)}
+                onClick={() => (it.slug === chosen.slug ? navigate(it.to) : setCurrent(it.slug))}
+                title={it.slug === chosen.slug ? 'Open page' : undefined}
               >
                 {it.label}
               </button>
             ))}
           </nav>
           <div className="doc-master__detail" key={chosen.slug}>
-            <div className="doc-master__title">
-              <Link to={chosen.to} className="doc-master__open">
-                {chosen.label}
-                {chosen.badge}
-                <span className="doc-master__arrow" aria-hidden="true">→</span>
-              </Link>
-            </div>
             {chosen.detail}
           </div>
         </div>

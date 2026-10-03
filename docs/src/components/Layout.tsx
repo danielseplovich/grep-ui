@@ -38,7 +38,7 @@ export function Layout({ children }: { children: ReactNode }) {
       </a>
 
       <header className="doc-header">
-        <Link to="/" className="doc-header__brand" aria-label="Grep UI home">
+        <Link to="/components" className="doc-header__brand" aria-label="Grep UI home">
           <span className="grep-avatar grep-avatar--32 doc-header__mark" aria-hidden="true" dangerouslySetInnerHTML={{ __html: diceIcon }} />
           Grep UI
         </Link>

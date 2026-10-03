@@ -17,12 +17,7 @@ export function ReactComponentPage({ doc }: { doc: ReactDoc }) {
     <Page title={doc.title} back={{ to: '/components', label: 'Components' }}>
       <PageHeader
         title={doc.title}
-        lede={
-          <>
-            <p>{doc.description}</p>
-            <p>In this guide, you'll learn how to use the {doc.title} component.</p>
-          </>
-        }
+        lede={<p>{doc.description}</p>}
       />
 
       {doc.playground ? <Playground key={doc.slug} playground={doc.playground} /> : <ExampleBlock example={doc.examples.hero} />}

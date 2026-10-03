@@ -22,7 +22,7 @@ export const nav: NavGroup[] = [
   {
     title: 'Getting started',
     items: [
-      { label: 'Introduction', to: '/', description: 'What Grep UI is and where it is heading.' },
+      { label: 'Introduction', to: '/introduction', description: 'What Grep UI is and where it is heading.' },
       { label: 'Installation', to: '/installation', description: 'Install the package, load the fonts and stylesheet, set the theme.' },
     ],
   },
@@ -54,9 +54,9 @@ nav.push({
 
 /** The header: one entry per section. The galleries are the hubs; ⌘K and prev/next do the rest. */
 export const topNav: NavItem[] = [
+  { label: 'Components', to: '/components' },
   { label: 'Installation', to: '/installation' },
   { label: 'Foundations', to: '/foundations' },
-  { label: 'Components', to: '/components' },
   { label: 'Prototypes', to: '/prototypes' },
 ]
 

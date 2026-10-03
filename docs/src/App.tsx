@@ -16,7 +16,8 @@ export function App() {
   return (
     <Layout>
       <Routes>
-        <Route path="/" element={<IntroPage />} />
+        <Route path="/" element={<Navigate to="/components" replace />} />
+        <Route path="/introduction" element={<IntroPage />} />
         <Route path="/installation" element={<InstallationPage />} />
         <Route path="/rules" element={<RulesPage />} />
         <Route path="/contradictions" element={<ContradictionsPage />} />

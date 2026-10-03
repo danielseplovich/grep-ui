@@ -50,7 +50,7 @@ export function InstallationPage() {
     <Page title="Installation" prose>
       <PageHeader
         title="Install Grep UI"
-        lede={<p>In this guide, you'll learn how to install Grep UI in a React project, including Shade.</p>}
+        lede={<p>How to install Grep UI in a React project, including Shade.</p>}
       />
 
       <Section id="compatibility" title="Compatibility">

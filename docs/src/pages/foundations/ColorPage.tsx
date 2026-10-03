@@ -27,7 +27,7 @@ export function ColorPage() {
     <Page title="Colors" toc={toc} back={{ to: '/foundations', label: 'Foundations' }}>
       <PageHeader
         title="Grep UI Colors"
-        lede={<p>In this guide, you'll learn about the color tokens available in Grep UI and how to use them.</p>}
+        lede={<p>The color tokens available in Grep UI and how to use them.</p>}
       />
 
       <Section id="overview" title="Overview">

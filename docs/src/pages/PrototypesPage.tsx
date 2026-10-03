@@ -22,7 +22,6 @@ export function PrototypesIndexPage() {
         label: p.title,
         to: `/prototypes/${p.slug}`,
         preview: <TileFrame title={p.title} html={p.html} width={p.width} />,
-        badge: <span className="doc-master__meta">{kb(p.bytes)} · {p.date}</span>,
         detail: (
           <>
             <div className="doc-proto__actions">

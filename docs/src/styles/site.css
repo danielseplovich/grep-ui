@@ -1812,3 +1812,123 @@ samp {
   font-weight: var(--text-weight-regular);
   color: var(--foreground-text-dim);
 }
+
+/* ======================================================================
+   Type scale — sizes, line heights and tracking measured from
+   interfaces.dev; the faces stay Inter / Inter Display / Roboto Mono.
+   Component previews are untouched: they size themselves from tokens.
+   ====================================================================== */
+:root {
+  --doc-prose-max: 692px;
+}
+html {
+  font-size: 16px;
+  line-height: 24px;
+}
+.doc-title {
+  font-size: 24px;
+  line-height: 32px;
+  font-weight: var(--text-weight-bold);
+  letter-spacing: -0.0125em;
+}
+.doc-lede {
+  margin-top: var(--space-8);
+  font-size: 16px;
+  line-height: 24px;
+  color: var(--foreground-text-subtle);
+}
+.doc-section__title {
+  font-size: 20px;
+  line-height: 28px;
+  font-weight: var(--text-weight-bold);
+  letter-spacing: -0.025em;
+}
+.doc-subsection__title {
+  font-size: 18px;
+  line-height: 28px;
+  font-weight: var(--text-weight-bold);
+  letter-spacing: normal;
+}
+.doc-section__lede,
+.doc-subsection__lede {
+  font-size: 16px;
+  line-height: 24px;
+}
+.doc-prose,
+.doc-prose p,
+.doc-prose li {
+  font-size: 16px;
+  line-height: 24px;
+}
+.doc-prose p {
+  margin-bottom: var(--space-16);
+}
+.doc-prose li {
+  margin-bottom: var(--space-6);
+}
+.doc-prose h2 {
+  font-size: 20px;
+  line-height: 28px;
+  letter-spacing: -0.025em;
+}
+.doc-prose h3,
+.doc-prose h4 {
+  font-size: 18px;
+  line-height: 28px;
+}
+.doc-prose code,
+.doc-lede code,
+.doc-table code {
+  font-size: 14px;
+}
+.doc-codeblock__code,
+.doc-codeblock pre {
+  font-size: 13px;
+  line-height: 1.625;
+}
+.doc-codeblock__title {
+  font-size: 14px;
+  line-height: 20px;
+}
+.doc-table {
+  font-size: 14px;
+  line-height: 20px;
+}
+.doc-table th {
+  font-size: 12px;
+  line-height: 16px;
+}
+.doc-pager__label {
+  font-size: 12px;
+  line-height: 16px;
+}
+.doc-pager__title {
+  font-size: 14px;
+  line-height: 20px;
+}
+.doc-tile__label {
+  font-family: var(--text-style-body), sans-serif;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: var(--text-weight-bold);
+}
+.doc-master__name {
+  font-size: 14px;
+  line-height: 20px;
+}
+.doc-master__name--current {
+  font-size: 16px;
+  line-height: 20px;
+}
+.doc-master__meta,
+.doc-proto__meta,
+.doc-example__note {
+  font-size: 14px;
+  line-height: 20px;
+}
+.doc-page-header {
+  margin-bottom: var(--space-36);
+}
+.doc-article:has(.doc-gallery__tools) .doc-page-header {
+  margin-bottom: var(--space-32);
+}
