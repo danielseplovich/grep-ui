@@ -1,6 +1,8 @@
 import { defineConfig, type Plugin } from 'vite'
 import react from '@vitejs/plugin-react'
-import { readFileSync, readdirSync, existsSync } from 'node:fs'
+import { readFileSync, readdirSync, existsSync, statSync } from 'node:fs'
+// @ts-expect-error plain ESM helper shared with the CLI script
+import { inlineHtml, readMeta } from './scripts/lib/inline-html.mjs'
 import { resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
@@ -116,10 +118,55 @@ function grepMd(): Plugin {
   }
 }
 
+/**
+ * Prototypes: every .html in /prototypes becomes an entry of the virtual
+ * module `virtual:prototypes`, bundled into one self-contained document at
+ * build time (local CSS, images, fonts and scripts inlined). Drop a file in
+ * the folder and it is on the site; no script to run. Title, description,
+ * width and date come from the file's own <title>/<meta> tags when present.
+ */
+function grepPrototypes(): Plugin {
+  const dir = fileURLToPath(new URL('../prototypes', import.meta.url))
+  const id = '\0virtual:prototypes'
+  const build = (ctx: { addWatchFile: (f: string) => void }) => {
+    if (!existsSync(dir)) return []
+    ctx.addWatchFile(dir)
+    return readdirSync(dir)
+      .filter((f) => f.endsWith('.html') && !f.startsWith('_'))
+      .map((f) => {
+        const file = resolve(dir, f)
+        const slug = f.replace(/\.html$/, '')
+        const { html, deps } = inlineHtml(file) as { html: string; deps: Set<string> }
+        ctx.addWatchFile(file)
+        for (const d of deps) ctx.addWatchFile(d)
+        return { slug, ...readMeta(html, slug, statSync(file).mtimeMs), html, bytes: Buffer.byteLength(html) }
+      })
+  }
+  return {
+    name: 'grep-prototypes',
+    resolveId(source) {
+      return source === 'virtual:prototypes' ? id : null
+    },
+    load(i) {
+      if (i !== id) return null
+      return `export default ${JSON.stringify(build(this))}`
+    },
+    configureServer(server) {
+      server.watcher.add(dir)
+      server.watcher.on('all', (_e, f) => {
+        if (!f.startsWith(dir)) return
+        const mod = server.moduleGraph.getModuleById(id)
+        if (mod) server.moduleGraph.invalidateModule(mod)
+        server.ws.send({ type: 'full-reload' })
+      })
+    },
+  }
+}
+
 // The docs site lives inside the Grep UI folder and reads the library
 // (../Components, ../grepmd, ../Grep UI *) straight from disk at build time.
 export default defineConfig({
-  plugins: [leanSvg(), tokenDescriptions(), grepMd(), react()],
+  plugins: [leanSvg(), tokenDescriptions(), grepMd(), grepPrototypes(), react()],
   server: {
     fs: { allow: ['..'] },
   },

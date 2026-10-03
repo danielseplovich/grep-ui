@@ -23,7 +23,7 @@ export function EffectsPage() {
     { id: 'opacity', label: 'Opacity' },
   ]
   return (
-    <Page title="Effects" toc={toc} back={{ to: '/foundations', label: 'Foundations' }}>
+    <Page title="Effects" toc={toc} prose back={{ to: '/foundations', label: 'Foundations' }}>
       <PageHeader
         title="Effects"
         lede="Named Figma effect styles — every shadow and focus ring lives in effects.css. Components never declare their own."

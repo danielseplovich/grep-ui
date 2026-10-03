@@ -17,7 +17,7 @@ export function SpacingPage() {
     { id: 'border-width', label: 'Border width' },
   ]
   return (
-    <Page title="Spacing & radius" toc={toc} back={{ to: '/foundations', label: 'Foundations' }}>
+    <Page title="Spacing & radius" toc={toc} prose back={{ to: '/foundations', label: 'Foundations' }}>
       <PageHeader
         title="Spacing & radius"
         lede="Named by value, so --space-8 is 8px. Only values on the scale exist — pick the neighbour, never an in-between."

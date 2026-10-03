@@ -8,7 +8,8 @@ import { Button } from '../../../react/button'
 
 const kb = (n: number) => `${Math.round(n / 1024)} KB`
 
-const addOne = `node docs/scripts/bundle-prototype.mjs path/to/prototype.html my-prototype --title "My prototype" --description "What it shows" --width 1440`
+const addOne = `prototypes/
+  my-prototype.html   ← drop it here; the build inlines any local CSS, images and scripts`
 
 /** The prototypes hub: same shape as the components hub, each tile a scaled live render. */
 export function PrototypesIndexPage() {
@@ -37,9 +38,9 @@ export function PrototypesIndexPage() {
       empty={
         <div className="doc-pair">
           <div className="doc-prose">
-            <p>None yet. Bundle one into a single file and it appears here:</p>
+            <p>None yet. Add an HTML file to the <code>prototypes</code> folder and it appears here on the next build. Its <code>&lt;title&gt;</code> is the name; optional <code>&lt;meta name="description"&gt;</code> and <code>&lt;meta name="width"&gt;</code> set the blurb and the design width.</p>
           </div>
-          <CodeBlock code={addOne} lang="sh" title="Terminal" />
+          <CodeBlock code={addOne} lang="sh" title="Repository" />
         </div>
       }
     />

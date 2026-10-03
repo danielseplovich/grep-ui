@@ -18,7 +18,7 @@ export function TypographyPage() {
     { id: 'guidance', label: 'Guidance' },
   ]
   return (
-    <Page title="Typography" toc={toc} back={{ to: '/foundations', label: 'Foundations' }}>
+    <Page title="Typography" toc={toc} prose back={{ to: '/foundations', label: 'Foundations' }}>
       <PageHeader
         title="Typography"
         lede="Three families, seven sizes, three weights. Body is 13px; nothing in-product goes above 20."

@@ -55,9 +55,9 @@ nav.push({
 /** The header: one entry per section. The galleries are the hubs; ⌘K and prev/next do the rest. */
 export const topNav: NavItem[] = [
   { label: 'Components', to: '/components' },
-  { label: 'Installation', to: '/installation' },
   { label: 'Foundations', to: '/foundations' },
   { label: 'Prototypes', to: '/prototypes' },
+  { label: 'Installation', to: '/installation' },
 ]
 
 /** Which header entry a path belongs to. */

@@ -24,7 +24,7 @@ export function ColorPage() {
   const toc = [{ id: 'overview', label: 'Overview' }, { id: 'usage', label: 'How to use the colors' }, ...groups.map((g) => ({ id: g.id, label: g.title }))]
 
   return (
-    <Page title="Colors" toc={toc} back={{ to: '/foundations', label: 'Foundations' }}>
+    <Page title="Colors" toc={toc} prose back={{ to: '/foundations', label: 'Foundations' }}>
       <PageHeader
         title="Grep UI Colors"
         lede={<p>The color tokens available in Grep UI and how to use them.</p>}

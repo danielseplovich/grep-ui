@@ -1,7 +1,8 @@
-/* HTML prototypes in /prototypes, one self-contained file each. The docs site
-   lists them, previews them in an iframe and serves the file for download. */
+/* HTML prototypes in /prototypes. Any .html in that folder is bundled into one
+   self-contained document by the docs build (see grepPrototypes in
+   vite.config.ts); the site lists it, previews it and serves it for download. */
 
-const files = import.meta.glob('../../../prototypes/*.html', { query: '?raw', import: 'default', eager: true }) as Record<string, string>
+import files from 'virtual:prototypes'
 
 export interface Prototype {
   slug: string
@@ -14,22 +15,7 @@ export interface Prototype {
   bytes: number
 }
 
-const meta = (html: string, name: string) => new RegExp(`<meta\\s+name=["']${name}["']\\s+content=["']([^"']*)["']`).exec(html)?.[1]
-
-export const prototypes: Prototype[] = Object.entries(files)
-  .map(([path, html]) => {
-    const slug = path.split('/').pop()!.replace(/\.html$/, '')
-    return {
-      slug,
-      title: /<title>([^<]*)<\/title>/.exec(html)?.[1] ?? slug,
-      description: meta(html, 'description') ?? '',
-      date: meta(html, 'date'),
-      width: Number(meta(html, 'width') ?? 1440),
-      html,
-      bytes: new Blob([html]).size,
-    }
-  })
-  .sort((a, b) => (b.date ?? '').localeCompare(a.date ?? '') || a.title.localeCompare(b.title))
+export const prototypes: Prototype[] = (files as Prototype[]).slice().sort((a, b) => (b.date ?? '').localeCompare(a.date ?? '') || a.title.localeCompare(b.title))
 
 export const prototypeBySlug: Record<string, Prototype> = Object.fromEntries(prototypes.map((p) => [p.slug, p]))
 
